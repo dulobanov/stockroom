@@ -1,4 +1,4 @@
 stockroom
 =========
 
-stockroom ащк Фдулыфтвк Ьныднмус
+stockroom 
