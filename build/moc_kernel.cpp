@@ -1,13 +1,13 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'kernel.h'
 **
-** Created: Tue Jul 17 22:13:04 2012
+** Created: Thu Jul 19 12:35:37 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../kernel.h"
+#include "../src/kernel.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'kernel.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 63
