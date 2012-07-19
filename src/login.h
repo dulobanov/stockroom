@@ -8,12 +8,13 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QByteArray>
+#include "ui_login.h"
 //
-class login : public QDialog
+class login : public QDialog, public Ui::Dialog
 {
 Q_OBJECT
 public:
-	login(QWidget *parent);
+	login(QWidget *parent = 0);
 
 
 
@@ -27,7 +28,7 @@ private:
 
 		// functions
 	QString get_hash(QString user, QString password);
-	bool start_login(QString &user, QString &hash);
+    bool start_login(QString &user, QString &hash);
 	bool set_pre_user(QString user);
 
 

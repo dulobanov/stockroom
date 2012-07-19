@@ -3,7 +3,8 @@
 login::login( QWidget *parent  ) 
 	: QDialog(parent)
 {
-	// TODO
+    setupUi(this);
+    show();
 }
 
 
@@ -31,7 +32,9 @@ QString login::get_hash(QString user, QString password)
 
 bool login::start_login(QString &user, QString &hash)
 {
-
+	user = "user";
+	hash = "hash";
+	return false;
 }
 
 
@@ -44,7 +47,9 @@ bool login::start_login(QString &user, QString &hash)
 
 bool login::set_pre_user(QString user)
 {
-
+	// check is valid username
+    this->user = &user;
+	return true;
 }
 
 

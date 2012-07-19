@@ -1,10 +1,13 @@
 #include "settings.h"
+
 //
 settings::settings(  )
 	: QSettings()
 {
 	// init vars
 	is_logged = 0;
+    login *login_in = new login();
+
 }
 
 
@@ -12,7 +15,7 @@ settings::settings(  )
 
 
 
-bool settings::login()
+bool settings::settings_login()
 {
 	QStringList child_groups = childGroups();
 	int id = child_groups.indexOf("users");

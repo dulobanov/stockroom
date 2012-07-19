@@ -4,13 +4,14 @@
 #include <QSettings>
 #include <QStringList>
 #include <QString>
+#include "login.h"
 //
 class settings : public QSettings
 {
 Q_OBJECT
 public:
 	settings();
-	bool login();
+    bool settings_login();
 
 
 
@@ -20,7 +21,7 @@ public:
 
 private:
 	bool is_logged;
-
+    //login *login_in;
 
 
 
