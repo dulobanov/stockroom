@@ -21,4 +21,7 @@ build/*
 # bin
 bin/
 
+# *.pro.user
+*.pro.user
+
 
