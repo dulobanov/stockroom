@@ -9,8 +9,8 @@ int main(int argc, char ** argv)
 
     MainWindowImpl win;
 
-    settings *sett = new settings("lobanovs", "stokroom", &win);
-    if(sett->settings_login()) exit(1);
+    settings *sett = new settings(QString("lobanovs"), QString("stokroom"), &win);
+    //if(sett->settings_login()) exit(1);
 	
 
     //win.show();

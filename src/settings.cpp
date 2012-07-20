@@ -1,13 +1,15 @@
 #include "settings.h"
 
 //
-settings::settings( QString organization, const QString application, QObject * parent = 0 )
-    : QSettings(organization, application, &parent)
+settings::settings( QString organization, const QString application, QObject * parent )
+    : QSettings()
 {
 	// init vars
 	is_logged = 0;
     is_debug = 1;
-    login *login_in = new login(this);
+    QWidget wid;
+    login *login_in = new login;
+
 
 }
 

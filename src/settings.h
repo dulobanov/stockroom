@@ -10,7 +10,7 @@ class settings : public QSettings
 {
 Q_OBJECT
 public:
-    settings( QString organization, const QString application, QObject * parent = 0 );
+    settings( QString organization, const QString application, QObject * parent );
     bool settings_login();
 
 

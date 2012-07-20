@@ -4,7 +4,8 @@ DESTDIR = bin
 OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
-FORMS = ui/mainwindow.ui ui/login.ui
+FORMS = ui/mainwindow.ui \
+    ui/login.ui
 HEADERS = src/mainwindowimpl.h src/kernel.h src/settings.h src/login.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \

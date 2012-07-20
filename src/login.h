@@ -10,13 +10,14 @@
 #include <QByteArray>
 #include <QList>
 #include <QAbstractButton>
+#include <QSettings>
 #include "ui_login.h"
 //
-class login : public QDialog, public Ui::Dialog
+class login : public QDialog, public Ui::login
 {
 Q_OBJECT
 public:
-	login(QWidget *parent = 0);
+    login(QWidget *parent = 0);
 
 
 
