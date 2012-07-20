@@ -4,7 +4,7 @@ login::login( QWidget *parent  )
 	: QDialog(parent)
 {
     setupUi(this);
-    show();
+    //show();
 }
 
 
@@ -38,6 +38,17 @@ bool login::start_login(QString &user, QString &hash)
 }
 
 
+
+
+
+
+
+
+void login::init()
+{
+    // lock buttons Ok
+    QList <QAbstractButton> *login_buttons = buttonBox_registration::BUttons();
+}
 
 
 

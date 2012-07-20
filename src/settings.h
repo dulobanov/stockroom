@@ -10,7 +10,7 @@ class settings : public QSettings
 {
 Q_OBJECT
 public:
-	settings();
+    settings( QString organization, const QString application, QObject * parent = 0 );
     bool settings_login();
 
 
@@ -21,6 +21,7 @@ public:
 
 private:
 	bool is_logged;
+    bool is_debug;
     //login *login_in;
 
 

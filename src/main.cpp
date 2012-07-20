@@ -7,10 +7,13 @@ int main(int argc, char ** argv)
 {
 	QApplication app( argc, argv );
 
-    settings *sett = new settings;
-	
     MainWindowImpl win;
-    win.show();
+
+    settings *sett = new settings("lobanovs", "stokroom", &win);
+    if(sett->settings_login()) exit(1);
+	
+
+    //win.show();
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	return app.exec();
 }
