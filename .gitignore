@@ -15,11 +15,11 @@
 *~
 
 # build
-#build/
-#build/*
+build/
+build/*
 
 # bin
-bin/
+#bin/
 
 # *.pro.user
 *.pro.user
