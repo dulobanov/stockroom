@@ -10,9 +10,9 @@ class settings : public QSettings
 {
 Q_OBJECT
 public:
-    settings( QString organization, const QString application, QObject * parent );
-    bool settings_login();
-	bool is_have_users();
+	settings( QString organization, const QString application, QObject * parent );
+	bool settings_login();
+	int get_users_count();
 
 
 

@@ -2,7 +2,7 @@
 
 //
 settings::settings( QString organization, const QString application, QObject * parent )
-    : QSettings()
+    : QSettings( organization, application, parent )
 {
 	// init vars
 	is_logged = 0;
@@ -41,9 +41,9 @@ bool settings::settings_login()
 
 
 
-bool is_have_users()
+int settings::get_users_count()
 {
-
+	return 0;
 }
 
 

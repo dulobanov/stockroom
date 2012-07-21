@@ -123,7 +123,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable name must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -172,7 +172,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable password must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
@@ -229,7 +229,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable password must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable password must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9), with length at least 5 symbols&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
@@ -281,7 +281,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable password must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable password must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9), with length at least 5 symbols&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="echoMode">
          <enum>QLineEdit::Password</enum>
@@ -333,7 +333,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:16pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable name must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;acceptable name must constist of underline symbol,  latin alfabet symbols (a-zA-z), numbers (0-9), with length at least 3 symbols&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -375,20 +375,135 @@ p, li { white-space: pre-wrap; }
  <resources/>
  <connections>
   <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>login</receiver>
+   <slot>changes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>107</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>12</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>login_user</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>login</receiver>
+   <slot>changes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>156</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>11</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>login_password</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>login</receiver>
+   <slot>changes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>185</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>8</x>
+     <y>177</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reg_user</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>login</receiver>
+   <slot>changes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>121</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>164</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reg_pass_1</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>login</receiver>
+   <slot>changes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>121</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reg_pass_2</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>login</receiver>
+   <slot>changes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>121</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>326</x>
+     <y>4</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>buttonBox</sender>
-   <signal>clicked(QAbstractButton*)</signal>
+   <signal>rejected()</signal>
    <receiver>login</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>309</x>
+     <x>305</x>
      <y>195</y>
     </hint>
     <hint type="destinationlabel">
      <x>361</x>
-     <y>197</y>
+     <y>189</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>login</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>270</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>217</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>changes()</slot>
+ </slots>
 </ui>
