@@ -11,7 +11,8 @@ int main(int argc, char ** argv)
 
     settings *sett = new settings(QString("lobanovs"), QString("stokroom"), &win);
     //if(sett->settings_login()) exit(1);
-	
+	QObject::connect(sett, SIGNAL( login_reject() ), &app, SLOT( quit() ) );
+
 
     //win.show();
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );

@@ -15,8 +15,8 @@
 *~
 
 # build
-build/
-build/*
+#build/
+#build/*
 
 # bin
 bin/

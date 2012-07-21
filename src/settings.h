@@ -12,6 +12,7 @@ Q_OBJECT
 public:
     settings( QString organization, const QString application, QObject * parent );
     bool settings_login();
+	bool is_have_users();
 
 
 
@@ -25,7 +26,16 @@ private:
     //login *login_in;
 
 
+//	SLOT SIGNALS
 
+
+
+public slots:
+
+
+
+signals:
+	void login_reject();
 
 
 
