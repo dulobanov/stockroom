@@ -17,12 +17,29 @@ settings::settings( QString organization, const QString application, QWidget *pa
 
 int settings::init()
 {
- 	//	check have we users
+	//	select all groups at users group
+	beginGroup("users");
+	QStringList users = childGroups();
+	endGroup();
+	QStringList u_dirs;
+	QString tmp_str;
+	//	select all data dirs
+	for(int i = 0; i < users.size(); i++)
+	{
+		tmp_str = value("users/"+users[i]+"/dir", "").toString();
+		if( tmp_str.size() == 0 )
+		{	// delete user (wrong)
+			remove( QString("users/"+users[i]) );
+			users.removeAt(i);
+		}
+		else u_dirs.append(tmp_str);
+	}
+	//	check have we users
 	int ret;
 	registration reg(main_win_parent);
 	QString user, pass;
 	QDir data_dir;
-	while( value("user_count", 0).toInt() < 1 )
+	while( users.size() < 1 )
 	{	//	no users create them
 		ret = reg.exec();
 		if(ret == QDialog::Accepted)
@@ -31,12 +48,22 @@ int settings::init()
 			{	// error
 				continue;
 			}
+			//	check have same user or data dir
+			if( users.indexOf(user) != -1 )
+			{	//	we have same username
+				QMessageBox::information(main_win_parent, QString("Registration"), QString("User with same username alredy exists.\nTry again."));
+				continue;
+			}
+			if( u_dirs.indexOf(data_dir.path()) != -1 )
+			{	//	we have same data dir
+				QMessageBox::information(main_win_parent, QString("Registration"), QString("User with same data directory alredy exists.\nTry again."));
+				continue;
+			}
 			//	add user
 			beginGroup("users/"+user);
 			setValue("password", get_hash(user, pass));
 			setValue("dir", data_dir.path());
 			endGroup();
-			setValue("user_count", value("user_count", 0).toInt() + 1);
 		}
 		else
 		{
@@ -44,11 +71,16 @@ int settings::init()
 			ret = QMessageBox::question(main_win_parent, QString("Registration"), QString("You discard registration, application will be closed.\nQuit?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
 			if( ret == QMessageBox::Yes ) exit(0);
 		}
+
+		//	reselect users
+		beginGroup("users");
+		users = childGroups();
 	}
 
 	QString prev_user = value("previous_user", "").toString();
 	beginGroup("users");
-	QStringList users = childGroups();
+	users = childGroups();
+	endGroup();
 	login ulogin(main_win_parent, prev_user);
 	QString hash, tmp_dir;
 	while( !is_logged )
@@ -58,7 +90,7 @@ int settings::init()
 		{
 			ulogin.get_user_pass(user, pass);
 			hash = get_hash(user, pass);
-			if( value(user+"/password", "").toString() != hash)
+			if( value("users/"+user+"/password", "").toString() != hash)
 			{	//	login failed
 				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid username or password.\nTry again."));
 				continue;
@@ -67,9 +99,10 @@ int settings::init()
 
 			//	login success
 			//	check avalible of data dir
-			tmp_dir = value(user+"/dir", "").toString();
+			tmp_dir = value("users/"+user+"/dir", "").toString();
 			if( check_data_dir( tmp_dir ) )
 			{
+				remove("users/"+user);
 				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid data dir in your account.\nTry again."));
 				continue;
 			}
@@ -77,7 +110,6 @@ int settings::init()
 			data_dir = tmp_dir;
 			is_logged = 1;
 			username = user;
-			endGroup();
 			setValue("previous_user", user);
 		}
 		else
@@ -109,6 +141,7 @@ int settings::check_data_dir(QString dir_name)
 	if( !dir.isDir() ) return 1;
 	if( !dir.isReadable() ) return 2;
 	if( !dir.isWritable() ) return 3;
+	if( dir_name.size() < 1 ) return 4;
 
 	return 0;
 
