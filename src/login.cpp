@@ -1,13 +1,12 @@
 #include "login.h"
 //
-login::login( QWidget *parent  )
+login::login( QWidget *parent, QString user  )
 	: QDialog(parent)
 {
 //	init vars
 	pattern = QString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-
-//	start
-	start_ui();
+	set_ui();
+	set_uname(user);
 }
 
 
@@ -19,35 +18,11 @@ login::login( QWidget *parent  )
 
 
 
-QString login::get_hash(QString user, QString password)
-{
-	QByteArray str_1 = QCryptographicHash::hash( QByteArray(user.toAscii()), QCryptographicHash::Md5);
-	QByteArray str_2 = QCryptographicHash::hash( QByteArray(password.toAscii()) + str_1, QCryptographicHash::Sha1);
-	return ( QString( QCryptographicHash::hash( str_1 + QByteArray(user.toAscii()) +str_2 + QByteArray(password.toAscii()), QCryptographicHash::Md5 ) ) );
-}
 
 
 
 
-
-
-
-
-bool login::start_login(QString &user, QString &hash)
-{
-	user = "user";
-	hash = "hash";
-	return 0;
-}
-
-
-
-
-
-
-
-
-void login::start_ui()
+void login::set_ui()
 {
 	ui.setupUi(this);
     // lock button Ok
@@ -69,17 +44,10 @@ void login::start_ui()
 	// load & save lineedit palletes
 	line_edit_norm = line_edit_wrong = ui.login_user->palette();
 	line_edit_wrong.setColor( QPalette::Base, QColor(255, 230, 230) );
-
-	//		connections
-	//	switch tab
-//	connect(ui.tabWidget, SIGNAL( currentChanged() ), this, SLOT( changes() ));
-
-
-
-
-
-
-	show();
+	
+	//	set pre username
+	set_uname(pre_user);
+	return;
 }
 
 
@@ -88,11 +56,12 @@ void login::start_ui()
 
 
 
-bool login::set_pre_user(QString user)
+
+void login::get_user_pass(QString &user, QString &password)
 {
-	// check is valid username
-	this->user = &user;
-	return 0;
+	user = QString( ui.login_user->text() );
+	password = QString( ui.login_password->text() );
+	return;
 }
 
 
@@ -103,7 +72,25 @@ bool login::set_pre_user(QString user)
 
 
 
-bool login::is_legal_line(QString string, int min_len)
+
+
+void login::set_uname(QString user)
+{
+	if( is_legal_line(user, 3) ) return;
+	ui.login_user->setText(user);
+	ui.login_password->setFocus();
+	return;
+}
+
+
+
+
+
+
+
+
+
+int login::is_legal_line(QString string, int min_len)
 {
 	int line_length = string.size();
 	if(line_length < min_len) return 1;
@@ -121,28 +108,11 @@ bool login::is_legal_line(QString string, int min_len)
 
 
 
+
+
 //	SLOTS
 
 
-void login::accept()
-{
-// send information to settings
-	return;
-}
-
-
-
-
-
-
-
-
-void login::reject()
-{
-	int ret = QMessageBox::question(this, QString(tr("Authorization")), QString(tr("You discard autorization, application will be closed.\nQuit?")), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
-	if( ret == QMessageBox::Yes ) emit login_fail();
-	return;
-}
 
 
 
@@ -150,70 +120,29 @@ void login::reject()
 
 void login::changes()
 {
-	//	get tab name
-	QString tab_title = ui.tabWidget->tabText( ui.tabWidget->currentIndex() );
 	// return all lines to ok
 	// lock button
 	ui.login_user->setPalette( line_edit_norm );
 	ui.login_password->setPalette( line_edit_norm );
-	ui.reg_user->setPalette( line_edit_norm );
-	ui.reg_pass_1->setPalette( line_edit_norm );
-	ui.reg_pass_2->setPalette( line_edit_norm );
 	ui_ok->setDisabled(1);
-	//	chose action
 	
-	if(tab_title == tr("&Registration") )
+	//	if user name or password empty don't mark
+	if( ( (ui.login_user->text()).size() < 1 ) || ( (ui.login_password->text()).size() < 1 ) ) return;
+
+	if( is_legal_line( ui.login_user->text(), 3) )
 	{
-		QString user = ui.reg_user->text();
-		QString pass1 = ui.reg_pass_1->text();
-		QString pass2 = ui.reg_pass_2->text();
-		// if one of the fild == "" -> return
-		if( (user == "") || (pass1 == "") || (pass2 == "") )
-		{
-			return;
-		}
-		// check is pass1 == pass2
-		if(pass1 != pass2)
-		{
-			ui.reg_pass_2->setPalette( line_edit_wrong );
-			return;
-		}
-		//check user name field
-		if( is_legal_line(user, 3) )
-		{
-			ui.reg_user->setPalette( line_edit_wrong );
-			return;
-		}
-		// passwords is equal check one
-		if( is_legal_line( pass1, 5 ) )
-		{
-			ui.reg_pass_1->setPalette( line_edit_wrong );
-			ui.reg_pass_2->setPalette( line_edit_wrong );
-			return;
-		}
-		//	all ok unlock Ok button
-		ui_ok->setDisabled(0);
+		ui.login_user->setPalette( line_edit_wrong );
+		return;
 	}
-	else if(tab_title == tr("&Login") )
+
+	if( is_legal_line( ui.login_password->text(), 5) )
 	{
-		int user_len = ( ui.login_user->text() ).size();
-		int pass_len = ( ui.login_password->text() ).size();
-		if( (user_len > 0) && (pass_len > 0)) ui_ok->setDisabled(0);
+		ui.login_password->setPalette( line_edit_wrong );
+		return;
 	}
-	else
-	{
-		QMessageBox::warning(this, QString("Tab Error"), QString("No such tab #" + tab_title + "#"));
-	}
+	ui_ok->setDisabled(0);
+	return;
 }
-
-
-
-
-
-
-
-
-
 
 
 

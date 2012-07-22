@@ -2,17 +2,22 @@
 #define SETTINGS_H
 //
 #include <QSettings>
+#include <QCryptographicHash>
 #include <QStringList>
 #include <QString>
+#include <QDir>
 #include "login.h"
+#include "registration.h"
 //
 class settings : public QSettings
 {
 Q_OBJECT
 public:
-	settings( QString organization, const QString application, QObject * parent );
-	bool settings_login();
+	settings( QString organization, const QString application, QWidget *parent= 0 );
+	int init();
 	int get_users_count();
+	int start_login();
+	int start_reg();
 
 
 
@@ -22,8 +27,15 @@ public:
 
 private:
 	bool is_logged;
-    bool is_debug;
-    //login *login_in;
+	QString username;
+	QDir data_dir;
+	bool is_debug;
+	QWidget *main_win_parent;
+
+		//	functions
+	QString get_hash(QString user, QString pass);
+	int check_data_dir(QString dir_name);
+
 
 
 //	SLOT SIGNALS
@@ -35,7 +47,7 @@ public slots:
 
 
 signals:
-	void login_reject();
+	void quit();
 
 
 

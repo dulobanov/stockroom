@@ -10,11 +10,10 @@ int main(int argc, char ** argv)
     MainWindowImpl win;
 
     settings *sett = new settings(QString("lobanovs"), QString("stokroom"), &win);
-    //if(sett->settings_login()) exit(1);
-	QObject::connect(sett, SIGNAL( login_reject() ), &app, SLOT( quit() ) );
+	QObject::connect(sett, SIGNAL( quit() ), &app, SLOT( quit() ) );
+	if( sett->init() ) exit(0);
+	else win.show();
 
-
-    //win.show();
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	return app.exec();
 }

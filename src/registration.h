@@ -1,33 +1,33 @@
-#ifndef LOGIN_H
-#define LOGIN_H
+#ifndef REG_H
+#define REG_H
 //
 #include <QDialog>
 #include <QString>
 #include <QStringList>
-#include <QAbstractButton>
 #include <QMessageBox>
 #include <QPalette>
 #include <QColor>
-#include "ui_login.h"
+#include <QDir>
+#include <QFileDialog>
+#include <QFileInfo>
+#include "ui_registration.h"
 //
-class login : public QDialog
+class registration: public QDialog
 {
 Q_OBJECT
 public:
-	login(QWidget *parent = 0, QString user = "");
-	void get_user_pass(QString &user, QString &password);
-	void set_uname(QString user = "");
+	registration(QWidget *parent = 0 );
+	int get_user_pass(QString &user, QString &password, QDir &dir);
 
 
 
 
 private:
 		// vars
-	QString pre_user;
 	QString pattern;
 
         // ui elements
-	Ui::login ui;
+	Ui::registration ui;
 	QAbstractButton *ui_ok;
 	QPalette line_edit_norm, line_edit_wrong;
 
@@ -44,10 +44,10 @@ private:
 
 public slots:
 	void changes();
+	void choose_dir();
 
 
 signals:
-	void login_success(QString, QString);
 
 
 
