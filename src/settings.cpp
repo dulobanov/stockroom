@@ -64,6 +64,11 @@ int settings::init()
 			setValue("password", get_hash(user, pass));
 			setValue("dir", data_dir.path());
 			endGroup();
+			is_logged = 1;
+			username = user;
+			user_dir = data_dir;
+			setValue("previous_user", user);
+			return 0;
 		}
 		else
 		{
@@ -92,7 +97,7 @@ int settings::init()
 			hash = get_hash(user, pass);
 			if( value("users/"+user+"/password", "").toString() != hash)
 			{	//	login failed
-				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid username or password.\nTry again."));
+				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid username or password.\nTry again.\n"+value("users/"+user+"/password", "").toString()+"#"+hash));
 				continue;
 			}
 

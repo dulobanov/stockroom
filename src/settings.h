@@ -28,7 +28,7 @@ public:
 private:
 	bool is_logged;
 	QString username;
-	QDir data_dir;
+	QDir user_dir;
 	bool is_debug;
 	QWidget *main_win_parent;
 
