@@ -97,7 +97,7 @@ int settings::init()
 			hash = get_hash(user, pass);
 			if( value("users/"+user+"/password", "").toString() != hash)
 			{	//	login failed
-				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid username or password.\nTry again.\n"+value("users/"+user+"/password", "").toString()+"#"+hash));
+				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid username or password.\nTry again."));
 				continue;
 			}
 
