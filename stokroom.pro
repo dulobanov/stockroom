@@ -7,7 +7,8 @@ UI_DIR = build
 FORMS = ui/mainwindow.ui ui/login.ui ui/registration.ui \
     dialogs/add_item/add_item.ui \
     dialogs/load_item/load_item.ui \
-    dialogs/unload_item/unload_item.ui
+    dialogs/unload_item/unload_item.ui \
+    dialogs/remove_item/remove_item.ui
 HEADERS = src/mainwindowimpl.h \
  src/kernel.h \
  src/settings.h \
@@ -15,7 +16,8 @@ HEADERS = src/mainwindowimpl.h \
  src/registration.h \
     dialogs/add_item/add_item.h \
     dialogs/load_item/load_item.h \
-    dialogs/unload_item/unload_item.h
+    dialogs/unload_item/unload_item.h \
+    dialogs/remove_item/remove_item.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -24,5 +26,6 @@ SOURCES = src/mainwindowimpl.cpp \
  src/registration.cpp \
     dialogs/add_item/add_item.cpp \
     dialogs/load_item/load_item.cpp \
-    dialogs/unload_item/unload_item.cpp
+    dialogs/unload_item/unload_item.cpp \
+    dialogs/remove_item/remove_item.cpp
 TEMPLATE = app

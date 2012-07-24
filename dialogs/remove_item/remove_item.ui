@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>unload_item</class>
- <widget class="QDialog" name="unload_item">
+ <class>remove_item</class>
+ <widget class="QDialog" name="remove_item">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -9,17 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>171</height>
+    <width>348</width>
+    <height>141</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <pointsize>9</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>Unload item</string>
+   <string>Remove item</string>
   </property>
   <property name="locale">
    <locale language="Russian" country="RussianFederation"/>
@@ -31,22 +26,19 @@
    <property name="spacing">
     <number>3</number>
    </property>
-   <property name="topMargin">
-    <number>9</number>
-   </property>
-   <property name="bottomMargin">
-    <number>9</number>
-   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="leftMargin">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="label">
        <property name="minimumSize">
         <size>
-         <width>150</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
@@ -54,17 +46,24 @@
         <string>&amp;Varity</string>
        </property>
        <property name="buddy">
-        <cstring>varity</cstring>
+        <cstring>comboBox</cstring>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="varity">
+      <widget class="QComboBox" name="comboBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;you can remove only empty records&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -76,7 +75,7 @@
       <widget class="QLabel" name="label_2">
        <property name="minimumSize">
         <size>
-         <width>150</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
@@ -84,17 +83,24 @@
         <string>&amp;Selection</string>
        </property>
        <property name="buddy">
-        <cstring>selection</cstring>
+        <cstring>comboBox_2</cstring>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="selection">
+      <widget class="QComboBox" name="comboBox_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;you can remove only empty records&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -103,58 +109,29 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QLabel" name="label_4">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Box &amp;count</string>
-       </property>
-       <property name="buddy">
-        <cstring>box_count</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="box_count">
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
       <widget class="QLabel" name="label_3">
        <property name="minimumSize">
         <size>
-         <width>150</width>
+         <width>100</width>
          <height>0</height>
         </size>
        </property>
        <property name="text">
-        <string>&amp;Total amount</string>
+        <string>&amp;Password</string>
        </property>
        <property name="buddy">
-        <cstring>items_count</cstring>
+        <cstring>lineEdit</cstring>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="items_count">
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;input your password&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -162,9 +139,6 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="locale">
-      <locale language="Russian" country="RussianFederation"/>
-     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -180,103 +154,70 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>unload_item</receiver>
+   <receiver>remove_item</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>236</x>
-     <y>161</y>
+     <x>227</x>
+     <y>113</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>170</y>
+     <y>140</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>unload_item</receiver>
+   <receiver>remove_item</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>161</y>
+     <x>316</x>
+     <y>101</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
-     <y>170</y>
+     <y>140</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>varity</sender>
+   <sender>comboBox</sender>
    <signal>currentIndexChanged(QString)</signal>
-   <receiver>unload_item</receiver>
+   <receiver>remove_item</receiver>
    <slot>varity_selected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>381</x>
-     <y>24</y>
+     <x>327</x>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
-     <x>396</x>
-     <y>19</y>
+     <x>345</x>
+     <y>18</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>selection</sender>
+   <sender>comboBox_2</sender>
    <signal>currentIndexChanged(QString)</signal>
-   <receiver>unload_item</receiver>
+   <receiver>remove_item</receiver>
    <slot>selection_selected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>373</x>
-     <y>55</y>
+     <x>327</x>
+     <y>49</y>
     </hint>
     <hint type="destinationlabel">
-     <x>396</x>
-     <y>52</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>box_count</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>unload_item</receiver>
-   <slot>changes()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>373</x>
-     <y>83</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>395</x>
-     <y>83</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>items_count</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>unload_item</receiver>
-   <slot>changes()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>372</x>
-     <y>112</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>395</x>
-     <y>112</y>
+     <x>345</x>
+     <y>51</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>varity_selected(QString)</slot>
   <slot>selection_selected(QString)</slot>
-  <slot>changes()</slot>
+  <slot>varity_selected(QString)</slot>
  </slots>
 </ui>
