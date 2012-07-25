@@ -1,18 +1,16 @@
-#include <QApplication>
+#include <QtSingleApplication>
 #include "mainwindowimpl.h"
-#include "settings.h"
-#include "login.h"
 //
 int main(int argc, char ** argv)
 {
-	QApplication app( argc, argv );
+	QtSingleApplication app( argc, argv );
+	if( app.isRuning()) return 0;
 
     MainWindowImpl win;
+	QObject::connect(&win, SIGNAL( quit() ), &app, SLOT( quit() ) );
+	app.setActivationWindow(&win);
 
-    settings *sett = new settings(QString("lobanovs"), QString("stokroom"), &win);
-	QObject::connect(sett, SIGNAL( quit() ), &app, SLOT( quit() ) );
-	if( sett->init() ) exit(0);
-	else win.show();
+	win.show();
 
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	return app.exec();

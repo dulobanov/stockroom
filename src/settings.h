@@ -19,7 +19,8 @@ public:
 	int start_login();
 	int start_reg();
 
-
+	//	get functions
+	int get_upath(QDir &user_path);
 
 
 

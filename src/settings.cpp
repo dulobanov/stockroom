@@ -139,6 +139,8 @@ int settings::init()
 
 
 
+
+
 int settings::check_data_dir(QString dir_name)
 {
 	//	check permissions to dir
@@ -212,6 +214,33 @@ int settings::start_reg()
 	reg.exec();
 	return 1;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int settings:get_upath(QDir &user_path)
+{
+	if(!is_logged)
+	{
+		QMessageBox::critical(main_win_parent, QString("Inormation"), QString("You are not logged yet."));
+		return 1;
+	}
+
+	user_path = user_dir;
+	return 0;
+}
+
 
 
 

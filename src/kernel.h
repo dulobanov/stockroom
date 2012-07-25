@@ -2,17 +2,41 @@
 #define KERNEL_H
 //
 #include <QObject>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <QMessageBox>
+#include <QDateTime>
+#include <QTextStream>
 //
 class kernel : public QObject
 {
 Q_OBJECT
 public:
-	kernel();
-	
-	
-	
-	
-	
-	
+	kernel( QWidget *prnt = 0 );
+	~kernel();
+
+	int lock(QDir user_dir);
+
+
+
+
+
+private:
+
+	//	VARS
+	QWidget *parent;
+	QFile lock_file;
+
+
+
+
+
+	//	FUNCTIONS
+
+
+
+
+
 };
 #endif
