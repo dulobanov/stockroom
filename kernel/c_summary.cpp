@@ -37,10 +37,18 @@ uint c_summary::load()
 	}
 
 	//	read file
+	QString line;
+	QStringList l_elements;
 	QTextStream load(&summary);
 	while( !load.atEnd() )
 	{
+			//	load string & split it
+		line = load.readLine();
+		l_elements = line.split("#");
+		if( l_elements.size != 10 )
+		{
 
+		}
 	}
 
 	return 0;

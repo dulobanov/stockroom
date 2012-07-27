@@ -9,6 +9,8 @@
 #include <QFile>
 #include <QMesageBox>
 #include <QTextStream>
+#include <QString>
+#include <QStringList>
 
 
 struct summary_record
