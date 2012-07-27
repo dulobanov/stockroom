@@ -10,7 +10,7 @@ class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 Q_OBJECT
 public:
 	MainWindowImpl( QWidget * parent = 0, Qt::WFlags f = 0 );
-
+	int init();
 
 
 

@@ -32,7 +32,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="summary">
+      <widget class="QWidget" name="tab_summary">
        <attribute name="title">
         <string>&amp;Summary</string>
        </attribute>
@@ -43,14 +43,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="sum_load">
             <property name="text">
              <string>&amp;Load</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="sum_unload">
             <property name="text">
              <string>&amp;Unload</string>
             </property>
@@ -72,15 +72,11 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QTableWidget" name="tableWidget"/>
-          </item>
-         </layout>
+         <widget class="QTableWidget" name="sum_table"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="m_activity">
+      <widget class="QWidget" name="tab_m_activity">
        <attribute name="title">
         <string>&amp;Monthly activity</string>
        </attribute>
@@ -96,12 +92,12 @@
              <string>&amp;Variant</string>
             </property>
             <property name="buddy">
-             <cstring>comboBox_3</cstring>
+             <cstring>ma_variant</cstring>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_3">
+           <widget class="QComboBox" name="ma_variant">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -116,12 +112,12 @@
              <string>S&amp;election</string>
             </property>
             <property name="buddy">
-             <cstring>comboBox_2</cstring>
+             <cstring>ma_selection</cstring>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_2">
+           <widget class="QComboBox" name="ma_selection">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -142,12 +138,12 @@
              <string>M&amp;onth</string>
             </property>
             <property name="buddy">
-             <cstring>comboBox</cstring>
+             <cstring>ma_month</cstring>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="ma_month">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -172,19 +168,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QWebView" name="webView">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="url">
-           <url>
-            <string>about:blank</string>
-           </url>
-          </property>
-         </widget>
+         <widget class="QTableWidget" name="ma_table"/>
         </item>
        </layout>
       </widget>
@@ -198,7 +182,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -249,13 +233,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

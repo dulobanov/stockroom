@@ -16,8 +16,6 @@ public:
 	settings( QString organization, const QString application, QWidget *parent= 0 );
 	int init();
 	int get_users_count();
-	int start_login();
-	int start_reg();
 
 	//	get functions
 	int get_upath(QDir &user_path);
@@ -36,6 +34,8 @@ private:
 		//	functions
 	QString get_hash(QString user, QString pass);
 	int check_data_dir(QString dir_name);
+	int login();
+	int registration();
 
 
 

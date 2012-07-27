@@ -10,7 +10,7 @@ int main(int argc, char ** argv)
 	QObject::connect(&win, SIGNAL( quit() ), &app, SLOT( quit() ) );
 	app.setActivationWindow(&win);
 
-	win.show();
+	win.init();
 
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	return app.exec();

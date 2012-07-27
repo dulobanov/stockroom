@@ -10,7 +10,8 @@ kernel::kernel( QWidget *prnt )
 
 kernel:~kernel()
 {
-
+	//	disable lock file
+	unlock();
 }
 
 
@@ -21,12 +22,12 @@ kernel:~kernel()
 
 int kernel::lock(QDir user_dir)
 {
-		// is ir present
+		// is is present
 	QFileInfo ud_info(user_dir);
 	if( !ud_info.isDir() )
 	{
 		QMessageBox::critical(parent, QString("StokRoom"), QString("Wrong user directory.\nProgrm will be closed.") );
-		exit(0);
+		return 1;
 	}
 
 		// is dir locked
@@ -47,14 +48,29 @@ int kernel::lock(QDir user_dir)
 		// write to file date & time
 	QDateTime timestamp( QDateTime::currentDateTime() );
 	QTextStream out(&lock_file);
-	out << timestamp.toString() << "\n";
+	out << "\n" << timestamp.toString() << "\n";
+	lock_file.flush();
 
-
+	return 0;
 }
 
 
 
+int kernel::unlock()
+{
+	//	close file
+	if( lock_file.isOpen() )
+	{
+		lock_file.flush();
+		lock_file.close();
+	}
 
+	//	remove file
+	if( QFile::remove( lock_file.fileName() ) )
+		QMessageBox::information(main_win_parent, QString("Quit"), QString("Something wrong: program can't remove lock file.\nPlease do it mannualy.\nRemove .lock file from your data directory"));
+
+	return 0;
+}
 
 
 
