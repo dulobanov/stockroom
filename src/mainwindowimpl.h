@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 #include "settings.h"
+#include "kernel.h"
 //
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 {
@@ -19,7 +20,7 @@ public:
 private:
 
 	//	VARS
-	settings sett;
+    //settings sett;
 	kernel kern;
 
 

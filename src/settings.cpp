@@ -79,7 +79,7 @@ int settings::check_data_dir(QString dir_name)
 
 
 
-int settings:get_upath(QDir &user_path)
+int settings::get_upath(QDir &user_path)
 {
 	if(!is_logged)
 	{

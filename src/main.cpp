@@ -1,14 +1,12 @@
-#include <QtSingleApplication>
+#include <QApplication>
 #include "mainwindowimpl.h"
 //
 int main(int argc, char ** argv)
 {
-	QtSingleApplication app( argc, argv );
-	if( app.isRuning()) return 0;
+    QApplication app( argc, argv );
 
     MainWindowImpl win;
 	QObject::connect(&win, SIGNAL( quit() ), &app, SLOT( quit() ) );
-	app.setActivationWindow(&win);
 
 	win.init();
 

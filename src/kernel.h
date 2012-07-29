@@ -17,6 +17,7 @@ public:
 	~kernel();
 
 	int lock(QDir user_dir);
+    int unlock();
 
 
 
@@ -26,7 +27,7 @@ private:
 
 	//	VARS
 	QWidget *parent;
-	QFile lock_file;
+    QFile *lock_file;
 
 
 
@@ -34,6 +35,13 @@ private:
 
 	//	FUNCTIONS
 
+
+
+
+
+
+signals:
+    void logout();
 
 
 
