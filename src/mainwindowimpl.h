@@ -20,12 +20,13 @@ public:
 private:
 
 	//	VARS
-    //settings sett;
-	kernel kern;
+	settings *sett;
+	kernel *kern;
 
 
 
 	//	FUNCTIONS
+	int reinit_vars();
 
 
 

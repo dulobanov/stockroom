@@ -5,7 +5,6 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
 {
 	//	ui init
 	setupUi(this);
-    //sett = settings(QString("lobanovs"), QString("stokroom"), this);
 
 }
 
@@ -15,14 +14,25 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
 
 
 
+int MainWindowImpl::reinit_vars()
+{
+	hide();
+	if( sett != 0 ) delete sett;
+	if( kern != 0 ) delete kern;
+}
+
+
+
+
+
 
 int MainWindowImpl::init()
 {
-	// start settings
-    //sett = settings(QString("lobanovs"), QString("stokroom"), this);
-    //connect(&sett, SIGNAL( quit() ), this, SIGNAL( quit() ) );
-    //if( sett.init() ) exit(0);
-    return 0;
+	//	start settings
+	sett = new settings(QString("lobanovs"), QString("stokroom"), this);
+	connect(sett, SIGNAL( quit() ), this, SIGNAL( quit() ) );
+	if( sett->init() ) exit(0);
+	return 0;
 }
 
 
