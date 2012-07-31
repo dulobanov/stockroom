@@ -23,7 +23,7 @@ uint c_summary::load()
 {
 	// dir is exists checked before
 	// open ile summary
-	summary = QFile(data_dir.path()+"/summary.stok");
+    summary.setFileName(data_dir.path()+QString("/summary.stok"));
 	if( !summary.exists() )
 	{
 		return 0;
@@ -32,7 +32,7 @@ uint c_summary::load()
 	//	open file;
 	if( !summary.open(QIODevice::ReadOnly | QIODevice::Text) )
 	{
-		QMesageBox::critical(0, QString("Load"), QString("Can't open summary file."));
+        QMessageBox::critical(0, QString("Load"), QString("Can't open summary file."));
 		return 1;
 	}
 
@@ -44,10 +44,10 @@ uint c_summary::load()
 	{
 			//	load string & split it
 		line = load.readLine();
-		l_elements = line.split("#");
-		if( l_elements.size != 10 )
+        l_elements = line.split(QString("#"));
+        if( l_elements.size() != 10 )
 		{
-
+            ;
 		}
 	}
 

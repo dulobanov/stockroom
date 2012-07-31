@@ -43,7 +43,7 @@ add_item::~add_item()
 //			slots
 
 
-void add_item::chandes()
+void add_item::changes()
 {
 
 	return;

@@ -2,8 +2,7 @@
 #include "ui_unload_item.h"
 
 unload_item::unload_item(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::load_item)
+    QDialog(parent)
 {
     ui->setupUi(this);
 }

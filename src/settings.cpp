@@ -21,11 +21,7 @@ int settings::reinit_vars()
 	is_debug = 0;
 	username.clear();
 	user_dir.setPath( QString("") );
-	if( users_info != 0 )
-	{
-		delete users_info;
-		users_info = 0;
-	}
+	users_info = new QList<user_info>;
 	return 0;
 }
 
@@ -38,7 +34,6 @@ int settings::reinit_vars()
 
 int settings::init()
 {
-
 //__________________________ [ LOGIN ] _______________________________
 	//	get users count
 	int u_count = load_users();
@@ -46,14 +41,14 @@ int settings::init()
 	{	//	registration
 		while( !is_logged )
 		{
-			if( sregistration() ) exit(0);
+			if( sregistration() ) return 11;
 		}
 	}
 	else
 	{	//	login
 		while( !is_logged )
 		{
-			if( slogin() ) exit(0);
+			if( slogin() ) return 12;
 		}
 //________________________ [ LOGIN END ] _______________________________
 	}
@@ -127,8 +122,7 @@ int settings::get_upath(QDir &user_path)
 
 int settings::load_users()
 {
-	if( users_info != 0 ) delete users_info;
-	QList<user_info> *tmp = new QList<user_info>;
+	users_info->clear();
 	//	select all groups at users group
 	beginGroup("users");
 	QStringList users = childGroups();
@@ -155,18 +149,18 @@ int settings::load_users()
 			users.removeAt(i);
 			remove( QString("users/"+users[pos]) );
 			users.removeAt(pos);
+			u_dirs.removeAt(pos);
 			continue;
 		}
-		u_dirs[i] = tmp_dir;
+		u_dirs.insert(i, tmp_dir);
 			//	add to list
 		tmp_user.user = users[i];
 		tmp_user.dir = QDir( tmp_dir );
-		tmp_user.hash = value("users/"+users[i]+"/hash", "").toString();
+		tmp_user.hash = value("users/"+users[i]+"/password", "").toString();
 			//	add
-		tmp->push_back(tmp_user);
+		users_info->push_back(tmp_user);
 	}
-	users_info = tmp;
-	return tmp->size();
+	return users_info->size();
 
 }
 
@@ -311,12 +305,12 @@ int settings::slogin()
 	QString prev_user = value("previous_user", "").toString();
 	login ulogin(main_win_parent, prev_user);
 	QString hash, tmp_dir, user, pass;
-	int u_num;
+	int u_num, ret;
 	user_info try_user;
 	//	login while not logged
-	int ret = ulogin.exec();
 	while ( !is_logged )
 	{
+		ret = ulogin.exec();
 		if( ret == QDialog::Accepted )
 		{
 			ulogin.get_user_pass(user, pass);
@@ -330,7 +324,7 @@ int settings::slogin()
 
 			try_user = (*users_info)[u_num];
 
-			if( value("users/"+user+"/password", "").toString() != try_user.hash)
+			if( get_hash(user, pass) != try_user.hash)
 			{	//	login failed
 				QMessageBox::information(main_win_parent, QString("Login"), QString("Involid username or password.\nTry again.."));
 				continue;

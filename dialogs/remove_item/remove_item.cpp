@@ -1,9 +1,7 @@
 #include "remove_item.h"
 #include "ui_remove_item.h"
 
-remove_item::remove_item(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::remove_item)
+remove_item::remove_item(QWidget *parent) : QDialog(parent)
 {
     ui->setupUi(this);
 }

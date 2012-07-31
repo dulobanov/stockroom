@@ -22,7 +22,7 @@ private:
 
 
 
-slots:
+public slots:
 	void varity_selected(QString varity);
 	void selection_selected(QString selection);
 	void accept();

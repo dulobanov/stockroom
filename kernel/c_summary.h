@@ -7,7 +7,7 @@
 #include <QVector>
 #include <QDir>
 #include <QFile>
-#include <QMesageBox>
+#include <QMessageBox>
 #include <QTextStream>
 #include <QString>
 #include <QStringList>
@@ -41,7 +41,7 @@ public:
 private:
 
 	//	vars
-	QMap<QString, *c_logact> items; // object for records
+    //QMap<QString, *c_logact> items; // object for records
 	QMap<QString, summary_record> records; // at summary file
 	QDir data_dir;
 	QFile summary;

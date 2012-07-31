@@ -20,7 +20,7 @@ private:
 
 
 
-slots:
+public slots:
 	void changes();
 	void accept();
 
