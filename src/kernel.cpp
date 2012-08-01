@@ -1,7 +1,7 @@
 #include "kernel.h"
 //
 kernel::kernel( QWidget *prnt )
-	: QObject()
+    : QWidget(prnt)
 {
 	parent = prnt;
 }

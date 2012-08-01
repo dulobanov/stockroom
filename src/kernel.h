@@ -1,7 +1,7 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 //
-#include <QObject>
+#include <QWidget>
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
@@ -9,7 +9,7 @@
 #include <QDateTime>
 #include <QTextStream>
 //
-class kernel : public QObject
+class kernel : public QWidget
 {
 Q_OBJECT
 public:

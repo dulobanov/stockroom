@@ -1,9 +1,9 @@
 #ifndef C_LOGACT_H
 #define C_LOGACT_H
 
-#include <QObject>
+#include <QWidget>
 
-class c_logact : public QObject
+class c_logact : public QWidget
 {
     Q_OBJECT
 public:
