@@ -11,6 +11,7 @@ class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 Q_OBJECT
 public:
 	MainWindowImpl( QWidget * parent = 0, Qt::WFlags f = 0 );
+	~MainWindowImpl();
 	int init();
 
 
@@ -49,7 +50,15 @@ signals:
 
 
 
-private slots:
+public slots:
+	void logout();
+
+
+
+
+
+
+
 };
 #endif
 

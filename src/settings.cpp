@@ -100,7 +100,7 @@ int settings::get_upath(QDir &user_path)
 	if(!is_logged)
 	{
 		QMessageBox::critical(main_win_parent, QString("Inormation"), QString("You are not logged yet."));
-		return 1;
+		exit(1);
 	}
 
 	user_path = user_dir;
@@ -270,7 +270,7 @@ int settings::sregistration()
 		{
 			//	not acceptet -> exit
 			ret = QMessageBox::question(main_win_parent, QString("Registration"), QString("You discard registration, application will be closed.\nQuit?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
-			if( ret == QMessageBox::Yes ) return 1;
+			if( ret == QMessageBox::Yes ) exit(0);
 		}
 	}
 	return 10;
@@ -351,7 +351,7 @@ int settings::slogin()
 		{
 			//	not accepted -> exit
 			ret = QMessageBox::question(main_win_parent, QString("Login"), QString("You discard login, application will be closed.\nQuit?"), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
-			if( ret == QMessageBox::Yes ) return 1;
+			if( ret == QMessageBox::Yes ) exit(0);
 		}
 	}
 

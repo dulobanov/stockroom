@@ -19,7 +19,8 @@ HEADERS = src/mainwindowimpl.h \
     dialogs/unload_item/unload_item.h \
     dialogs/remove_item/remove_item.h \
     kernel/c_summary.h \
-    kernel/ma_log.h
+    kernel/ma_log.h \
+    kernel/c_logact.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -31,5 +32,6 @@ SOURCES = src/mainwindowimpl.cpp \
     dialogs/unload_item/unload_item.cpp \
     dialogs/remove_item/remove_item.cpp \
     kernel/c_summary.cpp \
-    kernel/ma_log.cpp
+    kernel/ma_log.cpp \
+    kernel/c_logact.cpp
 TEMPLATE = app

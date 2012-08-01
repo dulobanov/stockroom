@@ -12,19 +12,21 @@
 #include <QString>
 #include <QStringList>
 
+#include "c_logact.h"
 
 struct summary_record
 {
 	QString variant;
-	uint selection;
+	quint16 selection;
 	quint64 box_count;
 	quint64 item_count;
-	uint created;
-	uint closed;
+	QString created;
+	QString closed;
 	quint64 saved_box_count;
 	quint64 saved_item_count;
 	QMap<QString, QString> log_activities;
 	QString hash;
+	QString description;
 };
 
 
@@ -33,7 +35,7 @@ class c_summary : public QFile
 {
     Q_OBJECT
 public:
-    explicit c_summary(QObject *parent = 0, QDir *u_d = 0);
+    explicit c_summary(QWidget *prnt = 0, QDir *u_d = 0);
 
 
 
@@ -41,10 +43,11 @@ public:
 private:
 
 	//	vars
-    //QMap<QString, *c_logact> items; // object for records
-	QMap<QString, summary_record> records; // at summary file
-	QDir data_dir;
-	QFile summary;
+	QWidget *parent;
+	QVector<c_logact *> *items; // object for records
+	QVector<summary_record *> *records;
+	QDir *data_dir;
+	QFile *summary;
 
 
 

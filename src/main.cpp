@@ -7,7 +7,7 @@ int main(int argc, char ** argv)
 
     MainWindowImpl win;
 	QObject::connect(&win, SIGNAL( quit() ), &app, SLOT( quit() ) );
-	win.init();
+	//win.init();
 
 	app.connect( &app, SIGNAL( lastWindowClosed() ), &app, SLOT( quit() ) );
 	return app.exec();
