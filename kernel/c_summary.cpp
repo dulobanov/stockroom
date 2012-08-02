@@ -4,12 +4,33 @@ c_summary::c_summary(QWidget *prnt, QDir *u_d) :
     QFile(prnt)
 {
 	data_dir = u_d;
-	items = 0;
-	records = 0;
+	items = new QVector<c_logact *>;
+	records = new QVector<summary_record *>;
 	parent = prnt;
 }
 
 
+c_summary::~c_summary()
+{
+	close_files();
+}
+
+
+
+
+
+
+
+
+
+quint8 c_summary::close_files()
+{
+	//	step by step close
+	for(quint32 i = 0; i < items->size(); ++i)
+	{
+		;
+	}
+}
 
 
 

@@ -36,7 +36,8 @@ class c_summary : public QFile
     Q_OBJECT
 public:
     explicit c_summary(QWidget *prnt = 0, QDir *u_d = 0);
-
+	~c_summary();
+	quint8 close_files();
 
 
 
@@ -60,6 +61,7 @@ private:
 
 
 signals:
+	void logout();
 
 public slots:
 
