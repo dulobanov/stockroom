@@ -20,7 +20,8 @@ HEADERS = src/mainwindowimpl.h \
     dialogs/remove_item/remove_item.h \
     kernel/c_summary.h \
     kernel/ma_log.h \
-    kernel/c_logact.h
+    kernel/c_logact.h \
+    test/test.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -33,5 +34,6 @@ SOURCES = src/mainwindowimpl.cpp \
     dialogs/remove_item/remove_item.cpp \
     kernel/c_summary.cpp \
     kernel/ma_log.cpp \
-    kernel/c_logact.cpp
+    kernel/c_logact.cpp \
+    test/test.cpp
 TEMPLATE = app

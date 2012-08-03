@@ -7,6 +7,20 @@
 #include <QTextStream>
 #include <QString>
 #include <QStringList>
+#include <QDateTime>
+#include <QByteArray>
+
+#define MA_LOG_DELIMETER ":"
+
+struct action_record
+{
+	quint64 timestamp;
+	quint64 date_time;
+	QString direction;
+	quint64 boxes;
+	quint64 items;
+	QString description;
+};
 
 class ma_log : public QFile
 {
@@ -16,16 +30,26 @@ public:
 	~ma_log();
 
 	quint8 init();
+	quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
+	quint8 save();
+    quint8 find_record(quint64 timestamp = 0, quint64 *index = 0);
 
 
 
 private:
-	bool *changed;
+		//	VARS
+	bool *added_record;
+	bool *modified;
+	QVector <quint64> *unwriten_records; //	inserted time in miliseconds
 
 	//	file
-	QVector <quint64> *f_time, *f_boxes, *f_items;
-	QVector <QString> *f_direction, *f_description;
+	QVector <action_record *> *file_records;
 	quint64 *ma_boxes_activity, *ma_items_activity;
+
+
+
+		//	FUNCTIONS
+	quint8 get_line( quint64 index = 0, QString *line = 0 );
 
 signals:
 
