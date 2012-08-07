@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QDateTime>
+#include <QDebug>
 #include "kernel/ma_log.h"
 
 class test : public QWidget

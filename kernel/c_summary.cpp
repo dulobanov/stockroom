@@ -26,10 +26,11 @@ c_summary::~c_summary()
 quint8 c_summary::close_files()
 {
 	//	step by step close
-	for(quint32 i = 0; i < items->size(); ++i)
+    for(quint32 i = 0; i < (quint64) items->size(); ++i)
 	{
 		;
 	}
+    return 0;
 }
 
 
