@@ -15,6 +15,22 @@ ma_log::ma_log(QWidget *prnt, QString path, QString fn) : QFile(prnt)
 
 
 
+ma_log::~ma_log()
+{
+	save();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 quint8 ma_log::init()
 {
 	if( !open( QIODevice::ReadWrite | QIODevice::Text ) ) return 2;
@@ -87,7 +103,13 @@ quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint
 	if( ( direction != "l" ) && ( direction != "u" ) ) return 1;
 	if ( date == 0 ) return 1;
 
+	quint64 tmp;
 	quint64 timestamp = QDateTime::currentMSecsSinceEpoch();
+	while( !get_index_by_timestamp( timestamp, &tmp ) )
+	{
+		usleep(1000);
+		timestamp = QDateTime::currentMSecsSinceEpoch();
+	}
 
 	if( direction == "l" )
 	{
@@ -132,20 +154,117 @@ quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint
 
 
 
+
+quint8 ma_log::remove_record( quint64 timestamp )
+{
+	QString line;
+	for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
+	{
+		if( timestamp == (file_records->at(i))->timestamp )
+		{
+			get_line(i, &line);
+			emit log_message( QString( Q_FUNC_INFO ), QString("deliting record:\n") + line );
+			file_records->remove( i );
+			*modified = 1;
+			return 0;
+		}
+	}
+
+	return 10;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 quint8 ma_log::save()
 {
 	if ( *modified )
 	{
 		QByteArray ch_arr;
 		QString line;
-		if( !open( QIODevice::WriteOnly | QIODevice::Truncate ) ) return 1;
+		if( !open( QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text ) ) return 1;
+			{
+				emit log_message( QString( Q_FUNC_INFO ), QString("can't open file for overwrite") );
+				return 1;
+			}
 		for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
 		{
-			if( get_line( i, &line ) ) return 1;
+			if( get_line( i, &line ) )
+			{
+				emit log_message( QString( Q_FUNC_INFO ), QString("can't get line from record with timestamp: ")+QString::number( (file_records->at(i))->timestamp ) );
+				return 1;
+			}
 			ch_arr = line.toUtf8();
+			ch_arr.append( "\n" );
 			write( ch_arr );
 		}
+		*modified = 0;
+		*added_record = 0;
+		return 0;
 	}
+
+	if( *added_record )
+	{
+		QByteArray ch_arr;
+		QString line;
+		//	open
+		if( !open( QIODevice::Append | QIODevice::Text ) ) return 1;
+			{
+				emit log_message( QString( Q_FUNC_INFO ), QString("can't open ile or append") );
+				return 1;
+			}
+		//	go to end o file
+		if( !seek( size() ) )
+			{
+				emit log_message( QString( Q_FUNC_INFO ), QString("can't go to end of ile for append records") );
+				return 1;
+			}
+
+		QVector<quint64> recorded;
+		quint64 timestamp;
+		qint64 index;
+		for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
+		{
+			timestamp = (file_records->at(i))->timestamp;
+			index = unwriten_records->indexOf( timestamp );
+			if( index == -1 ) continue;
+			if( recorded.indexOf( timestamp ) != -1 )
+			{
+				emit log_message( QString( Q_FUNC_INFO ), QString("there ara more than one message with same timestamp skip") );
+				unwriten_records->remove( index );
+				continue;
+			}
+
+			if( get_line( i, &line ) )
+			{
+				emit log_message( QString( Q_FUNC_INFO ), QString("can't get line from record with timestamp: ")+QString::number( (file_records->at(i))->timestamp ) );
+				return 1;
+			}
+			ch_arr = line.toUtf8();
+			ch_arr.append( "\n" );
+			write( ch_arr );
+			recorded.append( timestamp );
+		}
+
+		if( unwriten_records->size() != 0 )
+		{
+			emit log_message( QString( Q_FUNC_INFO ), QString("ERROR: not all records are writen.") );
+			return 2;
+		}
+
+		*modified = 0;
+		*added_record = 0;
+		return 0;
+	}
+
 	return 0;
 }
 
@@ -181,6 +300,24 @@ quint8 ma_log::get_line( quint64 index, QString *line )
 
 
 
+
+
+
+
+
+
+quint8 ma_log::get_index_by_timestamp( quint64 timestamp, quint64* index )
+{
+	for( quint64 i = 0; i < (quint64) file_records->size(); ++i)
+	{
+		if( (file_records->at(i))->timestamp == timestamp )
+		{
+			*index = i;
+			return 0;
+		}
+	}
+	return 1;
+}
 
 
 

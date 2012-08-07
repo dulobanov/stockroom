@@ -5,6 +5,7 @@
 #include "ui_mainwindow.h"
 #include "settings.h"
 #include "kernel.h"
+#include "test/test.h"
 //
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 {

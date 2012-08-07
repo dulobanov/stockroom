@@ -8,6 +8,10 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
 	sett = 0;
 	kern = 0;
 	init();
+	
+
+	test new_test(this);
+
 }
 
 

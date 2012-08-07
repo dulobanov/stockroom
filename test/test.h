@@ -1,13 +1,15 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include <QObject>
+#include <QWidget>
+#include <QDateTime>
+#include "kernel/ma_log.h"
 
-class test : public QObject
+class test : public QWidget
 {
     Q_OBJECT
 public:
-    explicit test(QObject *parent = 0);
+    explicit test(QWidget *parent = 0);
     
 signals:
     

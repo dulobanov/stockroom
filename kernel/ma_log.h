@@ -9,6 +9,7 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QByteArray>
+#include <QThread>
 
 #define MA_LOG_DELIMETER ":"
 
@@ -31,8 +32,9 @@ public:
 
 	quint8 init();
 	quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
+	quint8 remove_record(quint64 timestamp = -1);
 	quint8 save();
-    quint8 find_record(quint64 timestamp = 0, quint64 *index = 0);
+	quint8 find_record(quint64 timestamp = 0, quint64 *index = 0);
 
 
 
@@ -40,7 +42,7 @@ private:
 		//	VARS
 	bool *added_record;
 	bool *modified;
-	QVector <quint64> *unwriten_records; //	inserted time in miliseconds
+	QVector <quint64> *unwriten_records; //	inserted timestamp in miliseconds
 
 	//	file
 	QVector <action_record *> *file_records;
@@ -50,8 +52,17 @@ private:
 
 		//	FUNCTIONS
 	quint8 get_line( quint64 index = 0, QString *line = 0 );
+	quint8 get_index_by_timestamp( quint64 timestamp = 0, quint64* index = 0 );
+
+
+
+
 
 signals:
+	void log_message(QString sender, QString message);
+
+
+
 
 public slots:
 
