@@ -158,10 +158,22 @@ quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint
 quint8 ma_log::remove_record( quint64 timestamp )
 {
 	QString line;
+	action_record record;
 	for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
 	{
 		if( timestamp == (file_records->at(i))->timestamp )
 		{
+			record = *(file_records->at(i));
+			if( record.direction == "l")
+			{
+				*ma_boxes_activity -= record.boxes;
+				*ma_items_activity -= record.items;
+			}
+			else
+			{
+				*ma_boxes_activity += record.boxes;
+				*ma_items_activity += record.items;
+			}
 			get_line(i, &line);
 			emit log_message( QString( Q_FUNC_INFO ), QString("deliting record:\n") + line );
 			file_records->remove( i );
