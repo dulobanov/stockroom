@@ -9,7 +9,6 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QByteArray>
-#include <QThread>
 
 #define MA_LOG_DELIMETER ":"
 
