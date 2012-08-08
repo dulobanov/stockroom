@@ -2,6 +2,7 @@
 #define MAINWINDOWIMPL_H
 //
 #include <QMainWindow>
+#include <QDebug>
 #include "ui_mainwindow.h"
 #include "settings.h"
 #include "kernel.h"

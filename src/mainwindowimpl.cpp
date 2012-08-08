@@ -72,6 +72,15 @@ int MainWindowImpl::init()
 	}
 
 
+
+//	tets
+	QString qw12;
+	sett->get_log_path( &qw12 );
+	qDebug() << "settings path to log dir (need to remove this code from mainwin class ) " << qw12;
+
+
+
+
 	show();
 	return 0;
 }

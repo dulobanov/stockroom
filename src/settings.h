@@ -33,6 +33,7 @@ public:
 
 	//	get functions
 	int get_upath(QDir &user_path);
+	quint8 get_log_path(QString *dir);
 
 
 

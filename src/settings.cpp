@@ -120,6 +120,40 @@ int settings::get_upath(QDir &user_path)
 
 
 
+quint8 settings::get_log_path(QString *dir)
+{
+	if( !is_logged ) return 1;
+	dir->clear();
+	dir->append(  user_dir.absolutePath() );
+	dir->append( QString("/log") );
+
+	QDir log_dir( *dir );
+	if( !log_dir.exists() )
+	{
+		if( !log_dir.mkpath( *dir ) ) return 2;
+	}
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int settings::load_users()
 {
 	users_info->clear();
