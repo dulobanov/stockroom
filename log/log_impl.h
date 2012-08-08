@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QString>
 #include <QByteArray>
+#include <QDebug>
 
 class log_impl : public QFile
 {

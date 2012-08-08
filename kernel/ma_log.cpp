@@ -141,7 +141,7 @@ quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint
 	*added_record = 1;
 	unwriten_records->append( timestamp );
 
-	qDebug("added record\n");
+	emit log_message( QString( Q_FUNC_INFO ), QString("added record\n") );
 
 	return 0;
 }
