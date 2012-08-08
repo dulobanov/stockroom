@@ -11,7 +11,7 @@ test::test(QWidget *parent) :
 
 
 	ma_log malog(this, QString("/home/user/test"), QString("1.test"));
-	connect( &malog, SIGNAL(log(QString, QString)), log, SLOT(log(QString, QString)));
+	connect( &malog, SIGNAL(log_message(QString, QString)), log, SLOT(log(QString, QString)));
 
 	qDebug() << "init res:" << malog.init();
 	for(quint64 i = 0; i < 5; ++i)

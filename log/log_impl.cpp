@@ -46,7 +46,7 @@ quint8 log_impl::init(QString dir)
 quint8 log_impl::save()
 {
 	if( !isOpen() ) return 0;
-	if( !flush() ) return 1;
+	flush();
 	close();
 	return 0;
 }
@@ -78,8 +78,8 @@ void log_impl::log(QString sender, QString message)
 	QByteArray data;
 	QString tmp;
 
-	data.append( date_time.toString( QString("[ yyyy MM dd ddd hh:mm:ss ]: ") ) );
-	data.append("\t\t");
+	data.append( date_time.toString( QString("[ yyyy.MM.dd ddd hh:mm:ss ]: ") ) );
+	data.append("\t");
 	//	prepeare sender: remove \n & \r
 	tmp = sender;
 	tmp.replace("\n", " ");
