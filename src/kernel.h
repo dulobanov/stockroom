@@ -41,7 +41,8 @@ private:
 
 
 signals:
-    void logout();
+	void logout();
+	void log(QString sender, QString message);
 
 
 

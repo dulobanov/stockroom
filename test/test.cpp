@@ -4,7 +4,7 @@ test::test(QWidget *parent) :
     QWidget(parent)
 {
 
-
+/*
 	log = new log_impl(this);
 	qDebug() << "log init result is: " << log->init( QString("/home/user/test/log") );
 
@@ -21,5 +21,5 @@ test::test(QWidget *parent) :
 	}
 //	qDebug() << "remove result:" << malog.remove_record(1344368224046);
 	qDebug() << "save res:" << malog.save();
-
+*/
 }

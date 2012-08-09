@@ -69,6 +69,7 @@ public slots:
 
 signals:
 	void quit();
+	void log(QString sender, QString message);
 
 
 

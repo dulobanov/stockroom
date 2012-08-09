@@ -7,10 +7,11 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
 	setupUi(this);
 	sett = 0;
 	kern = 0;
+	log = 0;
 	init();
-	
 
-	test new_test(this);
+//	for test running
+//	test new_test(this);
 
 }
 
@@ -55,30 +56,34 @@ int MainWindowImpl::init()
 	if( sett->init() )
 	{
 		qDebug("Settings init returns non zero");
-		logout();
+		exit(1);
 	}
 
-	//	init kern
+	//	initialization of log class
+	log = new log_impl(this);
+	QString log_path;
+	if( sett->get_log_path( &log_path ) )
+	{
+		qDebug("MainWindowImpl::init can't get log path");
+		exit(1);
+	}
+	log->init( log_path );
+	connect(sett, SIGNAL( log(QString, QString) ), log, SLOT( log(QString, QString) ) );
+
+
+	//	init kernel
 	QDir u_path;
 	if ( sett->get_upath(u_path) )
 	{
 		QMessageBox::critical(this, QString("Init"), QString("Can't recive user folder."));
-		logout();
+		exit(1);
 	}
 	kern = new kernel(this);
+	connect(kern, SIGNAL( log(QString, QString) ), log, SLOT( log(QString, QString) ) );
 	if( kern->lock( u_path ) )
 	{
-		logout();
+		exit(1);
 	}
-
-
-
-//	tets
-	QString qw12;
-	sett->get_log_path( &qw12 );
-	qDebug() << "settings path to log dir (need to remove this code from mainwin class ) " << qw12;
-
-
 
 
 	show();

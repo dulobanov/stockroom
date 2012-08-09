@@ -1,10 +1,11 @@
 #include "ma_log.h"
 
-ma_log::ma_log(QWidget *prnt, QString path, QString fn) : QFile(prnt)
+ma_log::ma_log(QWidget *prnt, QString ffn) : QFile(prnt)
 {
-	setFileName(path + QString("/") + fn);
+	setFileName( ffn );
 	added_record = new bool(0);
 	modified = new bool(0);
+	data_loaded = new bool(0);
 	unwriten_records = new QVector<quint64>;
 	file_records = new QVector< action_record *>;
 	ma_boxes_activity = new quint64(0);
@@ -33,7 +34,12 @@ ma_log::~ma_log()
 
 quint8 ma_log::init()
 {
-	if( !open( QIODevice::ReadWrite | QIODevice::Text ) ) return 2;
+	if( *data_loaded == 1) return 0;
+	if( !open( QIODevice::ReadOnly | QIODevice::Text ) )
+	{
+		emit log_message( QString( Q_FUNC_INFO ), QString("can't open file: ") + fileName() );
+		return 2;
+	}
 
 	QString line;
 	QStringList elements;
@@ -50,26 +56,26 @@ quint8 ma_log::init()
 
 		if (elements.size() < 5)
 		{
-			qDebug("ma_log::init line skipped due to elements count");
+			emit log_message( QString( Q_FUNC_INFO ), QString("line skipped due to elements count: ") + line );
 			continue;
 		}
 
 		//	adding elements
 	//	timestamp
 		record->timestamp = elements[0].toULongLong(&ok);
-		if(!ok)	{	qDebug("ma_log::init line skipped due to time conversion"); delete record; continue;}
+		if(!ok)	{	emit log_message( QString( Q_FUNC_INFO ), QString("line skipped due to time conversion: ") + line ); delete record; continue;}
 	//	date & time (stamp)
 		record->date_time = elements[1].toULongLong(&ok);
-		if(!ok)	{	qDebug("ma_log::init line skipped due to time conversion"); delete record; continue;}
+		if(!ok)	{	emit log_message( QString( Q_FUNC_INFO ), QString("line skipped due to time conversion: ") + line ); delete record; continue;}
 	//	direction
-		if( ( elements[2] != "l" ) && ( elements[2] != "u" ) )	{	qDebug("ma_log::init line skipped due to wrong direction"); delete record; continue;}
+		if( ( elements[2] != "l" ) && ( elements[2] != "u" ) )	{	emit log_message( QString( Q_FUNC_INFO ), QString("line skipped due to wrong direction: ") + line ); delete record; continue;}
 		record->direction = elements[2];
 	//	box count
 		record->boxes = elements[3].toULongLong(&ok);
-		if(!ok)	{	qDebug("ma_log::init line skipped due to boxes conversion"); delete record; continue;}
+		if(!ok)	{	emit log_message( QString( Q_FUNC_INFO ), QString("line skipped due to boxes conversion: ") + line ); delete record; continue;}
 	//	item count
 		record->items = elements[4].toULongLong(&ok);
-		if(!ok)	{	qDebug("ma_log::init line skipped due to items conversion"); delete record; continue;}
+		if(!ok)	{	emit log_message( QString( Q_FUNC_INFO ), QString("line skipped due to items conversion: ") + line ); delete record; continue;}
 	//	description
 		record->description = elements[5];
 
@@ -85,10 +91,10 @@ quint8 ma_log::init()
 		}
 
 		file_records->append( record );
-		qDebug() << "load item";
 
 	}
 
+	*data_loaded = 1;
 	close();
 	return 0;
 }
@@ -141,8 +147,6 @@ quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint
 	*added_record = 1;
 	unwriten_records->append( timestamp );
 
-	emit log_message( QString( Q_FUNC_INFO ), QString("added record\n") );
-
 	return 0;
 }
 
@@ -164,7 +168,6 @@ quint8 ma_log::remove_record( quint64 timestamp )
 	action_record record;
 	for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
 	{
-		qDebug() << "timestamp (" << timestamp<< "): " << (file_records->at(i))->timestamp;
 		if( timestamp == (file_records->at(i))->timestamp )
 		{
 			record = *(file_records->at(i));
@@ -179,7 +182,7 @@ quint8 ma_log::remove_record( quint64 timestamp )
 				*ma_items_activity += record.items;
 			}
 			get_line(i, &line);
-			emit log_message( QString( Q_FUNC_INFO ), QString("deliting record:\n") + line );
+			emit log_message( QString( Q_FUNC_INFO ), QString("delited record: ") + line );
 			file_records->remove( i );
 			*modified = 1;
 			return 0;
@@ -370,6 +373,48 @@ quint8 ma_log::find_record(quint64 timestamp, quint64 *index)
 	}
 	return 2;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+quint8 ma_log::get_hash( QString *hash)
+{
+	hash->clear();
+	if( !exists() )
+	{
+		emit log_message( QString( Q_FUNC_INFO ), QString("file not exists, filename: ") + fileName() );
+		return 1;
+	}
+
+	if( !open( QIODevice::ReadOnly | QIODevice::Text ) )
+	{
+		emit log_message( QString( Q_FUNC_INFO ), QString("can't open file: ") + fileName() );
+		return 2;
+	}
+
+	QByteArray file_data = readAll();
+	close();
+	QByteArray md5 = QCryptographicHash::hash( file_data, QCryptographicHash::Md5 );
+	file_data.append( md5 );
+	
+	*hash = ( QCryptographicHash::hash( file_data, QCryptographicHash::Sha1 ) ).toHex();
+	return 0;
+}
+
+
 
 
 

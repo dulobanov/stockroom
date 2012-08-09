@@ -9,7 +9,8 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QByteArray>
-#include <QDebug>
+#include <QCryptographicHash>
+
 
 #define MA_LOG_DELIMETER ":"
 
@@ -27,7 +28,7 @@ class ma_log : public QFile
 {
     Q_OBJECT
 public:
-	explicit ma_log(QWidget *prnt = 0, QString path = "", QString fn = "");
+	explicit ma_log(QWidget *prnt = 0, QString ffn = "");
 	~ma_log();
 
 	quint8 init();
@@ -35,6 +36,7 @@ public:
 	quint8 remove_record(quint64 timestamp = -1);
 	quint8 save();
 	quint8 find_record(quint64 timestamp = 0, quint64 *index = 0);
+	quint8 get_hash( QString *hash);
 
 
 
@@ -42,6 +44,7 @@ private:
 		//	VARS
 	bool *added_record;
 	bool *modified;
+	bool *data_loaded;
 	QVector <quint64> *unwriten_records; //	inserted timestamp in miliseconds
 
 	//	file

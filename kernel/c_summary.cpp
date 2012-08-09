@@ -111,7 +111,7 @@ uint c_summary::load()
 		}
 
 		//	init record object
-		new_log_activity = new c_logact(parent, new_record->variant, QString(new_record->selection));
+		new_log_activity = new c_logact(parent);//, new_record->variant, QString(new_record->selection));
 
 		//	all ok
 		records->insert(item_id, new_record);

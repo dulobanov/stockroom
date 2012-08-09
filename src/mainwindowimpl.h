@@ -7,6 +7,8 @@
 #include "settings.h"
 #include "kernel.h"
 #include "test/test.h"
+#include "log/log_impl.h"
+
 //
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow
 {
@@ -25,7 +27,7 @@ private:
 	//	VARS
 	settings *sett;
 	kernel *kern;
-
+	log_impl *log;
 
 
 	//	FUNCTIONS
