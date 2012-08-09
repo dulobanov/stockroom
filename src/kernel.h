@@ -27,7 +27,8 @@ private:
 
 	//	VARS
 	QWidget *parent;
-    QFile *lock_file;
+	QFile *lock_file;
+	QString *work_dir;
 
 
 

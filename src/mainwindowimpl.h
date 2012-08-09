@@ -43,6 +43,7 @@ private:
 
 signals:
 	void quit();
+	void log_message(QString sender, QString message);
 
 
 

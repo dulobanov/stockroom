@@ -94,7 +94,7 @@ void log_impl::log(QString sender, QString message)
 	data.append("\n");
 	//	write
 	write( data );
-
+	flush();
 	return;
 }
 

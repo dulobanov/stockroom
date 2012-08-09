@@ -67,8 +67,9 @@ int MainWindowImpl::init()
 		qDebug("MainWindowImpl::init can't get log path");
 		exit(1);
 	}
-	log->init( log_path );
+	if(log->init( log_path )) exit(1);
 	connect(sett, SIGNAL( log(QString, QString) ), log, SLOT( log(QString, QString) ) );
+	connect(this, SIGNAL( log_message(QString, QString) ), log, SLOT( log(QString, QString) ) );
 
 
 	//	init kernel
@@ -84,7 +85,6 @@ int MainWindowImpl::init()
 	{
 		exit(1);
 	}
-
 
 	show();
 	return 0;

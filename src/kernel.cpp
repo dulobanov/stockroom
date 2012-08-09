@@ -3,6 +3,7 @@
 kernel::kernel( QWidget *prnt ) : QWidget(prnt)
 {
 	parent = prnt;
+	work_dir = new QString;
 }
 
 
@@ -40,8 +41,11 @@ int kernel::lock(QDir user_dir)
 		// write to file date & time
 	QDateTime timestamp( QDateTime::currentDateTime() );
 	QTextStream out(lock_file);
-	out << "\n" << timestamp.toString() << "\n";
+	out << timestamp.toString( QString("ddd dd MMMM yyyy  hh:mm:ss") ) << "\n";
 	lock_file->flush();
+
+	//	save dir to user_dir
+	*work_dir = user_dir.absolutePath();
 
 	return 0;
 }
