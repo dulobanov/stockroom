@@ -32,7 +32,10 @@ public:
 	explicit c_logact(QWidget *prnt = 0);
 	~c_logact();
 
-	quint8 init( QString usr_dir = "", QString vrnt = "", QString slct = "", QList<QString> old_files = QList<QString>() );
+	quint8 init( QString dir = "", QMap<QString, QString> old_files = QMap<QString, QString>() );
+	quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
+	quint8 remove_record(quint64 timestamp = -1);
+	quint8 close( QMap<QString, QString> *files_hashes = 0 );
 
 
 
@@ -47,6 +50,7 @@ private:
 	QString *work_folder;
 	QVector<files_struct *> *files;
 	files_struct *runtime_file;
+	qint64 *boxes_count, *items_count;
 
 
 

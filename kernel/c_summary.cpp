@@ -66,7 +66,7 @@ uint c_summary::load()
 	QStringList l_elements, tmp;
 	QTextStream load(summary);
 	quint8 unloaded = 0;
-	quint8 i, item_id;
+	quint8 i, item_id, map_split_err;
 	summary_record *new_record;
 	c_logact *new_log_activity;
 	item_id = 0;
@@ -75,10 +75,10 @@ uint c_summary::load()
 			//	load string & split it
 		line = load.readLine().trimmed();
 		if( line.size() == 0 ) continue;
-		l_elements = line.split(QString("#"));
-		if( l_elements.size() != 11 )
+		l_elements = line.split(QString( C_SUMMARY_DELIMETER_1 ));
+		if( l_elements.size() != 12 )
 		{
-			qDebug("c_summary::load wrong count of elements in line at summary.stok");
+			emit log( QString( Q_FUNC_INFO ), QString("wrong count of elements in line at file #%1#, line #%2#").arg(summary->fileName()).arg(line) );
 			unloaded++;
 			continue;
 		}
@@ -86,47 +86,95 @@ uint c_summary::load()
 		//	init new record
 		bool ok;
 		new_record = new summary_record;
-		new_record->variant = l_elements[0];
-		new_record->selection = l_elements[1].toUShort(&ok);
-		if(!ok) { unloaded++; delete new_record; continue; }
-		new_record->box_count = l_elements[2].toULongLong(&ok);
-		if(!ok) { unloaded++; delete new_record; continue; }
-		new_record->item_count = l_elements[3].toULongLong(&ok);
-		if(!ok) { unloaded++; delete new_record; continue; }
-		new_record->created = l_elements[4];
-		new_record->closed = l_elements[5];
-		new_record->saved_box_count = l_elements[6].toULongLong(&ok);
-		if(!ok) { unloaded++; delete new_record; continue; }
-		new_record->saved_item_count = l_elements[7].toULongLong(&ok);
-		if(!ok) { unloaded++; delete new_record; continue; }
-		new_record->hash = l_elements[9];
-		new_record->description = l_elements[10];
+		new_record->id = l_elements[0];
+		new_record->variant = l_elements[1];
+		new_record->selection = l_elements[2].toUShort(&ok);
+		if(!ok)
+		{
+			emit log( QString( Q_FUNC_INFO ), QString("error during converting selection: #%1#").arg( l_elements[2] ) );
+			unloaded++;
+			delete new_record;
+			continue;
+		}
+
+		new_record->box_count = l_elements[3].toULongLong(&ok);
+		if(!ok)
+		{
+			emit log( QString( Q_FUNC_INFO ), QString("error during converting box_count: #%1#").arg( l_elements[3] ) );
+			unloaded++;
+			delete new_record;
+			continue;
+		}
+
+		new_record->item_count = l_elements[4].toULongLong(&ok);
+		if(!ok)
+		{
+			emit log( QString( Q_FUNC_INFO ), QString("error during converting item_count: #%1#").arg( l_elements[4] ) );
+			unloaded++;
+			delete new_record;
+			continue;
+		}
+
+		new_record->created = l_elements[5];
+		new_record->closed = l_elements[6];
+		new_record->saved_box_count = l_elements[7].toULongLong(&ok);
+		if(!ok)
+		{
+			emit log( QString( Q_FUNC_INFO ), QString("error during converting saved_box_count #%1#").arg( l_elements[7] ) );
+			unloaded++;
+			delete new_record;
+			continue;
+		}
+
+		new_record->saved_item_count = l_elements[8].toULongLong(&ok);
+		if(!ok)
+		{
+			emit log( QString( Q_FUNC_INFO ), QString("error during converting saved_item_count #%1#").arg( l_elements[8] ) );
+			unloaded++;
+			delete new_record;
+			continue;
+		}
+
+		new_record->hash = l_elements[10];
+		new_record->description = l_elements[11];
 		//	load QMap
-		l_elements = l_elements[8].split( QString("!") );
+		map_split_err = 0;
+		l_elements = l_elements[9].split( QString( C_SUMMARY_DELIMETER_2 ) );
 		for(i = 0; i < l_elements.size(); ++i)
 		{
-			tmp = l_elements[i].split( QString("=") );
-			if( tmp.size() != 2 ) {	qDebug("c_summary::load not two element at map => continue"); continue; }
-			new_record->log_activities[tmp[0]] = tmp[1];
+			tmp = l_elements[i].split( QString( C_SUMMARY_DELIMETER_3 ) );
+			if( tmp.size() != 2 )
+			{
+				emit log( QString( Q_FUNC_INFO ), QString("not 2 elements at file part ( skipped ): #%1#").arg( l_elements[i] ) );
+				map_split_err++;
+				continue;
+			}
+			new_record->log_activities.insert(tmp[0], tmp[1]);
+		}
+		//	if during loading of map error occurs => skip record
+		if( map_split_err )
+		{
+			unloaded++;
+			continue;
 		}
 
 		//	init record object
 		new_log_activity = new c_logact(parent);//, new_record->variant, QString(new_record->selection));
+		if( new_log_activity->init( data_dir->absolutePath()+ "/" + new_record->id, new_record->log_activities) )
+		{
+			delete new_record;
+			delete new_log_activity;
+			unloaded++;
+			continue;
+		}
 
 		//	all ok
+		new_record->d = new_log_activity;
 		records->insert(item_id, new_record);
-		items->insert(item_id, new_log_activity);
 		item_id++;
 	}
-
-
-
-	if(unloaded > 0)
-	{
-		QMessageBox::warning( parent, QString("StokRoom"), QString("unloaded ") + QString(unloaded) + QString(" element(s) due to errors") );
-	}
-
-	return 0;
+	summary->close();
+	return unloaded;
 }
 
 

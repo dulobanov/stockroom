@@ -37,6 +37,7 @@ public:
 	quint8 save();
 	quint8 find_record(quint64 timestamp = 0, quint64 *index = 0);
 	quint8 get_hash( QString *hash);
+	quint8 get_motion( qint64 *boxes = 0, qint64 *items = 0 );
 
 
 
@@ -49,7 +50,7 @@ private:
 
 	//	file
 	QVector <action_record *> *file_records;
-	quint64 *ma_boxes_activity, *ma_items_activity;
+	qint64 *ma_boxes_activity, *ma_items_activity;
 
 
 

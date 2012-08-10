@@ -14,8 +14,13 @@
 
 #include "c_logact.h"
 
+#define C_SUMMARY_DELIMETER_1 ":"
+#define C_SUMMARY_DELIMETER_2 "!"
+#define C_SUMMARY_DELIMETER_3 "="
+
 struct summary_record
 {
+	QString id;
 	QString variant;
 	quint16 selection;
 	quint64 box_count;
@@ -27,6 +32,7 @@ struct summary_record
 	QMap<QString, QString> log_activities;
 	QString hash;
 	QString description;
+	c_logact *d;
 };
 
 
@@ -62,6 +68,7 @@ private:
 
 signals:
 	void logout();
+	void log( QString sender, QString message );
 
 public slots:
 

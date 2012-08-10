@@ -8,8 +8,8 @@ ma_log::ma_log(QWidget *prnt, QString ffn) : QFile(prnt)
 	data_loaded = new bool(0);
 	unwriten_records = new QVector<quint64>;
 	file_records = new QVector< action_record *>;
-	ma_boxes_activity = new quint64(0);
-	ma_items_activity = new quint64(0);
+	ma_boxes_activity = new qint64(0);
+	ma_items_activity = new qint64(0);
 }
 
 
@@ -393,6 +393,8 @@ quint8 ma_log::find_record(quint64 timestamp, quint64 *index)
 quint8 ma_log::get_hash( QString *hash)
 {
 	hash->clear();
+	if( save() ) return 3;
+
 	if( !exists() )
 	{
 		emit log_message( QString( Q_FUNC_INFO ), QString("file not exists, filename: ") + fileName() );
@@ -423,6 +425,30 @@ quint8 ma_log::get_hash( QString *hash)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+quint8 ma_log::get_motion( qint64 *boxes, qint64 *items )
+{
+	if( *data_loaded == 0 )
+	{
+		emit log_message( QString( Q_FUNC_INFO ), QString("data not loaded, no motion yet") );
+		return 1;
+	}
+
+	*boxes = *ma_boxes_activity;
+	*items = *ma_items_activity;
+
+	return 0;
+}
 
 
 
