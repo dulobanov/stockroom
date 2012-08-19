@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QString>
 #include <QStringList>
+#include <QCryptographicHash>
 
 #include "c_logact.h"
 
@@ -33,6 +34,7 @@ struct summary_record
 	QString hash;
 	QString description;
 	c_logact *d;
+	bool changed;
 };
 
 
@@ -43,7 +45,7 @@ class c_summary : public QFile
 public:
     explicit c_summary(QWidget *prnt = 0, QDir *u_d = 0);
 	~c_summary();
-	quint8 close_files();
+	quint8 save();
 
 
 
@@ -55,13 +57,15 @@ private:
 	QVector<summary_record *> *records;
 	QDir *data_dir;
 	QFile *summary;
+	bool is_saved;
 
 
 
 
 	//	functions
 	uint load();
-	bool is_saved;
+	QString get_hash(summary_record rec);
+	quint8 save_summary();
 
 
 

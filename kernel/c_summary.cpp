@@ -12,7 +12,7 @@ c_summary::c_summary(QWidget *prnt, QDir *u_d) :
 
 c_summary::~c_summary()
 {
-	close_files();
+	save();
 }
 
 
@@ -23,16 +23,116 @@ c_summary::~c_summary()
 
 
 
-quint8 c_summary::close_files()
+quint8 c_summary::save()
 {
 	//	step by step close
-    for(quint32 i = 0; i < (quint64) items->size(); ++i)
+	for(quint32 i = 0; i < (quint32) records->size(); ++i)
 	{
-		;
+		(records->at(i))->d->close( &(records->at(i))->log_activities );
 	}
-    return 0;
+	save_summary();
+	return 0;
 }
 
+
+
+
+
+
+
+
+
+
+
+QString c_summary::get_hash(summary_record rec)
+{
+	QByteArray tmp;
+	tmp.append(rec.id);
+	tmp.append(rec.variant);
+	tmp.append(rec.selection);
+	tmp.append(rec.item_count);
+	tmp.append(rec.box_count);
+
+	QByteArray h1 = QCryptographicHash::hash(tmp, QCryptographicHash::Sha1);
+
+	h1.append(rec.box_count);
+	h1.append(rec.item_count);
+	h1.append(rec.created);
+	h1.append(rec.closed);
+	h1.append(rec.saved_box_count);
+	h1.append(rec.saved_item_count);
+	h1.append(rec.description);
+
+return QString( QCryptographicHash::hash(h1, QCryptographicHash::Sha1) );
+}
+
+
+
+
+
+
+
+
+
+
+
+quint8 c_summary::save_summary()
+{
+	QByteArray line;
+	QList<QString> keys;
+	QString hash, tmp;
+	if( !summary->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate) )
+	{
+		QMessageBox::critical(0, QString("Save"), QString("Can't open summary file."));
+		return 1;
+	}
+
+	for(quint32 i = 0; i < (quint32) records->size(); ++i)
+	{
+		line.clear();
+		hash.clear();
+		line.append((records->at(i))->id);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->variant);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->selection);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->box_count);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->item_count);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->created);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->closed);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->saved_box_count);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->saved_item_count);
+		line.append(C_SUMMARY_DELIMETER_1);
+
+		keys = (records->at(i))->log_activities.keys();
+		for(quint32 j = 0; j < (quint32) keys.size(); ++j)
+		{
+			tmp.clear();
+			tmp.append(keys[j]);
+			tmp.append(C_SUMMARY_DELIMETER_3);
+			tmp.append((records->at(i))->log_activities.value( keys[j] ) );
+			if( hash.size() > 0 ) hash.append( C_SUMMARY_DELIMETER_2 );
+			hash.append( tmp );
+		}
+
+		line.append(hash);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append( get_hash( *(records->at(i)) ) );
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append((records->at(i))->description);
+		line.append(C_SUMMARY_DELIMETER_1);
+		line.append("\n");
+		write( line );
+	}
+	close();
+	return 0;
+}
 
 
 
@@ -57,7 +157,7 @@ uint c_summary::load()
 	//	open file;
 	if( !summary->open(QIODevice::ReadOnly | QIODevice::Text) )
 	{
-        QMessageBox::critical(0, QString("Load"), QString("Can't open summary file."));
+		QMessageBox::critical(0, QString("Load"), QString("Can't open summary file."));
 		return 1;
 	}
 
