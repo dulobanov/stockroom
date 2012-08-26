@@ -13,10 +13,10 @@
 
 struct files_struct
 {
-	ma_log *descriptor;
-	QString *file_name;
-	QString *hash;
-	bool *changed;
+    ma_log *descriptor;
+    QString *file_name;
+    QString *hash;
+    bool *changed;
 };
 
 
@@ -29,40 +29,41 @@ class c_logact : public QWidget
 {
     Q_OBJECT
 public:
-	explicit c_logact(QWidget *prnt = 0);
-	~c_logact();
+    explicit c_logact(QWidget *prnt = 0);
+    ~c_logact();
 
-	quint8 init( QString dir = "", QMap<QString, QString> old_files = QMap<QString, QString>() );
-	quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
-	quint8 remove_record(quint64 timestamp = -1);
-	quint8 close( QMap<QString, QString> *files_hashes = 0 );
+    quint8 init( QString dir = "", QMap<QString, QString> old_files = QMap<QString, QString>() );
+    quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
+    quint8 remove_record(quint64 timestamp = -1, action_record* record = 0);
+    quint8 close( QMap<QString, QString> *files_hashes = 0 );
+    QStringList get_file_names();
 
 
 
 
 
 private:
-	//	VARS
-	QWidget *parent;
-	QString *variant;
-	QString *selection;
-	QString *user_dir;
-	QString *work_folder;
-	QVector<files_struct *> *files;
-	files_struct *runtime_file;
-	qint64 *boxes_count, *items_count;
+    //	VARS
+    QWidget *parent;
+    QString *variant;
+    QString *selection;
+    QString *user_dir;
+    QString *work_folder;
+    QVector<files_struct *> *files;
+    files_struct *runtime_file;
+    qint64 *boxes_count, *items_count;
 
 
 
-	//	FUNCTIONS
-	QString get_runtime_fn();
+    //	FUNCTIONS
+    QString get_runtime_fn();
 
 
 
 
 
 signals:
-	void log(QString sender, QString message);
+    void log(QString sender, QString message);
 
 
 

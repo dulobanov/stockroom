@@ -16,7 +16,7 @@ public:
 
 
 private:
-	log_impl *log;
+    //log_impl *log;
 
 
 
