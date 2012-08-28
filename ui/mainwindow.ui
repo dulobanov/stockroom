@@ -72,7 +72,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="sum_table"/>
+         <widget class="SummaryTable" name="sum_table"/>
         </item>
        </layout>
       </widget>
@@ -239,6 +239,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SummaryTable</class>
+   <extends>QTableWidget</extends>
+   <header>mainwin/tables/summarytable.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

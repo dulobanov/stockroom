@@ -1,7 +1,7 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 //
-#include <QWidget>
+#include <QObject>
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
@@ -9,14 +9,14 @@
 #include <QDateTime>
 #include <QTextStream>
 //
-class kernel : public QWidget
+class kernel : public QObject
 {
 Q_OBJECT
 public:
-	kernel( QWidget *prnt = 0 );
-	~kernel();
+    kernel();
+    ~kernel();
 
-	int lock(QDir user_dir);
+    int lock(QDir user_dir);
     int unlock();
 
 
@@ -25,16 +25,16 @@ public:
 
 private:
 
-	//	VARS
-	QWidget *parent;
-	QFile *lock_file;
-	QString *work_dir;
+    //	VARS
+    QWidget *parent;
+    QFile *lock_file;
+    QString *work_dir;
 
 
 
 
 
-	//	FUNCTIONS
+    //	FUNCTIONS
 
 
 
@@ -42,8 +42,8 @@ private:
 
 
 signals:
-	void logout();
-	void log(QString sender, QString message);
+    void logout();
+    void log(QString sender, QString message);
 
 
 
