@@ -16,6 +16,9 @@ ma_log::ma_log(QWidget *prnt, QString ffn) : QFile(prnt)
 
 
 
+
+
+
 ma_log::~ma_log()
 {
     save();
@@ -107,6 +110,12 @@ quint8 ma_log::init()
 
 quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint64 items, QString description )
 {
+    if( init() )
+    {
+        emit log_message( QString( Q_FUNC_INFO ), QString("Fail on init file log activity: ") + fileName() );
+        return 1;
+    }
+
     if( ( direction != "l" ) && ( direction != "u" ) ) return 1;
     if ( date == 0 ) return 1;
 
@@ -164,6 +173,12 @@ quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint
 
 quint8 ma_log::remove_record( quint64 timestamp, action_record* a_rec )
 {
+    if( init() )
+    {
+        emit log_message( QString( Q_FUNC_INFO ), QString("Fail on init file log activity: ") + fileName() );
+        return 1;
+    }
+
     QString line;
     action_record record;
     for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
@@ -298,6 +313,12 @@ quint8 ma_log::save()
 }
 
 
+
+
+
+
+
+
 quint8 ma_log::get_line( quint64 index, QString *line )
 {
     if ( index >= (quint64) file_records->size() ) return 1;
@@ -362,6 +383,12 @@ quint8 ma_log::get_index_by_timestamp( quint64 timestamp, quint64* index )
 
 quint8 ma_log::find_record(quint64 timestamp, quint64 *index)
 {
+    if( init() )
+    {
+        emit log_message( QString( Q_FUNC_INFO ), QString("Fail on init file log activity: ") + fileName() );
+        return 1;
+    }
+
     if( timestamp == 0 ) return 1;
 
     for( quint64 i = 0; i < (quint64) file_records->size(); ++i )
@@ -393,6 +420,12 @@ quint8 ma_log::find_record(quint64 timestamp, quint64 *index)
 
 quint8 ma_log::get_hash( QString *hash)
 {
+    if( init() )
+    {
+        emit log_message( QString( Q_FUNC_INFO ), QString("Fail on init file log activity: ") + fileName() );
+        return 1;
+    }
+
     hash->clear();
     if( save() ) return 3;
 
@@ -439,6 +472,12 @@ quint8 ma_log::get_hash( QString *hash)
 
 quint8 ma_log::get_motion( qint64 *boxes, qint64 *items )
 {
+    if( init() )
+    {
+        emit log_message( QString( Q_FUNC_INFO ), QString("Fail on init file log activity: ") + fileName() );
+        return 1;
+    }
+
     if( *data_loaded == 0 )
     {
         emit log_message( QString( Q_FUNC_INFO ), QString("data not loaded, no motion yet") );
@@ -450,6 +489,41 @@ quint8 ma_log::get_motion( qint64 *boxes, qint64 *items )
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+QVector<action_record> ma_log::get_activity()
+{
+    QVector<action_record> ret;
+    if( init() )
+    {
+        emit log_message( QString( Q_FUNC_INFO ), QString("Fail on init file log activity: ") + fileName() );
+        return ret;
+    }
+
+    for(quint64 i = 0; i < (quint64) file_records->size(); ++i)
+    {
+        ret.append( *file_records->at(i) );
+    }
+
+    return ret;
+}
+
+
+
+
+
+
+
 
 
 

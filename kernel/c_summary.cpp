@@ -296,6 +296,57 @@ uint c_summary::load()
 
 
 
+quint8 c_summary::add_record(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
+{
+
+    summary_record *record = new summary_record;
+    bool ok;
+
+    record->id = QString::number(QDateTime::currentMSecsSinceEpoch());
+
+    record->variant = varity;
+
+    quint64 sel = selection.toLongLong(&ok);
+    if(!ok)
+    {
+        emit log( QString( Q_FUNC_INFO ), QString("error during converting selection #%1# to number").arg( selection ) );
+        return 1;
+    }
+
+    record->selection = sel;
+    record->box_count = box_count;
+    record->item_count = item_count;
+    record->created = record->id;
+    record->closed = QString("0");
+    if(set_as_default)
+    {
+        record->saved_box_count = box_count;
+        record->saved_item_count = item_count;
+    }
+    else
+    {
+        record->saved_box_count = 0;
+        record->saved_item_count = 0;
+    }
+
+    record->description = description;
+    record->d = new c_logact(parent);
+    record->changed = true;
+
+    records->append(record);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
 
 summary_record* c_summary::find(QString variant, quint16 selection)
 {
@@ -461,9 +512,29 @@ quint8 c_summary::get_rounds(QString variant, QString selection, QString month, 
 
 
 
-QVector<action_record> c_summary::get_activity(QString variant, quint64 selection, QString year_month)
+QVector<action_record> c_summary::get_activity(QString variant, QString selection, QString year_month)
 {
+    QVector<action_record> result;
+    summary_record rec;
 
+    for(quint64 i = 0; i < (quint64) records->size(); ++ i)
+    {
+        rec = *records->at(i);
+
+        if( variant != "all" )
+        {
+            if( variant != rec.variant ) continue;
+        }
+
+        if( selection != "all")
+        {
+            if( selection != QString::number(rec.selection) ) continue;
+        }
+
+        result += rec.d->get_activity(year_month);
+    }
+
+    return result;
 }
 
 

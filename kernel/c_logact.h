@@ -15,6 +15,7 @@ struct files_struct
 {
     ma_log *descriptor;
     QString *file_name;
+    QString *month_year;
     QString *hash;
     bool *changed;
 };
@@ -37,6 +38,7 @@ public:
     quint8 remove_record(quint64 timestamp = -1, action_record* record = 0);
     quint8 close( QMap<QString, QString> *files_hashes = 0 );
     QStringList get_file_names();
+    QVector<action_record> get_activity(QString year_month = "");
 
 
 

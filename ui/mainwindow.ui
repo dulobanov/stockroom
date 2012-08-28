@@ -240,5 +240,42 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>sum_load</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>loadItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>42</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sum_unload</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>unloadItem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>71</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>loadItem()</slot>
+  <slot>unloadItem()</slot>
+ </slots>
 </ui>

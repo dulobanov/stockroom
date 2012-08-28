@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QString>
 #include <QStringList>
+#include <QDateTime>
 #include <QCryptographicHash>
 
 #include "c_logact.h"
@@ -49,8 +50,9 @@ public:
     quint8 load_item(QString variant = "", quint16 selection = 0, quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "");
     quint8 unload_item(QString variant = "", quint16 selection = 0, quint64 timestamp = 0);
     QVector<summary_record *> get_records();
-    QVector<action_record> get_activity( QString variant = "", quint64 selection = 0, QString year_month = "" );
+    QVector<action_record> get_activity( QString variant = "", QString selection = "all", QString year_month = "" );
     quint8 get_rounds( QString variant = "", QString selection = "", QString month = "", QVector<QString> *var = 0, QVector<QString> *sel = 0, QVector<QString> *mth = 0 );
+    quint8 add_record( QString varity = "", QString selection = "", quint64 box_count = 0, quint64 item_count = 0, QString description = "", bool set_as_default = false);
 
 
 

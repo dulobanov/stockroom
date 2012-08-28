@@ -86,6 +86,9 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
             continue;
         }
 
+        //add year month
+        *f_tmp->month_year = ( wrk_files.at(i) ).baseName();
+
         //	check hash
         if( old_files.value( fn ) != hash )
         {
@@ -261,21 +264,37 @@ QStringList c_logact::get_file_names()
 {
     QStringList fns;
 
-    QStringList fn;
-
     for(quint64 i = 0; i < (quint64) files->size(); ++i)
     {
-        fn = files->at(i)->file_name->split(".") ;
-        if( fn.size() != 2 )
-        {
-            emit log( QString( Q_FUNC_INFO ), QString("Can't split filename: #%1#, more than 2 parts").arg( *files->at(i)->file_name ) );
-            continue;
-        }
-
-        fns.append( fn.at(0) );
+        fns.append( *files->at(i)->month_year );
     }
 
     return fns;
+}
+
+
+
+
+
+
+
+
+
+
+QVector<action_record> c_logact::get_activity(QString year_month)
+{
+
+    QVector<action_record> result;
+
+    for(quint64 i = 0; i < (quint64) files->size(); ++i)
+    {
+        if( (year_month == "all") || (year_month == files->at(i)->month_year) )
+        {
+            result += files->at(i)->descriptor->get_activity();
+        }
+    }
+
+    return result;
 }
 
 
