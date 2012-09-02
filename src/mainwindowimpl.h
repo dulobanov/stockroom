@@ -11,6 +11,7 @@
 #include "test/test.h"
 #include "log/log_impl.h"
 #include "mainwin/tables/summarytable.h"
+#include "dialogs/add_item/add_item.h"
 
 //
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow
@@ -61,6 +62,9 @@ signals:
 
 public slots:
     void logout();
+    void addItem();
+    void loadItem();
+    void unloadItem();
 
 
 

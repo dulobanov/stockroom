@@ -23,7 +23,8 @@ HEADERS = src/mainwindowimpl.h \
     kernel/c_logact.h \
     test/test.h \
     log/log_impl.h \
-    mainwin/tables/summarytable.h
+    mainwin/tables/summarytable.h \
+    additional/checker.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -39,5 +40,6 @@ SOURCES = src/mainwindowimpl.cpp \
     kernel/c_logact.cpp \
     test/test.cpp \
     log/log_impl.cpp \
-    mainwin/tables/summarytable.cpp
+    mainwin/tables/summarytable.cpp \
+    additional/checker.cpp
 TEMPLATE = app

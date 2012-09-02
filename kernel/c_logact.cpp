@@ -1,7 +1,7 @@
 #include "c_logact.h"
 
-c_logact::c_logact(QWidget *prnt) :
-    QWidget(prnt)
+c_logact::c_logact(QObject *prnt) :
+    QObject(prnt)
 {
     parent = prnt;
     files = new QVector<files_struct *>;
@@ -53,7 +53,7 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
     QString runtime_ffn = *fpath + "/" + get_runtime_fn();
 
 
-    QFileInfoList wrk_files = wrk_dir.entryInfoList( QDir::Files | QDir::Readable | QDir::Writable | QDir::NoSymLinks );
+    QFileInfoList wrk_files = wrk_dir.entryInfoList( QDir::Files | QDir::Readable | QDir::Writable | QDir::NoSymLinks | QDir::NoDotAndDotDot );
     //	load
 
     QString fn, hash;
@@ -73,10 +73,10 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
             continue;
         }
 
-//	initialization o the structure
+        //	initialization of the structure
         //	file is our -> load it
         f_tmp = new files_struct;
-        *f_tmp->file_name = fn ;
+        f_tmp->file_name = new QString(fn);
         f_tmp->descriptor = new ma_log(this, fn);
         if( f_tmp->descriptor->get_hash( &hash ) )
         {
@@ -87,7 +87,7 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         }
 
         //add year month
-        *f_tmp->month_year = ( wrk_files.at(i) ).baseName();
+        f_tmp->month_year = new QString(( wrk_files.at(i) ).baseName());
 
         //	check hash
         if( old_files.value( fn ) != hash )
@@ -99,8 +99,8 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         }
 
 
-        *f_tmp->hash = hash ;
-        *f_tmp->changed = 0;
+        f_tmp->hash = new QString(hash);
+        f_tmp->changed = false;
 
         //	all loaded add to vector
         files->append( f_tmp );
@@ -112,18 +112,26 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
     //	check is runtime file exists
     if( runtime_file == 0 )
     {	//	runtime file dosn't exists need to create
+        //create file
+        QFile rf(runtime_ffn);
+        if(!rf.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            emit log( QString( Q_FUNC_INFO ), QString("can't create file: %1").arg( runtime_ffn ) );
+            return ++err_count;
+        }
+        rf.close();
+        //init
         f_tmp = new files_struct;
-        *f_tmp->file_name = runtime_ffn ;
+        f_tmp->file_name = new QString(runtime_ffn);
         f_tmp->descriptor = new ma_log(this, runtime_ffn);
         if( f_tmp->descriptor->get_hash( &hash ) )
         {
             emit log( QString( Q_FUNC_INFO ), QString("file loading error %1 (can't get hash of runtime file)").arg( fn ) );
             delete f_tmp;
-            err_count++;
             return ++err_count;
         }
-        *f_tmp->hash = hash ;
-        *f_tmp->changed = 0;
+        f_tmp->hash = &hash ;
+        f_tmp->changed = false;
 
         //	all loaded add to vector
         files->append( f_tmp );
@@ -186,8 +194,8 @@ quint8 c_logact::close( QMap<QString, QString> *files_hashes )
             err_count++;
             continue;
         }
-        *f->hash = f_hash;
-        *f->changed = 0;
+        f->hash = new QString(f_hash);
+        f->changed = false;
         files_hashes->insert( ffn, f_hash );
     }
     return err_count;

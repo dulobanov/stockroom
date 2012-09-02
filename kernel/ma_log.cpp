@@ -1,6 +1,6 @@
 #include "ma_log.h"
 
-ma_log::ma_log(QWidget *prnt, QString ffn) : QFile(prnt)
+ma_log::ma_log(QObject *prnt, QString ffn) : QFile(prnt)
 {
     setFileName( ffn );
     added_record = new bool(0);

@@ -2,6 +2,7 @@
 #define ADD_ITEM_H
 
 #include <QDialog>
+#include <additional/checker.h>
 
 namespace Ui {
 class add_item;
@@ -10,22 +11,24 @@ class add_item;
 class add_item : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit add_item(QWidget *parent = 0);
     ~add_item();
-    
+    quint8 getValues(QString *varity = 0, QString *selection = 0, quint64 *boxCount = 0, quint64 *itemCount = 0, bool *saved = 0, QString *description = 0);
+
 private:
     Ui::add_item *ui;
 
 
 
 public slots:
-	void changes();
-	void accept();
+    void changes();
+    //void accept();
 
 
-
+signals:
+    void log(QString sender, QString message);
 
 
 

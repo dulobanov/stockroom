@@ -1,7 +1,8 @@
 #include "kernel.h"
 //
-kernel::kernel() : QObject()
+kernel::kernel(QWidget *prnt) : QObject()
 {
+    parent = prnt;
     work_dir = new QString;
 }
 
@@ -45,6 +46,9 @@ int kernel::lock(QDir user_dir)
 
     //	save dir to user_dir
     *work_dir = user_dir.absolutePath();
+    summary = new c_summary(parent, new QDir(user_dir));
+    connect(summary, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
+    summary->load();
 
     return 0;
 }
@@ -73,6 +77,12 @@ int kernel::unlock()
 
 
 
+
+
+quint8 kernel::addItem(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
+{
+    return summary->add_record(varity, selection, box_count, item_count, description, set_as_default);
+}
 
 
 

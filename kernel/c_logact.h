@@ -26,11 +26,11 @@ struct files_struct
 
 
 
-class c_logact : public QWidget
+class c_logact : public QObject
 {
     Q_OBJECT
 public:
-    explicit c_logact(QWidget *prnt = 0);
+    explicit c_logact(QObject *prnt = 0);
     ~c_logact();
 
     quint8 init( QString dir = "", QMap<QString, QString> old_files = QMap<QString, QString>() );
@@ -46,7 +46,7 @@ public:
 
 private:
     //	VARS
-    QWidget *parent;
+    QObject *parent;
     QString *variant;
     QString *selection;
     QString *user_dir;

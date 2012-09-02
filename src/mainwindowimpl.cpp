@@ -81,7 +81,7 @@ int MainWindowImpl::init()
         QMessageBox::critical(this, QString("Init"), QString("Can't recive user folder."));
         exit(1);
     }
-    kern = new kernel();
+    kern = new kernel(this);
     connect(kern, SIGNAL( log(QString, QString) ), log, SLOT( log(QString, QString) ) );
     if( kern->lock( u_path ) )
     {
@@ -141,6 +141,46 @@ void MainWindowImpl::logout()
 
 
 
+
+
+
+
+
+
+void MainWindowImpl::addItem()
+{
+    add_item addIt(this);
+    connect(&addIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
+    addIt.exec();
+    qDebug("to1 kern");
+    QString varity, selection, description;
+    quint64 box, item;
+    bool save;
+    qDebug("to2 kern");
+    if(addIt.getValues(&varity, &selection, &box, &item, &save, &description)) return;
+    qDebug("to kern");
+    kern->addItem(varity, selection, box, item, description, save);
+}
+
+
+
+
+
+
+void MainWindowImpl::loadItem()
+{
+
+}
+
+
+
+
+
+
+void MainWindowImpl::unloadItem()
+{
+
+}
 
 
 

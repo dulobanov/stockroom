@@ -3,9 +3,9 @@
 c_summary::c_summary(QWidget *prnt, QDir *u_d) :
     QFile(prnt)
 {
-    data_dir = u_d;
-    records = new QVector<summary_record *>;
-    parent = prnt;
+    this->data_dir = u_d;
+    this->records = new QVector<summary_record *>;
+    this->parent = prnt;
 }
 
 
@@ -62,7 +62,7 @@ QString c_summary::get_hash(summary_record rec)
     h1.append(rec.saved_item_count);
     h1.append(rec.description);
 
-return QString( QCryptographicHash::hash(h1, QCryptographicHash::Sha1) );
+return QCryptographicHash::hash(h1, QCryptographicHash::Sha1).toHex();
 }
 
 
@@ -80,9 +80,9 @@ quint8 c_summary::save_summary()
     QByteArray line;
     QList<QString> keys;
     QString hash, tmp;
-    if( !summary->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate) )
+    if( !this->open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate) )
     {
-        QMessageBox::critical(0, QString("Save"), QString("Can't open summary file."));
+        QMessageBox::critical(0, QString("Save"), QString("Can't open this file."));
         return 1;
     }
 
@@ -94,19 +94,19 @@ quint8 c_summary::save_summary()
         line.append(C_SUMMARY_DELIMETER_1);
         line.append((records->at(i))->variant);
         line.append(C_SUMMARY_DELIMETER_1);
-        line.append((records->at(i))->selection);
+        line.append(QString::number(records->at(i)->selection));
         line.append(C_SUMMARY_DELIMETER_1);
-        line.append((records->at(i))->box_count);
+        line.append(QString::number(records->at(i)->box_count));
         line.append(C_SUMMARY_DELIMETER_1);
-        line.append((records->at(i))->item_count);
+        line.append(QString::number(records->at(i)->item_count));
         line.append(C_SUMMARY_DELIMETER_1);
         line.append((records->at(i))->created);
         line.append(C_SUMMARY_DELIMETER_1);
         line.append((records->at(i))->closed);
         line.append(C_SUMMARY_DELIMETER_1);
-        line.append((records->at(i))->saved_box_count);
+        line.append(QString::number(records->at(i)->saved_box_count));
         line.append(C_SUMMARY_DELIMETER_1);
-        line.append((records->at(i))->saved_item_count);
+        line.append(QString::number(records->at(i)->saved_item_count));
         line.append(C_SUMMARY_DELIMETER_1);
 
         keys = (records->at(i))->log_activities.keys();
@@ -125,7 +125,6 @@ quint8 c_summary::save_summary()
         line.append( get_hash( *(records->at(i)) ) );
         line.append(C_SUMMARY_DELIMETER_1);
         line.append((records->at(i))->description);
-        line.append(C_SUMMARY_DELIMETER_1);
         line.append("\n");
         write( line );
     }
@@ -143,27 +142,28 @@ quint8 c_summary::save_summary()
 
 
 
-uint c_summary::load()
+quint8 c_summary::load()
 {
     // dir is exists checked before
-    // open ile summary
-    summary->setFileName(data_dir->path()+QString("/summary.stok"));
-    if( !summary->exists() )
+    // open ile this
+    qDebug("CS load");
+    this->setFileName(data_dir->path() + QString("/summary.stok"));
+    if( !this->exists() )
     {
         return 0;
     }
-
+    qDebug("CS 2");
     //	open file;
-    if( !summary->open(QIODevice::ReadOnly | QIODevice::Text) )
+    if( !this->open(QIODevice::ReadOnly | QIODevice::Text) )
     {
-        QMessageBox::critical(0, QString("Load"), QString("Can't open summary file."));
+        emit(QString(Q_FUNC_INFO), QString("Can't open this file: %1").arg(fileName()));
         return 1;
     }
 
     //	read file
     QString line;
     QStringList l_elements, tmp;
-    QTextStream load(summary);
+    QTextStream load(this);
     quint8 unloaded = 0;
     quint8 i, item_id, map_split_err;
     summary_record *new_record;
@@ -177,7 +177,7 @@ uint c_summary::load()
         l_elements = line.split(QString( C_SUMMARY_DELIMETER_1 ));
         if( l_elements.size() != 12 )
         {
-            emit log( QString( Q_FUNC_INFO ), QString("wrong count of elements in line at file #%1#, line #%2#").arg(summary->fileName()).arg(line) );
+            emit log( QString( Q_FUNC_INFO ), QString("wrong count of elements in line at file #%1#, line #%2#").arg(this->fileName()).arg(line) );
             unloaded++;
             continue;
         }
@@ -236,30 +236,37 @@ uint c_summary::load()
 
         new_record->hash = l_elements[10];
         new_record->description = l_elements[11];
+
+
         //	load QMap
         map_split_err = 0;
-        l_elements = l_elements[9].split( QString( C_SUMMARY_DELIMETER_2 ) );
-        for(i = 0; i < l_elements.size(); ++i)
+        if(!(l_elements.at(9)).isEmpty())
         {
-            tmp = l_elements[i].split( QString( C_SUMMARY_DELIMETER_3 ) );
-            if( tmp.size() != 2 )
+            l_elements = l_elements[9].split( QString( C_SUMMARY_DELIMETER_2 ) );
+            for(i = 0; i < l_elements.size(); ++i)
             {
-                emit log( QString( Q_FUNC_INFO ), QString("not 2 elements at file part ( skipped ): #%1#").arg( l_elements[i] ) );
-                map_split_err++;
+                tmp = l_elements[i].split( QString( C_SUMMARY_DELIMETER_3 ) );
+                if( tmp.size() != 2 )
+                {
+                    emit log( QString( Q_FUNC_INFO ), QString("not 2 elements at file part ( skipped ): #%1#").arg( l_elements[i] ) );
+                    map_split_err++;
+                    continue;
+                }
+                new_record->log_activities.insert(tmp[0], tmp[1]);
+            }
+            //	if during loading of map error occurs => skip record
+            if( map_split_err )
+            {
+                unloaded++;
                 continue;
             }
-            new_record->log_activities.insert(tmp[0], tmp[1]);
         }
-        //	if during loading of map error occurs => skip record
-        if( map_split_err )
-        {
-            unloaded++;
-            continue;
-        }
+
 
         //	init record object
         new_log_activity = new c_logact(parent);//, new_record->variant, QString(new_record->selection));
-        if( new_log_activity->init( data_dir->absolutePath()+ "/" + new_record->id, new_record->log_activities) )
+        connect(new_log_activity, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
+        if( new_log_activity->init( this->data_dir->path() + QDir::separator() + new_record->id, new_record->log_activities) )
         {
             delete new_record;
             delete new_log_activity;
@@ -272,7 +279,7 @@ uint c_summary::load()
         records->insert(item_id, new_record);
         item_id++;
     }
-    summary->close();
+    this->close();
     return unloaded;
 }
 
@@ -298,7 +305,7 @@ uint c_summary::load()
 
 quint8 c_summary::add_record(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
 {
-
+    qDebug("c_this add record");
     summary_record *record = new summary_record;
     bool ok;
 
@@ -331,6 +338,8 @@ quint8 c_summary::add_record(QString varity, QString selection, quint64 box_coun
 
     record->description = description;
     record->d = new c_logact(parent);
+    connect(record->d, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
+    record->d->init( this->data_dir->path() + QDir::separator() + record->id, QMap<QString, QString>());
     record->changed = true;
 
     records->append(record);

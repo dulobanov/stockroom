@@ -28,7 +28,7 @@ class ma_log : public QFile
 {
     Q_OBJECT
 public:
-    explicit ma_log(QWidget *prnt = 0, QString ffn = "");
+    explicit ma_log(QObject *prnt = 0, QString ffn = "");
     ~ma_log();
 
     quint8 init();

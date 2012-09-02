@@ -53,7 +53,7 @@ public:
     QVector<action_record> get_activity( QString variant = "", QString selection = "all", QString year_month = "" );
     quint8 get_rounds( QString variant = "", QString selection = "", QString month = "", QVector<QString> *var = 0, QVector<QString> *sel = 0, QVector<QString> *mth = 0 );
     quint8 add_record( QString varity = "", QString selection = "", quint64 box_count = 0, quint64 item_count = 0, QString description = "", bool set_as_default = false);
-
+    quint8 load();
 
 
 private:
@@ -71,7 +71,7 @@ private:
 
 
     //	functions
-    uint load();
+
     QString get_hash(summary_record rec);
     quint8 save_summary();
 
