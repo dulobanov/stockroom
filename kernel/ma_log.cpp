@@ -108,7 +108,7 @@ quint8 ma_log::init()
 
 
 
-quint8 ma_log::add_record( quint64 date, QString direction, quint64 boxes, quint64 items, QString description )
+quint8 ma_log::addRecord( quint64 date, QString direction, quint64 boxes, quint64 items, QString description )
 {
     if( init() )
     {
@@ -253,7 +253,6 @@ quint8 ma_log::save()
     {
         QByteArray ch_arr;
         QString line;
-        qDebug("save\n");
         //	open
         if( !open( QIODevice::Append | QIODevice::Text ) )
         {
@@ -289,7 +288,7 @@ quint8 ma_log::save()
                 emit log_message( QString( Q_FUNC_INFO ), QString("can't get line from record with timestamp: ")+QString::number( (file_records->at(i))->timestamp ) );
                 continue;
             }
-            qDebug("write item\n");
+
             ch_arr = line.toUtf8();
             ch_arr.append( "\n" );
             write( ch_arr );

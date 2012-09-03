@@ -47,13 +47,15 @@ public:
     explicit c_summary(QWidget *prnt = 0, QDir *u_d = 0);
     ~c_summary();
     quint8 save();
-    quint8 load_item(QString variant = "", quint16 selection = 0, quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "");
-    quint8 unload_item(QString variant = "", quint16 selection = 0, quint64 timestamp = 0);
+    quint8 load_item(QString id = "", quint64 date = 0, quint64 boxes = 0, quint64 items = 0, QString description = "");
+    quint8 unload_item(QString id = "", quint64 date = 0, quint64 boxes = 0, quint64 items = 0, QString description = "");
     QVector<summary_record *> get_records();
     QVector<action_record> get_activity( QString variant = "", QString selection = "all", QString year_month = "" );
     quint8 get_rounds( QString variant = "", QString selection = "", QString month = "", QVector<QString> *var = 0, QVector<QString> *sel = 0, QVector<QString> *mth = 0 );
     quint8 add_record( QString varity = "", QString selection = "", quint64 box_count = 0, quint64 item_count = 0, QString description = "", bool set_as_default = false);
     quint8 load();
+    QStringList getSelectionsFor(QString varity = "");
+    QStringList getVaritys();
 
 
 private:
@@ -65,7 +67,7 @@ private:
     QDir *data_dir;
     QFile *summary;
     bool is_saved;
-    summary_record* find(QString variant, quint16 selection);
+    summary_record* find(QString id = "");
 
 
 

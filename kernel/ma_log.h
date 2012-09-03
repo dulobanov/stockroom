@@ -32,7 +32,7 @@ public:
     ~ma_log();
 
     quint8 init();
-    quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
+    quint8 addRecord(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
     quint8 remove_record(quint64 timestamp = -1, action_record* a_rec = 0);
     quint8 save();
     quint8 find_record(quint64 timestamp = 0, quint64 *index = 0);

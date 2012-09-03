@@ -250,8 +250,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>236</x>
-     <y>161</y>
+     <x>245</x>
+     <y>240</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -266,44 +266,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>161</y>
+     <x>334</x>
+     <y>240</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>170</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>varity</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>load_item</receiver>
-   <slot>varity_selected(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>381</x>
-     <y>24</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>396</x>
-     <y>19</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>selection</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>load_item</receiver>
-   <slot>selection_selected(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>373</x>
-     <y>55</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>396</x>
-     <y>52</y>
     </hint>
    </hints>
   </connection>
@@ -314,8 +282,8 @@
    <slot>changes()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>373</x>
-     <y>83</y>
+     <x>459</x>
+     <y>158</y>
     </hint>
     <hint type="destinationlabel">
      <x>395</x>
@@ -324,25 +292,24 @@
    </hints>
   </connection>
   <connection>
-   <sender>items_count</sender>
-   <signal>textChanged(QString)</signal>
+   <sender>varity</sender>
+   <signal>activated(QString)</signal>
    <receiver>load_item</receiver>
-   <slot>changes()</slot>
+   <slot>varity_selected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>372</x>
-     <y>112</y>
+     <x>434</x>
+     <y>28</y>
     </hint>
     <hint type="destinationlabel">
-     <x>395</x>
-     <y>112</y>
+     <x>465</x>
+     <y>29</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>varity_selected(QString)</slot>
-  <slot>selection_selected(QString)</slot>
   <slot>changes()</slot>
  </slots>
 </ui>

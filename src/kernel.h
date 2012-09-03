@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QDateTime>
 #include <QTextStream>
+#include <QStringList>
 #include "kernel/c_summary.h"
 
 //
@@ -21,7 +22,9 @@ public:
     int lock(QDir user_dir);
     int unlock();
     quint8 addItem( QString varity = "", QString selection = "", quint64 box_count = 0, quint64 item_count = 0, QString description = "", bool set_as_default = false);
-
+    quint8 luItem(QString itemId = "", QString direction = "", quint64 boxes = 0, quint64 items = 0);
+    QStringList getSelectionsFor(QString varity = "");
+    QStringList getVaritys();
 
 
 

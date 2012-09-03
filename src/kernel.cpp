@@ -92,6 +92,39 @@ quint8 kernel::addItem(QString varity, QString selection, quint64 box_count, qui
 
 
 
+
+
+
+quint8 kernel::luItem(QString itemId, QString direction, quint64 boxes, quint64 items)
+{
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+QStringList kernel::getSelectionsFor(QString varity)
+{
+    return summary->getSelectionsFor(varity);
+}
+
+
+
+QStringList kernel::getVaritys()
+{
+    return summary->getVaritys();
+}
+
+
+
+
 //
 
 

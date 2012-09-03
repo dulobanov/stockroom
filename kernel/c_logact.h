@@ -34,11 +34,12 @@ public:
     ~c_logact();
 
     quint8 init( QString dir = "", QMap<QString, QString> old_files = QMap<QString, QString>() );
-    quint8 add_record(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
+    quint8 addRecord(quint64 date = 0, QString direction = "", quint64 boxes = 0, quint64 items = 0, QString description = "" );
     quint8 remove_record(quint64 timestamp = -1, action_record* record = 0);
     quint8 close( QMap<QString, QString> *files_hashes = 0 );
     QStringList get_file_names();
     QVector<action_record> get_activity(QString year_month = "");
+    files_struct* findStructureByDate(quint64 date = 0);
 
 
 

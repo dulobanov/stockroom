@@ -146,13 +146,12 @@ quint8 c_summary::load()
 {
     // dir is exists checked before
     // open ile this
-    qDebug("CS load");
     this->setFileName(data_dir->path() + QString("/summary.stok"));
     if( !this->exists() )
     {
         return 0;
     }
-    qDebug("CS 2");
+
     //	open file;
     if( !this->open(QIODevice::ReadOnly | QIODevice::Text) )
     {
@@ -305,7 +304,6 @@ quint8 c_summary::load()
 
 quint8 c_summary::add_record(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
 {
-    qDebug("c_this add record");
     summary_record *record = new summary_record;
     bool ok;
 
@@ -357,14 +355,14 @@ quint8 c_summary::add_record(QString varity, QString selection, quint64 box_coun
 
 
 
-summary_record* c_summary::find(QString variant, quint16 selection)
+summary_record* c_summary::find(QString id)
 {
 
-    if( variant == "" || selection == 0 ) return 0;
+    if( id == "" ) return 0;
 
     for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
-        if( (records->at(i))->variant == variant && (records->at(i))->selection == selection ) return records->at(i);
+        if( (records->at(i))->id == id ) return records->at(i);
     }
 
     return 0;
@@ -374,31 +372,21 @@ summary_record* c_summary::find(QString variant, quint16 selection)
 
 
 
-quint8 c_summary::load_item(QString variant, quint16 selection, quint64 date, QString direction, quint64 boxes, quint64 items, QString description)
+quint8 c_summary::load_item(QString id, quint64 date, quint64 boxes, quint64 items, QString description)
 {
-
     summary_record* record;
-    if( (record = find(variant, selection)) == 0 )
+    if( (record = find(id)) == 0 )
     {
-        emit log(  QString( Q_FUNC_INFO ), QString("Element with variant %1 and selection %2 not founded").arg(variant).arg(selection) );
+        emit log(  QString( Q_FUNC_INFO ), QString("Element with id %1 anot founded").arg(id) );
         return 1;
     }
 
-    quint8 ret = record->d->add_record(date, direction, boxes, items, description);
+    quint8 ret = record->d->addRecord(date, "l", boxes, items, description);
 
     if( ret != 0 ) return ret;
 
-    if(direction == "l")
-    {
-        record->box_count += boxes;
-        record->item_count += items;
-    }
-    else
-    {
-        record->box_count -= boxes;
-        record->item_count -= items;
-    }
-
+    record->box_count += boxes;
+    record->item_count += items;
 
     return 0;
 }
@@ -409,29 +397,22 @@ quint8 c_summary::load_item(QString variant, quint16 selection, quint64 date, QS
 
 
 
-quint8 c_summary::unload_item(QString variant, quint16 selection, quint64 timestamp)
+
+quint8 c_summary::unload_item(QString id, quint64 date, quint64 boxes, quint64 items, QString description)
 {
     summary_record* record;
-    if( (record = find(variant, selection)) == 0 )
+    if( (record = find(id)) == 0 )
     {
-        emit log(  QString( Q_FUNC_INFO ), QString("Element with variant %1 and selection %2 not founded").arg(variant).arg(selection) );
+        emit log(  QString( Q_FUNC_INFO ), QString("Element with id %1 not founded").arg(id) );
         return 1;
     }
 
     action_record a_record;
-    int ret = record->d->remove_record(timestamp, &a_record);
+    int ret = record->d->addRecord(date, "u", boxes, items, description);
     if( ret != 0 ) return ret;
 
-    if(a_record.direction == "l")
-    {
-        record->box_count -= a_record.boxes;
-        record->item_count -= a_record.items;
-    }
-    else
-    {
-        record->box_count += a_record.boxes;
-        record->item_count += a_record.items;
-    }
+    record->box_count -= a_record.boxes;
+    record->item_count -= a_record.items;
 
     return 0;
 }
@@ -551,6 +532,44 @@ QVector<action_record> c_summary::get_activity(QString variant, QString selectio
 
 
 
+
+
+
+
+
+
+
+
+QStringList c_summary::getSelectionsFor(QString varity)
+{
+    QStringList selections;
+
+    for(quint64 i = 0; i < (quint64) records->size(); ++ i)
+    {
+        if(records->at(i)->variant == varity) selections.append(QString::number(records->at(i)->selection));
+    }
+
+    selections.removeDuplicates();
+    return selections;
+}
+
+
+
+
+
+
+QStringList c_summary::getVaritys()
+{
+    QStringList varitys;
+
+    for(quint64 i = 0; i < (quint64) records->size(); ++ i)
+    {
+        varitys.append(records->at(i)->variant);
+    }
+
+    varitys.removeDuplicates();
+    return varitys;
+}
 
 
 

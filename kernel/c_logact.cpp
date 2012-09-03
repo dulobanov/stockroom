@@ -211,22 +211,43 @@ quint8 c_logact::close( QMap<QString, QString> *files_hashes )
 
 
 
-
-
-
-quint8 c_logact::add_record(quint64 date, QString direction, quint64 boxes, quint64 items, QString description )
+files_struct* c_logact::findStructureByDate(quint64 dateTimestamp)
 {
-    if( runtime_file == 0 )
+    if(dateTimestamp == 0)
     {
-        emit log( QString( Q_FUNC_INFO ), QString("can't add recor becoase of runtime_file not setted") );
-        return 1;
+        emit log( QString( Q_FUNC_INFO ), QString("Date is empty, find is impossible") );
+        return 0;
     }
 
-    return runtime_file->descriptor->add_record( date, direction, boxes, items, description );
+    QString date = (QDateTime::fromMSecsSinceEpoch(dateTimestamp)).toString("yyyy_MM");
+
+    for(quint64 i = 0; i < (quint64) files->size(); ++i)
+    {
+        if( (files->at(i))->month_year == date ) return files->at(i);
+    }
+
+
+    emit log( QString( Q_FUNC_INFO ), QString("Structure not founded for timestamp: %1, date: %2").arg(dateTimestamp).arg(date) );
+    return 0;
+
 }
 
 
 
+
+
+
+
+
+
+
+quint8 c_logact::addRecord(quint64 date, QString direction, quint64 boxes, quint64 items, QString description )
+{
+    files_struct *fs;
+    if( (fs = this->findStructureByDate(date)) == 0 ) return 1;
+
+    return fs->descriptor->addRecord( date, direction, boxes, items, description );
+}
 
 
 
