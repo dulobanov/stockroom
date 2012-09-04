@@ -9,9 +9,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>250</height>
+    <width>420</width>
+    <height>270</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>420</width>
+    <height>270</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -51,20 +63,29 @@
         </size>
        </property>
        <property name="text">
-        <string>&amp;Varity</string>
-       </property>
-       <property name="buddy">
-        <cstring>varity</cstring>
+        <string>Varity</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="varity">
+      <widget class="QLabel" name="varity">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="text">
+        <string>varity</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+       <property name="indent">
+        <number>0</number>
        </property>
       </widget>
      </item>
@@ -81,20 +102,29 @@
         </size>
        </property>
        <property name="text">
-        <string>&amp;Selection</string>
-       </property>
-       <property name="buddy">
-        <cstring>selection</cstring>
+        <string>Selection</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="selection">
+      <widget class="QLabel" name="selection">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="text">
+        <string>selection</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="indent">
+        <number>0</number>
        </property>
       </widget>
      </item>
@@ -227,6 +257,29 @@
     </layout>
    </item>
    <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>&amp;Description</string>
+       </property>
+       <property name="buddy">
+        <cstring>description</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="description"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="locale">
       <locale language="Russian" country="RussianFederation"/>
@@ -279,37 +332,38 @@
    <sender>box_count</sender>
    <signal>textChanged(QString)</signal>
    <receiver>load_item</receiver>
-   <slot>changes()</slot>
+   <slot>checngesBoxes(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>459</x>
-     <y>158</y>
+     <x>409</x>
+     <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>395</x>
-     <y>83</y>
+     <x>466</x>
+     <y>144</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>varity</sender>
-   <signal>activated(QString)</signal>
+   <sender>items_count</sender>
+   <signal>textChanged(QString)</signal>
    <receiver>load_item</receiver>
-   <slot>varity_selected(QString)</slot>
+   <slot>checkOkButton()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>434</x>
-     <y>28</y>
+     <x>400</x>
+     <y>162</y>
     </hint>
     <hint type="destinationlabel">
-     <x>465</x>
-     <y>29</y>
+     <x>416</x>
+     <y>162</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>varity_selected(QString)</slot>
-  <slot>changes()</slot>
+  <slot>checngesBoxes(QString)</slot>
+  <slot>checkOkButton()</slot>
  </slots>
 </ui>

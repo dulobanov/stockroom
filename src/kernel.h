@@ -26,6 +26,7 @@ public:
     quint8 addActionToItem(QString itemId = "", QString direction = "", quint64 dateTime = 0, quint64 boxes = 0, quint64 items = 0, QString description = "");
     QStringList getSelectionsFor(QString varity = "");
     QStringList getVaritys();
+    quint8 getRecordByID(QString id = "", summary_record *record = 0);
 
 
 

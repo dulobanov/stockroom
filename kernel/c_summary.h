@@ -56,6 +56,7 @@ public:
     quint8 load();
     QStringList getSelectionsFor(QString varity = "");
     QStringList getVaritys();
+    quint8 findItemRecord(QString id = "", summary_record *record = 0);
 
 
 
@@ -76,7 +77,7 @@ private:
     //	functions
     QString get_hash(summary_record rec);
     quint8 save_summary();
-    quint8 findItemRecord(QString id = "", summary_record *record = 0);
+
 
 
 

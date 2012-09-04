@@ -6,24 +6,37 @@ Checker::Checker(QObject *parent) :
 }
 
 
-quint8 Checker::checkForUsualString(QString str, QString *out)
+
+
+
+quint8 Checker::checkForUsualString(QString str)
 {
-    qDebug("checker st");
+    QString out;
+    return this->checkForUsualString(str, &out);
+}
+
+
+
+
+quint8 Checker::checkForUsualString(QString inStr, QString *out)
+{
     out->clear();
-    if(str.size() > 100)
+    QString str;
+    if(str.size() > 200)
     {
-        emit log(QString( Q_FUNC_INFO ), QString("String size larger than 100 symbols"));
-        return 1;
+        emit log(QString( Q_FUNC_INFO ), QString("String size larger than 200 symbols"));
+        str = inStr.left(200);
     }
-qDebug("checker 1");
-    QRegExp exp("^[a-zA-Z0-9\\s]+$");
+    else str = inStr;
+
+    QRegExp exp("^[\\w\\d\\s]+$");
     QString badSymbols = "";
     for(quint8 i = 0; i < str.size(); ++i)
     {
         if(exp.exactMatch(str.at(i))) out->append(str.at(i));
         else badSymbols.append(str.at(i));
     }
-qDebug("checker 2");
+
     if(badSymbols.size() != 0)
     {
         emit log(QString( Q_FUNC_INFO ), QString("String contains invalid symbols: %1").arg(badSymbols));
@@ -35,8 +48,56 @@ qDebug("checker 2");
 
 
 
-quint8 Checker::checkForUsualString(QString str)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+quint8 Checker::checkForDescription(QString inStr, QString *out)
 {
-    QString out;
-    return this->checkForUsualString(str, &out);
+    out->clear();
+    QString str;
+    if(str.size() > 200)
+    {
+        emit log(QString( Q_FUNC_INFO ), QString("String size larger than 200 symbols"));
+        str = inStr.left(200);
+    }
+    else str = inStr;
+
+    QRegExp exp("^[\\w\\d\\s\\.,_]+$");
+    QString badSymbols = "";
+    for(quint8 i = 0; i < str.size(); ++i)
+    {
+        if(exp.exactMatch(str.at(i))) out->append(str.at(i));
+        else badSymbols.append(str.at(i));
+    }
+
+    if(badSymbols.size() != 0)
+    {
+        emit log(QString( Q_FUNC_INFO ), QString("String contains invalid symbols: %1").arg(badSymbols));
+        return badSymbols.size();
+    }
+
+    return 0;
 }
+
+
+
+
+
+
+
+
+
+

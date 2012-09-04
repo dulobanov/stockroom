@@ -184,6 +184,13 @@ void kernel::sendUpdates()
 
 
 
+quint8 kernel::getRecordByID(QString id, summary_record *record)
+{
+    return summary->findItemRecord(id, record);
+}
+
+
+
 
 
 

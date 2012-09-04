@@ -166,10 +166,19 @@ void MainWindowImpl::addItem()
 
 void MainWindowImpl::loadItem()
 {
-    load_item loadIt(this, kern);
+    summary_record record;
+    kern->getRecordByID(sum_table->getActiveRowID(), &record);
+    load_item loadIt(this, kern, record.variant, record.selection);
     connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
     if(QDialog::Rejected == loadIt.exec()) return;
 
+    quint64 dateTime, boxCount, itemCount;
+    QString description;
+    if(loadIt.getValues(&dateTime, &boxCount, &itemCount, &description)) return;
+
+    if(kern->addActionToItem(record.id, QString("l"), dateTime, boxCount, itemCount, description)) return;
+
+    return;
 }
 
 

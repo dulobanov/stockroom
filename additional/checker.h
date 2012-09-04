@@ -9,8 +9,11 @@ class Checker : public QObject
     Q_OBJECT
 public:
     explicit Checker(QObject *parent = 0);
+
     quint8 checkForUsualString(QString str);
     quint8 checkForUsualString(QString str, QString *out);
+
+    quint8 checkForDescription(QString str, QString *out);
 
 
 
@@ -22,6 +25,7 @@ signals:
     void log(QString sender, QString message);
 
 public slots:
+
 
 };
 
