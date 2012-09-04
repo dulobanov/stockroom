@@ -12,6 +12,7 @@
 #include "log/log_impl.h"
 #include "mainwin/tables/summarytable.h"
 #include "dialogs/add_item/add_item.h"
+#include "dialogs/load_item/load_item.h"
 
 //
 class MainWindowImpl : public QMainWindow, public Ui::MainWindow

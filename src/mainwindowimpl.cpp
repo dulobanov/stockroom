@@ -6,7 +6,6 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
     //	ui init
 
     setupUi(this);
-    //initGUI();
     sett = 0;
     kern = 0;
     log = 0;
@@ -14,7 +13,7 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
 
 //	for test running
 //	test new_test(this);
-    initGUI();
+    //initGUI();
 }
 
 
@@ -83,6 +82,8 @@ int MainWindowImpl::init()
     }
     kern = new kernel(this);
     connect(kern, SIGNAL( log(QString, QString) ), log, SLOT( log(QString, QString) ) );
+    connect(kern, SIGNAL(updateSummaryTable(QVector<summary_record*>*)), sum_table, SLOT(updateSummaryTable(QVector<summary_record*>*)));
+    connect(kern, SIGNAL(updateActivityTable(QVector<action_record>)), activityTable, SLOT(updateActivityTable(QVector<action_record>)));
     if( kern->lock( u_path ) )
     {
         exit(1);
@@ -146,20 +147,16 @@ void MainWindowImpl::logout()
 
 
 
-
 void MainWindowImpl::addItem()
 {
     add_item addIt(this);
     connect(&addIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
-    addIt.exec();
-    qDebug("to1 kern");
+    if( QDialog::Rejected == addIt.exec() ) return;
     QString varity, selection, description;
     quint64 box, item;
     bool save;
-    qDebug("to2 kern");
     if(addIt.getValues(&varity, &selection, &box, &item, &save, &description)) return;
-    qDebug("to kern");
-    kern->addItem(varity, selection, box, item, description, save);
+    kern->addItemRecord(varity, selection, box, item, description, save);
 }
 
 
@@ -169,6 +166,9 @@ void MainWindowImpl::addItem()
 
 void MainWindowImpl::loadItem()
 {
+    load_item loadIt(this, kern);
+    connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
+    if(QDialog::Rejected == loadIt.exec()) return;
 
 }
 

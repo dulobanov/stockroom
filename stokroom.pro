@@ -24,7 +24,8 @@ HEADERS = src/mainwindowimpl.h \
     test/test.h \
     log/log_impl.h \
     mainwin/tables/summarytable.h \
-    additional/checker.h
+    additional/checker.h \
+    mainwin/tables/activitytable.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -41,5 +42,6 @@ SOURCES = src/mainwindowimpl.cpp \
     test/test.cpp \
     log/log_impl.cpp \
     mainwin/tables/summarytable.cpp \
-    additional/checker.cpp
+    additional/checker.cpp \
+    mainwin/tables/activitytable.cpp
 TEMPLATE = app

@@ -4,6 +4,9 @@ kernel::kernel(QWidget *prnt) : QObject()
 {
     parent = prnt;
     work_dir = new QString;
+    selVariant = new QString();
+    selSelection = new QString();
+    selMonth = new QString();
 }
 
 
@@ -79,28 +82,64 @@ int kernel::unlock()
 
 
 
-quint8 kernel::addItem(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
+quint8 kernel::addItemRecord(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
 {
-    return summary->add_record(varity, selection, box_count, item_count, description, set_as_default);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-quint8 kernel::luItem(QString itemId, QString direction, quint64 boxes, quint64 items)
-{
+    quint8 ret = summary->addItemRecord(varity, selection, box_count, item_count, description, set_as_default);
+    if(ret > 0) return ret;
+    this->sendUpdates();
     return 0;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+quint8 kernel::addActionToItem(QString itemId, QString direction, quint64 dateTime, quint64 boxes, quint64 items, QString description)
+{
+
+    if(direction == "l")
+    {
+        if(summary->load_item(itemId, dateTime, boxes, items, description)) return 1;
+    }
+    else
+    {
+        if(direction == "u")
+        {
+            if(summary->unload_item(itemId, dateTime, boxes, items, description)) return 2;
+        }
+        else
+        {
+            emit log(QString(Q_FUNC_INFO), QString("Unknown direction #%1#").arg(direction));
+            return 3;
+        }
+    }
+
+    this->sendUpdates();
+    return 0;
+}
+
+
+
+
+
+
+
+
+quint8 kernel::setActivitySelection(QString variant, QString selection, QString month)
+{
+    *selVariant = variant;
+    *selSelection = selection;
+    *selMonth = month;
+    this->sendUpdates();
+    return 0;
+}
 
 
 
@@ -117,10 +156,36 @@ QStringList kernel::getSelectionsFor(QString varity)
 
 
 
+
+
+
 QStringList kernel::getVaritys()
 {
     return summary->getVaritys();
 }
+
+
+
+
+
+
+
+
+void kernel::sendUpdates()
+{
+    emit updateSummaryTable(summary->get_records());
+    emit updateActivityTable(summary->get_activity(*selVariant, *selSelection, *selMonth));
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

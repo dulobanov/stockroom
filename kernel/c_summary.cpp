@@ -302,7 +302,7 @@ quint8 c_summary::load()
 
 
 
-quint8 c_summary::add_record(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
+quint8 c_summary::addItemRecord(QString varity, QString selection, quint64 box_count, quint64 item_count, QString description, bool set_as_default)
 {
     summary_record *record = new summary_record;
     bool ok;
@@ -355,17 +355,26 @@ quint8 c_summary::add_record(QString varity, QString selection, quint64 box_coun
 
 
 
-summary_record* c_summary::find(QString id)
+quint8 c_summary::findItemRecord(QString id, summary_record *record)
 {
 
-    if( id == "" ) return 0;
+    if( id == "" )
+    {
+        emit log(QString(Q_FUNC_INFO), QString("Item ID is Empty"));
+        return 1;
+    }
 
     for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
-        if( (records->at(i))->id == id ) return records->at(i);
+        if( (records->at(i))->id == id )
+        {
+            record = records->at(i);
+            return 0;
+        }
     }
 
-    return 0;
+    emit log(QString(Q_FUNC_INFO), QString("Item with ID #%1# not founded.").arg(id));
+    return 2;
 }
 
 
@@ -375,15 +384,9 @@ summary_record* c_summary::find(QString id)
 quint8 c_summary::load_item(QString id, quint64 date, quint64 boxes, quint64 items, QString description)
 {
     summary_record* record;
-    if( (record = find(id)) == 0 )
-    {
-        emit log(  QString( Q_FUNC_INFO ), QString("Element with id %1 anot founded").arg(id) );
-        return 1;
-    }
+    if( findItemRecord(id, record) ) return 1;
 
-    quint8 ret = record->d->addRecord(date, "l", boxes, items, description);
-
-    if( ret != 0 ) return ret;
+    if( record->d->addRecord(date, "l", boxes, items, description) ) return 2;
 
     record->box_count += boxes;
     record->item_count += items;
@@ -401,18 +404,12 @@ quint8 c_summary::load_item(QString id, quint64 date, quint64 boxes, quint64 ite
 quint8 c_summary::unload_item(QString id, quint64 date, quint64 boxes, quint64 items, QString description)
 {
     summary_record* record;
-    if( (record = find(id)) == 0 )
-    {
-        emit log(  QString( Q_FUNC_INFO ), QString("Element with id %1 not founded").arg(id) );
-        return 1;
-    }
+    if( findItemRecord(id, record) ) return 1;
 
-    action_record a_record;
-    int ret = record->d->addRecord(date, "u", boxes, items, description);
-    if( ret != 0 ) return ret;
+    if( record->d->addRecord(date, "u", boxes, items, description) ) return 2;
 
-    record->box_count -= a_record.boxes;
-    record->item_count -= a_record.items;
+    record->box_count -= boxes;
+    record->item_count -= items;
 
     return 0;
 }
@@ -421,9 +418,9 @@ quint8 c_summary::unload_item(QString id, quint64 date, quint64 boxes, quint64 i
 
 
 
-QVector<summary_record*> c_summary::get_records()
+QVector<summary_record*>* c_summary::get_records()
 {
-    return *records;
+    return records;
 }
 
 
@@ -431,9 +428,10 @@ QVector<summary_record*> c_summary::get_records()
 
 
 
-quint8 c_summary::get_rounds(QString variant, QString selection, QString month, QVector<QString> *var, QVector<QString> *sel, QVector<QString> *mth)
+quint8 c_summary::get_rounds(QString variant, QString selection, QString month, QStringList *var, QStringList *sel, QStringList *mth)
 {
     var->clear();
+    var->append("all");
     if( variant == "all" )
     {
         for(quint64 i = 0; i < (quint64) records->size(); ++i) var->append( records->at(i)->variant );
@@ -446,12 +444,11 @@ quint8 c_summary::get_rounds(QString variant, QString selection, QString month, 
         }
     }
 
-    if( var->size() == 0 )
+    if( var->size() <= 1 )
     {
         emit log(  QString( Q_FUNC_INFO ), QString("Not fonded elements witn next parameter(Variant): Variant: %1; Selection: %2; Month: %3").arg(variant).arg(selection).arg(month) );
         return 1;
     }
-
 
     bool ok = false;
     quint64 sel_num = selection.toULongLong(&ok);
@@ -462,30 +459,24 @@ quint8 c_summary::get_rounds(QString variant, QString selection, QString month, 
     }
 
     sel->clear();
+    sel->append("all");
     mth->clear();
-    QStringList monthes;
+    mth->append("all");
 
     for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
         if( (selection == "all") || (sel_num == records->at(i)->selection) )
         {
             sel->append( QString::number(records->at(i)->selection) );
-            monthes += records->at(i)->d->get_file_names();
+            *mth += records->at(i)->d->get_file_names();
         }
     }
 
-    if( sel->size() == 0 )
+    mth->removeDuplicates();
+    if( sel->size() <= 1 )
     {
         emit log(  QString( Q_FUNC_INFO ), QString("Not fonded elements witn next parameter(Selection): Variant: %1; Selection: %2; Month: %3").arg(variant).arg(selection).arg(month) );
         return 1;
-    }
-
-
-    //delete all repeated monthes
-    monthes.removeDuplicates();
-    for(quint64 i = 0; i < (quint64) monthes.size(); ++i)
-    {
-        mth->append( monthes.at(i) );
     }
 
     return 0;

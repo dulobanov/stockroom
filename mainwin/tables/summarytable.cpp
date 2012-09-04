@@ -31,8 +31,6 @@ quint8 SummaryTable::initGUI()
     setShowGrid(true);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setColumnHidden(0, true);
-    insertRow( rowCount() );
-    insertRow( rowCount() );
 
     return 0;
 }
@@ -42,4 +40,72 @@ quint8 SummaryTable::initGUI()
 
 
 
+
+
+
+
+
+
+
+
+
+void SummaryTable::updateSummaryTable(QVector<summary_record *> *updates)
+{
+    this->clear();
+    this->setSortingEnabled(false);
+
+    //  set count of rows
+    this->setRowCount(updates->size());
+
+    //  insert items
+    summary_record record;
+    for(quint64 i = 0; i < (quint64) updates->size(); ++i)
+    {
+        record = *updates->at(i);
+        this->setItem(i, 0, new QTableWidgetItem(record.id));
+        this->setItem(i, 1, new QTableWidgetItem(record.variant));
+        this->setItem(i, 2, new QTableWidgetItem(record.selection));
+        this->setItem(i, 3, new QTableWidgetItem(record.box_count));
+        this->setItem(i, 4, new QTableWidgetItem(record.item_count));
+        this->setItem(i, 5, new QTableWidgetItem(record.saved_box_count));
+        this->setItem(i, 6, new QTableWidgetItem(record.saved_item_count));
+        this->setItem(i, 7, new QTableWidgetItem(record.description));
+    }
+
+    this->setSortingEnabled(true);
+}
+
+
+
+
+
+
+
+
+
+
+
+QString SummaryTable::getActiveRowID()
+{
+    quint64 row = (quint64) this->currentRow();
+    return this->item(row, 0)->text();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+quint8 SummaryTable::setKernel(kernel *kern)
+{
+    return 0;
+}
+*/
 

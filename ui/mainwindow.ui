@@ -168,7 +168,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="ma_table"/>
+         <widget class="ActivityTable" name="activityTable"/>
         </item>
        </layout>
       </widget>
@@ -182,7 +182,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -244,6 +244,11 @@
    <class>SummaryTable</class>
    <extends>QTableWidget</extends>
    <header>mainwin/tables/summarytable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ActivityTable</class>
+   <extends>QTableWidget</extends>
+   <header>mainwin/tables/activitytable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

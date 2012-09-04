@@ -17,6 +17,8 @@ class load_item : public QDialog
 public:
     explicit load_item(QWidget *parent = 0, kernel *kern = 0);
     ~load_item();
+
+    //quint8 getValues();
     
 private:
     //  VARS
