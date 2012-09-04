@@ -3,7 +3,7 @@
 ActivityTable::ActivityTable(QWidget *parent) :
     QTableWidget(parent)
 {
-    initGUI();
+    initTable();
 }
 
 
@@ -16,7 +16,7 @@ ActivityTable::ActivityTable(QWidget *parent) :
 
 
 
-quint8 ActivityTable::initGUI()
+quint8 ActivityTable::initTable()
 {
     setColumnCount(7);
     setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Date")));
@@ -46,6 +46,7 @@ quint8 ActivityTable::initGUI()
 void ActivityTable::updateActivityTable(QVector<action_record> updates)
 {
     this->clear();
+    this->initTable();
     this->setSortingEnabled(false);
 
     //  set count of rows

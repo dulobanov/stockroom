@@ -53,6 +53,8 @@ int kernel::lock(QDir user_dir)
     connect(summary, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
     summary->load();
 
+    this->sendUpdates();
+
     return 0;
 }
 
@@ -184,9 +186,9 @@ void kernel::sendUpdates()
 
 
 
-quint8 kernel::getRecordByID(QString id, summary_record *record)
+summary_record* kernel::getRecordByID(QString id)
 {
-    return summary->findItemRecord(id, record);
+    return summary->findItemRecord(id);
 }
 
 

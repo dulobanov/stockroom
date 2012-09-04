@@ -56,7 +56,7 @@ public:
     quint8 load();
     QStringList getSelectionsFor(QString varity = "");
     QStringList getVaritys();
-    quint8 findItemRecord(QString id = "", summary_record *record = 0);
+    summary_record* findItemRecord(QString id = "");
 
 
 
@@ -65,7 +65,7 @@ private:
     //	vars
     QWidget *parent;
 //    QVector<c_logact *> *items; // object for records
-    QVector<summary_record *> *records;
+    QVector<summary_record*> *records;
     QDir *data_dir;
     QFile *summary;
     bool is_saved;

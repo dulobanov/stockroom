@@ -39,8 +39,6 @@ quint8 add_item::getValues(QString *varity, QString *selection, quint64 *boxCoun
         return 1;
     }
     *varity = ui->varity->text();
-    qDebug("sdsdsdssdsss1111s");
-
 
     tmp = ui->selection->text();
     bool ok;
@@ -76,8 +74,6 @@ quint8 add_item::getValues(QString *varity, QString *selection, quint64 *boxCoun
 
     if(ui->description->text().size() > 0) ch.checkForUsualString(ui->description->text(), description);
     else *description = QString("");
-
-    qDebug("sdsdsdssdss");
 
     return 0;
 }

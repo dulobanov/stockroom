@@ -6,10 +6,14 @@ load_item::load_item(QWidget *parent, kernel *kern, QString varity, quint64 sele
     ui(new Ui::load_item)
 {
     ui->setupUi(this);
+    initGUI();
+
     ui->varity->setText(varity);
     ui->selection->setText(QString::number(selection));
-    selection = quint64(selection);
+    this->selection = new quint64(selection);
     this->kern = kern;
+    ui->box_count->setFocus();
+
 }
 
 
@@ -36,11 +40,16 @@ quint8 load_item::initGUI()
         button = buttons[i];
         if(ui->buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
         {
-            okButton = button;
+            this->okButton = button;
             break;
         }
     }
-    button->setDisabled(1);
+    this->okButton->setDisabled(1);
+
+    //init date
+    ui->date_time->setDateTime(QDateTime::currentDateTime());
+
+
     return 0;
 }
 
@@ -90,16 +99,17 @@ quint8 load_item::getValues(quint64 *dateTime, quint64 *boxes, quint64 *items, Q
 
 //			slots
 
-void load_item::changesBoxes(QString boxCount)
+void load_item::boxesChenged(QString boxCount)
 {
     bool ok;
+    this->okButton->setDisabled(1);
     quint64 boxes = boxCount.toULongLong(&ok);
     if(!ok) return;
 
-    ui->items_count->setText(QString::number(boxes*(*selection)));
+    ui->items_count->setText(QString::number(boxes*(*this->selection)));
 
     this->checkOkButton();
-	return;
+    return;
 }
 
 
@@ -115,17 +125,19 @@ void load_item::changesBoxes(QString boxCount)
 
 void load_item::checkOkButton()
 {
-    okButton->setDisabled(1);
+    this->okButton->setDisabled(1);
 
     bool ok;
+    quint64 tmp;
 
-    ui->box_count->text().toULongLong(&ok);
+    tmp = ui->box_count->text().toULongLong(&ok);
     if(!ok) return;
 
-    ui->items_count->text().toULongLong(&ok);
+    tmp = ui->items_count->text().toULongLong(&ok);
     if(!ok) return;
+    if(tmp < 1) return;
 
-    okButton->setDisabled(0);
+    this->okButton->setDisabled(0);
 }
 
 

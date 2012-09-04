@@ -132,6 +132,7 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         }
         f_tmp->hash = &hash ;
         f_tmp->changed = false;
+        f_tmp->month_year = new QString(QDateTime::currentDateTime().toString("yyyy_MM"));
 
         //	all loaded add to vector
         files->append( f_tmp );

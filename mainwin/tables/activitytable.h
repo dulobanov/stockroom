@@ -16,7 +16,7 @@ public:
 
 
 private:
-    quint8 initGUI();
+    quint8 initTable();
 
 
 

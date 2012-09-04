@@ -10,11 +10,11 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>270</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -22,12 +22,12 @@
   <property name="minimumSize">
    <size>
     <width>420</width>
-    <height>270</height>
+    <height>240</height>
    </size>
   </property>
   <property name="font">
    <font>
-    <pointsize>9</pointsize>
+    <pointsize>11</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -65,6 +65,9 @@
        <property name="text">
         <string>Varity</string>
        </property>
+       <property name="indent">
+        <number>-1</number>
+       </property>
       </widget>
      </item>
      <item>
@@ -74,6 +77,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <italic>true</italic>
+        </font>
        </property>
        <property name="text">
         <string>varity</string>
@@ -113,6 +122,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <italic>true</italic>
+        </font>
        </property>
        <property name="text">
         <string>selection</string>
@@ -155,6 +170,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -216,6 +237,12 @@
      </item>
      <item>
       <widget class="QLineEdit" name="box_count">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
+       </property>
        <property name="text">
         <string>0</string>
        </property>
@@ -246,6 +273,12 @@
      </item>
      <item>
       <widget class="QLineEdit" name="items_count">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
+       </property>
        <property name="text">
         <string>0</string>
        </property>
@@ -275,7 +308,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="description"/>
+      <widget class="QLineEdit" name="description">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -303,8 +343,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>245</x>
-     <y>240</y>
+     <x>254</x>
+     <y>230</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -319,8 +359,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>334</x>
-     <y>240</y>
+     <x>343</x>
+     <y>230</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -332,14 +372,14 @@
    <sender>box_count</sender>
    <signal>textChanged(QString)</signal>
    <receiver>load_item</receiver>
-   <slot>checngesBoxes(QString)</slot>
+   <slot>boxesChenged(QString)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>409</x>
-     <y>136</y>
+     <y>122</y>
     </hint>
     <hint type="destinationlabel">
-     <x>466</x>
+     <x>419</x>
      <y>144</y>
     </hint>
    </hints>
@@ -351,8 +391,8 @@
    <slot>checkOkButton()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>400</x>
-     <y>162</y>
+     <x>409</x>
+     <y>152</y>
     </hint>
     <hint type="destinationlabel">
      <x>416</x>
@@ -363,7 +403,7 @@
  </connections>
  <slots>
   <slot>varity_selected(QString)</slot>
-  <slot>checngesBoxes(QString)</slot>
+  <slot>boxesChenged(QString)</slot>
   <slot>checkOkButton()</slot>
  </slots>
 </ui>

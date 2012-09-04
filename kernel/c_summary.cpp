@@ -184,74 +184,74 @@ quint8 c_summary::load()
         //	init new record
         bool ok;
         new_record = new summary_record;
-        new_record->id = l_elements[0];
-        new_record->variant = l_elements[1];
-        new_record->selection = l_elements[2].toUShort(&ok);
+        new_record->id = l_elements.at(0);
+        new_record->variant = l_elements.at(1);
+        new_record->selection = l_elements.at(2).toULongLong(&ok);
         if(!ok)
         {
-            emit log( QString( Q_FUNC_INFO ), QString("error during converting selection: #%1#").arg( l_elements[2] ) );
+            emit log( QString( Q_FUNC_INFO ), QString("error during converting selection: #%1#").arg( l_elements.at(2) ) );
             unloaded++;
             delete new_record;
             continue;
         }
 
-        new_record->box_count = l_elements[3].toULongLong(&ok);
+        new_record->box_count = l_elements.at(3).toULongLong(&ok);
         if(!ok)
         {
-            emit log( QString( Q_FUNC_INFO ), QString("error during converting box_count: #%1#").arg( l_elements[3] ) );
+            emit log( QString( Q_FUNC_INFO ), QString("error during converting box_count: #%1#").arg( l_elements.at(3) ) );
             unloaded++;
             delete new_record;
             continue;
         }
 
-        new_record->item_count = l_elements[4].toULongLong(&ok);
+        new_record->item_count = l_elements.at(4).toULongLong(&ok);
         if(!ok)
         {
-            emit log( QString( Q_FUNC_INFO ), QString("error during converting item_count: #%1#").arg( l_elements[4] ) );
+            emit log( QString( Q_FUNC_INFO ), QString("error during converting item_count: #%1#").arg( l_elements.at(4) ) );
             unloaded++;
             delete new_record;
             continue;
         }
 
-        new_record->created = l_elements[5];
-        new_record->closed = l_elements[6];
-        new_record->saved_box_count = l_elements[7].toULongLong(&ok);
+        new_record->created = l_elements.at(5);
+        new_record->closed = l_elements.at(6);
+        new_record->saved_box_count = l_elements.at(7).toULongLong(&ok);
         if(!ok)
         {
-            emit log( QString( Q_FUNC_INFO ), QString("error during converting saved_box_count #%1#").arg( l_elements[7] ) );
+            emit log( QString( Q_FUNC_INFO ), QString("error during converting saved_box_count #%1#").arg( l_elements.at(7) ) );
             unloaded++;
             delete new_record;
             continue;
         }
 
-        new_record->saved_item_count = l_elements[8].toULongLong(&ok);
+        new_record->saved_item_count = l_elements.at(8).toULongLong(&ok);
         if(!ok)
         {
-            emit log( QString( Q_FUNC_INFO ), QString("error during converting saved_item_count #%1#").arg( l_elements[8] ) );
+            emit log( QString( Q_FUNC_INFO ), QString("error during converting saved_item_count #%1#").arg( l_elements.at(8) ) );
             unloaded++;
             delete new_record;
             continue;
         }
 
-        new_record->hash = l_elements[10];
-        new_record->description = l_elements[11];
+        new_record->hash = l_elements.at(10);
+        new_record->description = l_elements.at(11);
 
 
         //	load QMap
         map_split_err = 0;
         if(!(l_elements.at(9)).isEmpty())
         {
-            l_elements = l_elements[9].split( QString( C_SUMMARY_DELIMETER_2 ) );
+            l_elements = l_elements.at(9).split( QString( C_SUMMARY_DELIMETER_2 ) );
             for(i = 0; i < l_elements.size(); ++i)
             {
-                tmp = l_elements[i].split( QString( C_SUMMARY_DELIMETER_3 ) );
+                tmp = l_elements.at(i).split( QString( C_SUMMARY_DELIMETER_3 ) );
                 if( tmp.size() != 2 )
                 {
-                    emit log( QString( Q_FUNC_INFO ), QString("not 2 elements at file part ( skipped ): #%1#").arg( l_elements[i] ) );
+                    emit log( QString( Q_FUNC_INFO ), QString("not 2 elements at file part ( skipped ): #%1#").arg( l_elements.at(i) ) );
                     map_split_err++;
                     continue;
                 }
-                new_record->log_activities.insert(tmp[0], tmp[1]);
+                new_record->log_activities.insert(tmp.at(0), tmp.at(1));
             }
             //	if during loading of map error occurs => skip record
             if( map_split_err )
@@ -319,20 +319,11 @@ quint8 c_summary::addItemRecord(QString varity, QString selection, quint64 box_c
     }
 
     record->selection = sel;
-    record->box_count = box_count;
-    record->item_count = item_count;
+    record->box_count = 0;
+    record->item_count = 0;
     record->created = record->id;
     record->closed = QString("0");
-    if(set_as_default)
-    {
-        record->saved_box_count = box_count;
-        record->saved_item_count = item_count;
-    }
-    else
-    {
-        record->saved_box_count = 0;
-        record->saved_item_count = 0;
-    }
+
 
     record->description = description;
     record->d = new c_logact(parent);
@@ -341,6 +332,19 @@ quint8 c_summary::addItemRecord(QString varity, QString selection, quint64 box_c
     record->changed = true;
 
     records->append(record);
+
+    this->load_item(record->id, record->created.toULongLong(&ok), box_count, item_count, QString("Load in initialization"));
+
+    if(set_as_default)
+    {
+        record->saved_box_count = record->box_count;
+        record->saved_item_count = record->item_count;
+    }
+    else
+    {
+        record->saved_box_count = 0;
+        record->saved_item_count = 0;
+    }
 
     return 0;
 }
@@ -355,26 +359,25 @@ quint8 c_summary::addItemRecord(QString varity, QString selection, quint64 box_c
 
 
 
-quint8 c_summary::findItemRecord(QString id, summary_record *record)
+summary_record* c_summary::findItemRecord(QString id)
 {
 
     if( id == "" )
     {
         emit log(QString(Q_FUNC_INFO), QString("Item ID is Empty"));
-        return 1;
+        return 0;
     }
 
     for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
         if( (records->at(i))->id == id )
         {
-            record = records->at(i);
-            return 0;
+            return records->at(i);
         }
     }
 
     emit log(QString(Q_FUNC_INFO), QString("Item with ID #%1# not founded.").arg(id));
-    return 2;
+    return 0;
 }
 
 
@@ -383,8 +386,9 @@ quint8 c_summary::findItemRecord(QString id, summary_record *record)
 
 quint8 c_summary::load_item(QString id, quint64 date, quint64 boxes, quint64 items, QString description)
 {
-    summary_record* record;
-    if( findItemRecord(id, record) ) return 1;
+    summary_record *record;
+    record = findItemRecord(id);
+    if(record == 0) return 1;
 
     if( record->d->addRecord(date, "l", boxes, items, description) ) return 2;
 
@@ -404,7 +408,8 @@ quint8 c_summary::load_item(QString id, quint64 date, quint64 boxes, quint64 ite
 quint8 c_summary::unload_item(QString id, quint64 date, quint64 boxes, quint64 items, QString description)
 {
     summary_record* record;
-    if( findItemRecord(id, record) ) return 1;
+    record = findItemRecord(id);
+    if(record == 0) return 1;
 
     if( record->d->addRecord(date, "u", boxes, items, description) ) return 2;
 

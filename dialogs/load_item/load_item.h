@@ -15,13 +15,13 @@ class load_item;
 class load_item : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit load_item(QWidget *parent = 0, kernel *kern = 0, QString varity = "", quint64 selection = 0);
     ~load_item();
 
     quint8 getValues(quint64 *dateTime = 0, quint64 *boxes = 0, quint64 *items = 0, QString *description = 0);
-    
+
 private:
     //  VARS
     Ui::load_item *ui;
@@ -37,7 +37,7 @@ private:
 
 
 public slots:
-    void changesBoxes(QString boxCount);
+    void boxesChenged(QString boxCount);
     void checkOkButton();
 
 

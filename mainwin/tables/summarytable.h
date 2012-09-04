@@ -11,7 +11,7 @@ class SummaryTable : public QTableWidget
     Q_OBJECT
 public:
     explicit SummaryTable(QWidget *parent = 0);
-    QString getActiveRowID();
+    quint8 getActiveRowID(QString *id);
     //quint8 setKernel(kernel* kern = 0);
 
 
@@ -21,11 +21,12 @@ private:
 
 
     //  FUNCTIONS
-    quint8 initGUI();
+    quint8 initTable();
 
 
 
 signals:
+
 
 public slots:
     void updateSummaryTable(QVector<summary_record*> *updates);

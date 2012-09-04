@@ -25,6 +25,11 @@
     <height>235</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Adding new item</string>
   </property>
@@ -63,7 +68,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="varity"/>
+      <widget class="QLineEdit" name="varity">
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -212,6 +221,9 @@
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Short &amp;description</string>
+       </property>
+       <property name="buddy">
+        <cstring>description</cstring>
        </property>
       </widget>
      </item>
