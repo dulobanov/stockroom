@@ -10,6 +10,9 @@ ma_log::ma_log(QObject *prnt, QString ffn) : QFile(prnt)
     file_records = new QVector< action_record *>;
     ma_boxes_activity = new qint64(0);
     ma_items_activity = new qint64(0);
+
+    this->varity = new QString("");
+    this->selection = new QString("");
 }
 
 
@@ -24,6 +27,35 @@ ma_log::~ma_log()
     save();
 }
 
+
+
+
+
+
+
+
+
+
+
+quint8 ma_log::setVaritySelection(QString varity, QString selection)
+{
+    if(varity.isEmpty())
+    {
+        emit log_message(QString(Q_FUNC_INFO), QString("Varity is empty: #%1#").arg(varity));
+        return 1;
+    }
+
+    if(selection.isEmpty())
+    {
+        emit log_message(QString(Q_FUNC_INFO), QString("Selection is empty: #%1#").arg(selection));
+        return 2;
+    }
+
+    *this->varity = varity;
+    *this->selection = selection;
+
+    return 0;
+}
 
 
 
@@ -52,6 +84,8 @@ quint8 ma_log::init()
     while( !in.atEnd() )
     {
         record = new action_record;
+        record->varity = this->varity;
+        record->selection = this->selection;
         line = in.readLine().trimmed();
         if( line.size() == 0 ) continue;
         //	split line
@@ -142,6 +176,8 @@ quint8 ma_log::addRecord( quint64 date, QString direction, quint64 boxes, quint6
     action_record *record = new action_record;
 
     //	fill
+    record->varity = this->varity;
+    record->selection = this->selection;
     record->timestamp = timestamp;
     record->date_time = date;
     record->direction = direction;

@@ -18,13 +18,15 @@ ActivityTable::ActivityTable(QWidget *parent) :
 
 quint8 ActivityTable::initTable()
 {
-    setColumnCount(7);
-    setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Date")));
-    setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Time")));
-    setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Direction")));
-    setHorizontalHeaderItem(4, new QTableWidgetItem(tr("Boxes")));
-    setHorizontalHeaderItem(5, new QTableWidgetItem(tr("Items")));
-    setHorizontalHeaderItem(6, new QTableWidgetItem(tr("Description")));
+    setColumnCount(9);
+    setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Varity")));
+    setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Selection")));
+    setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Date")));
+    setHorizontalHeaderItem(4, new QTableWidgetItem(tr("Time")));
+    setHorizontalHeaderItem(5, new QTableWidgetItem(tr("Direction")));
+    setHorizontalHeaderItem(6, new QTableWidgetItem(tr("Boxes")));
+    setHorizontalHeaderItem(7, new QTableWidgetItem(tr("Items")));
+    setHorizontalHeaderItem(8, new QTableWidgetItem(tr("Description")));
     setShowGrid(true);
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setColumnHidden(0, true);
@@ -58,20 +60,22 @@ void ActivityTable::updateActivityTable(QVector<action_record> updates)
     for(quint64 i = 0; i < (quint64) updates.size(); ++i)
     {
         record = updates.at(i);
-        this->setItem(i, 0, new QTableWidgetItem(record.timestamp));
+        this->setItem(i, 0, new QTableWidgetItem(QString::number(record.timestamp)));
+        this->setItem(i, 1, new QTableWidgetItem(*record.varity));
+        this->setItem(i, 2, new QTableWidgetItem(*record.selection));
         dateTime = QDateTime::fromMSecsSinceEpoch(record.date_time);
-        this->setItem(i, 1, new QTableWidgetItem(dateTime.toString(QString("dd MMM YYYY"))));
-        this->setItem(i, 2, new QTableWidgetItem(dateTime.toString(QString("hh:mm:ss"))));
+        this->setItem(i, 3, new QTableWidgetItem(dateTime.toString(QString("dd MMM yyyy"))));
+        this->setItem(i, 4, new QTableWidgetItem(dateTime.toString(QString("hh:mm"))));
 
         if(record.direction == "l")
         {
-            this->setItem(i, 3, new QTableWidgetItem(tr("Load")));
+            this->setItem(i, 5, new QTableWidgetItem(tr("Load")));
         }
         else
         {
             if(record.direction == "u")
             {
-                this->setItem(i, 3, new QTableWidgetItem(tr("Unload")));
+                this->setItem(i, 5, new QTableWidgetItem(tr("Unload")));
             }
             else
             {
@@ -81,9 +85,9 @@ void ActivityTable::updateActivityTable(QVector<action_record> updates)
             }
         }
 
-        this->setItem(i, 4, new QTableWidgetItem(record.boxes));
-        this->setItem(i, 5, new QTableWidgetItem(record.items));
-        this->setItem(i, 7, new QTableWidgetItem(record.description));
+        this->setItem(i, 6, new QTableWidgetItem(QString::number(record.boxes)));
+        this->setItem(i, 7, new QTableWidgetItem(QString::number(record.items)));
+        this->setItem(i, 8, new QTableWidgetItem(record.description));
     }
 
     this->setSortingEnabled(true);

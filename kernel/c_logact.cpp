@@ -5,6 +5,8 @@ c_logact::c_logact(QObject *prnt) :
 {
     parent = prnt;
     files = new QVector<files_struct *>;
+    this->varity = new QString("");
+    this->selection = new QString("");
 }
 
 
@@ -14,6 +16,36 @@ c_logact::~c_logact()
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+quint8 c_logact::setVaritySelection(QString varity, QString selection)
+{
+    if(varity.isEmpty())
+    {
+        emit log(QString(Q_FUNC_INFO), QString("Varity is empty: #%1#").arg(varity));
+        return 1;
+    }
+
+    if(selection.isEmpty())
+    {
+        emit log(QString(Q_FUNC_INFO), QString("Selection is empty: #%1#").arg(selection));
+        return 2;
+    }
+
+    *this->varity = varity;
+    *this->selection = selection;
+
+    return 0;
+}
 
 
 
@@ -76,8 +108,11 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         //	initialization of the structure
         //	file is our -> load it
         f_tmp = new files_struct;
+        f_tmp->varity = this->varity;
+        f_tmp->selection = this->selection;
         f_tmp->file_name = new QString(fn);
         f_tmp->descriptor = new ma_log(this, fn);
+        f_tmp->descriptor->setVaritySelection(*this->varity, *this->selection);
         if( f_tmp->descriptor->get_hash( &hash ) )
         {
             emit log( QString( Q_FUNC_INFO ), QString("file loading error (can't get hash), filename %1").arg( fn ) );
@@ -122,8 +157,11 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         rf.close();
         //init
         f_tmp = new files_struct;
+        f_tmp->varity = this->varity;
+        f_tmp->selection = this->selection;
         f_tmp->file_name = new QString(runtime_ffn);
         f_tmp->descriptor = new ma_log(this, runtime_ffn);
+        f_tmp->descriptor->setVaritySelection(*this->varity, *this->selection);
         if( f_tmp->descriptor->get_hash( &hash ) )
         {
             emit log( QString( Q_FUNC_INFO ), QString("file loading error %1 (can't get hash of runtime file)").arg( fn ) );
@@ -318,7 +356,7 @@ QVector<action_record> c_logact::get_activity(QString year_month)
 
     for(quint64 i = 0; i < (quint64) files->size(); ++i)
     {
-        if( (year_month == "all") || (year_month == files->at(i)->month_year) )
+        if( (year_month == tr("All")) || (year_month == files->at(i)->month_year) )
         {
             result += files->at(i)->descriptor->get_activity();
         }

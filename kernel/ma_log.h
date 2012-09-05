@@ -22,6 +22,8 @@ struct action_record
     quint64 boxes;
     quint64 items;
     QString description;
+    QString *varity;
+    QString *selection;
 };
 
 class ma_log : public QFile
@@ -39,6 +41,7 @@ public:
     quint8 get_hash( QString *hash);
     quint8 get_motion( qint64 *boxes = 0, qint64 *items = 0 );
     QVector<action_record> get_activity();
+    quint8 setVaritySelection(QString varity = "", QString selection = "");
 
 
 
@@ -48,6 +51,8 @@ private:
     bool *modified;
     bool *data_loaded;
     QVector <quint64> *unwriten_records; //	inserted timestamp in miliseconds
+    QString *varity;
+    QString *selection;
 
     //	file
     QVector <action_record *> *file_records;

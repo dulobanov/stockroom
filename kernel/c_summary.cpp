@@ -263,7 +263,8 @@ quint8 c_summary::load()
 
 
         //	init record object
-        new_log_activity = new c_logact(parent);//, new_record->variant, QString(new_record->selection));
+        new_log_activity = new c_logact(parent);
+        new_log_activity->setVaritySelection(new_record->variant, QString::number(new_record->selection));
         connect(new_log_activity, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
         if( new_log_activity->init( this->data_dir->path() + QDir::separator() + new_record->id, new_record->log_activities) )
         {
@@ -327,6 +328,7 @@ quint8 c_summary::addItemRecord(QString varity, QString selection, quint64 box_c
 
     record->description = description;
     record->d = new c_logact(parent);
+    record->d->setVaritySelection(varity, selection);
     connect(record->d, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
     record->d->init( this->data_dir->path() + QDir::separator() + record->id, QMap<QString, QString>());
     record->changed = true;
@@ -436,8 +438,8 @@ QVector<summary_record*>* c_summary::get_records()
 quint8 c_summary::getRoundsFor(QString variant, QString selection, QString month, QStringList *var, QStringList *sel, QStringList *mth)
 {
     var->clear();
-    var->append("all");
-    if( variant == "all" )
+    var->append(tr("All"));
+    if( variant == tr("All") )
     {
         for(quint64 i = 0; i < (quint64) records->size(); ++i) var->append( records->at(i)->variant );
     }
@@ -457,20 +459,20 @@ quint8 c_summary::getRoundsFor(QString variant, QString selection, QString month
 
     bool ok = false;
     quint64 sel_num = selection.toULongLong(&ok);
-    if(!ok)
+    if(!ok && selection != tr("All"))
     {
         emit log(  QString( Q_FUNC_INFO ), QString("Can't convert selection to number, selection: #%1#").arg(selection) );
         return 1;
     }
 
     sel->clear();
-    sel->append("all");
+    sel->append(tr("All"));
     mth->clear();
-    mth->append("all");
+    mth->append(tr("All"));
 
     for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
-        if( (selection == "all") || (sel_num == records->at(i)->selection) )
+        if( (selection == tr("All")) || (sel_num == records->at(i)->selection) )
         {
             sel->append( QString::number(records->at(i)->selection) );
             *mth += records->at(i)->d->get_file_names();
@@ -478,6 +480,7 @@ quint8 c_summary::getRoundsFor(QString variant, QString selection, QString month
     }
 
     mth->removeDuplicates();
+    sel->removeDuplicates();
     if( sel->size() <= 1 )
     {
         emit log(  QString( Q_FUNC_INFO ), QString("Not fonded elements witn next parameter(Selection): Variant: %1; Selection: %2; Month: %3").arg(variant).arg(selection).arg(month) );
@@ -507,12 +510,12 @@ QVector<action_record> c_summary::get_activity(QString variant, QString selectio
     {
         rec = *records->at(i);
 
-        if( variant != "all" )
+        if( variant != tr("All") )
         {
             if( variant != rec.variant ) continue;
         }
 
-        if( selection != "all")
+        if( selection != tr("All"))
         {
             if( selection != QString::number(rec.selection) ) continue;
         }

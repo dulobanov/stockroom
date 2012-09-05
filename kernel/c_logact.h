@@ -20,6 +20,8 @@ struct files_struct
     QString *month_year;
     QString *hash;
     bool *changed;
+    QString *varity;
+    QString *selection;
 };
 
 
@@ -42,6 +44,7 @@ public:
     QStringList get_file_names();
     QVector<action_record> get_activity(QString year_month = "");
     files_struct* findStructureByDate(quint64 date = 0);
+    quint8 setVaritySelection(QString varity = "", QString selection = "");
 
 
 
@@ -50,7 +53,7 @@ public:
 private:
     //	VARS
     QObject *parent;
-    QString *variant;
+    QString *varity;
     QString *selection;
     QString *user_dir;
     QString *work_folder;

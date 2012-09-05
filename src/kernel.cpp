@@ -4,9 +4,9 @@ kernel::kernel(QWidget *prnt) : QObject()
 {
     parent = prnt;
     work_dir = new QString;
-    selVariant = new QString();
-    selSelection = new QString();
-    selMonth = new QString();
+    selVariant = new QString(tr("All"));
+    selSelection = new QString(tr("All"));
+    selMonth = new QString( QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN) );
 }
 
 

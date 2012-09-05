@@ -10,14 +10,6 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
     kern = 0;
     log = 0;
     init();
-
-    currentActVarity = new QString;
-    currentActSelection = new QString;
-    currentActMonthYear = new QString;
-
-//	for test running
-//	test new_test(this);
-    //initGUI();
 }
 
 
@@ -93,6 +85,7 @@ int MainWindowImpl::init()
         exit(1);
     }
 
+    this->initComboBoxes();
     show();
     return 0;
 }
@@ -112,9 +105,21 @@ int MainWindowImpl::init()
 
 
 
-quint8 MainWindowImpl::initGUI()
+quint8 MainWindowImpl::initComboBoxes()
 {
-    //show();
+    QStringList varitys, selections, montYears;
+    kern->getRoundsFor(QString(tr("All")), QString(tr("All")), tr("All"), &varitys, &selections, &montYears);
+
+    this->setComboBox(aVariant, varitys, tr("All"));
+
+    this->setComboBox(aSelection, selections, tr("All"));
+
+    this->setComboBox(aMonthYear, montYears, QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN));
+
+    this->currentActVarity = new QString( tr("All") );
+    this->currentActSelection = new QString( tr("All") );
+    this->currentActMonthYear = new QString( QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN) );
+
     return 0;
 }
 
@@ -189,6 +194,8 @@ void MainWindowImpl::addItem()
     bool save;
     if(addIt.getValues(&varity, &selection, &box, &item, &save, &description)) return;
     kern->addItemRecord(varity, selection, box, item, description, save);
+
+    this->activityRoundsChanged();
 }
 
 
@@ -258,7 +265,7 @@ void MainWindowImpl::activityRoundsChanged()
 {
 
     QString var, sel, mY;
-    QString nS, nD;
+    QString nV, nS, nD;
     QStringList nVarL, nSelL, nMYL;
     this->getCurrentActivityRoundSelection(&var, &sel, &mY);
 
@@ -271,9 +278,14 @@ void MainWindowImpl::activityRoundsChanged()
         //  varity modified
         if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
 
+        //if count of items in varity combo box not equal to count of items in varity list update it
+        nV = var;
+
+        if(this->setComboBox(aVariant, nVarL, nV)) return;
+
         //  set selection combobox
         if(nSelL.indexOf(*this->currentActSelection) != -1) nS = *this->currentActSelection;
-        else nS = "all";
+        else nS = tr("All");
 
         if(this->setComboBox(aSelection, nSelL, nS)) return;
 
@@ -284,6 +296,9 @@ void MainWindowImpl::activityRoundsChanged()
         if(this->setComboBox(aMonthYear, nMYL, nD)) return;
 
         kern->setActivitySelection(var, nS, nD);
+        *this->currentActVarity = nV;
+        *this->currentActSelection = nS;
+        *this->currentActMonthYear = nD;
         return;
     }
 
@@ -295,6 +310,9 @@ void MainWindowImpl::activityRoundsChanged()
         //  varity modified
         if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
 
+        //varity
+        if(this->setComboBox(aVariant, nMYL, nD)) return;
+
         //  set month year combo box
         if(nMYL.indexOf(*this->currentActMonthYear) != -1) nD = *this->currentActMonthYear;
         else nD = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
@@ -302,6 +320,8 @@ void MainWindowImpl::activityRoundsChanged()
         if(this->setComboBox(aMonthYear, nMYL, nD)) return;
 
         kern->setActivitySelection(*this->currentActVarity, sel, nD);
+        *this->currentActSelection = sel;
+        *this->currentActMonthYear = nD;
         return;
     }
 
@@ -311,6 +331,7 @@ void MainWindowImpl::activityRoundsChanged()
     if(mY != *this->currentActMonthYear)
     {
         kern->setActivitySelection(*this->currentActVarity, *this->currentActSelection, mY);
+        *this->currentActMonthYear = mY;
         return;
     }
 
