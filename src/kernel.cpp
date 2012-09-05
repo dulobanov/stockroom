@@ -199,6 +199,22 @@ summary_record* kernel::getRecordByID(QString id)
 
 
 
+
+
+quint8 kernel::getRoundsFor(QString variant, QString selection, QString month, QStringList *var, QStringList *sel, QStringList *mth)
+{
+    return summary->getRoundsFor(variant, selection, month, var, sel, mth);
+}
+
+
+
+
+
+
+
+
+
+
 //
 
 

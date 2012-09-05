@@ -21,6 +21,7 @@ public:
     ~load_item();
 
     quint8 getValues(quint64 *dateTime = 0, quint64 *boxes = 0, quint64 *items = 0, QString *description = 0);
+    quint8 setTitle(QString title);
 
 private:
     //  VARS

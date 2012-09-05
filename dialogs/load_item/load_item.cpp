@@ -93,6 +93,18 @@ quint8 load_item::getValues(quint64 *dateTime, quint64 *boxes, quint64 *items, Q
 
 
 
+quint8 load_item::setTitle(QString title)
+{
+    this->setWindowTitle(title);
+    return 0;
+}
+
+
+
+
+
+
+
 
 
 

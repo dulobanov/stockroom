@@ -11,6 +11,10 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
     log = 0;
     init();
 
+    currentActVarity = new QString;
+    currentActSelection = new QString;
+    currentActMonthYear = new QString;
+
 //	for test running
 //	test new_test(this);
     //initGUI();
@@ -126,10 +130,38 @@ quint8 MainWindowImpl::initGUI()
 
 
 
+quint8 MainWindowImpl::activityCommoBoxesSignalBlock(bool block)
+{
+    aVariant->blockSignals(block);
+    aSelection->blockSignals(block);
+    aMonthYear->blockSignals(block);
+    return 0;
+}
 
 
 
 
+
+
+
+
+
+quint8 MainWindowImpl::getCurrentActivityRoundSelection(QString *varity, QString *selection, QString *monthYear)
+{
+    *varity = aVariant->currentText();
+    *selection = aSelection->currentText();
+    *monthYear = aMonthYear->currentText();
+    return 0;
+}
+
+
+
+
+
+
+
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //				slots
 void MainWindowImpl::logout()
 {
@@ -172,6 +204,7 @@ void MainWindowImpl::loadItem()
     record = kern->getRecordByID(rowId);
     if(record == 0) return;
     load_item loadIt(this, kern, record->variant, record->selection);
+    loadIt.setTitle(tr("Load ") + record->variant + QString("/") + QString::number(record->selection));
     connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
     if(QDialog::Rejected == loadIt.exec()) return;
 
@@ -191,8 +224,129 @@ void MainWindowImpl::loadItem()
 
 void MainWindowImpl::unloadItem()
 {
+    summary_record *record;
+    QString rowId;
+    if(sum_table->getActiveRowID(&rowId)) return;
+    record = kern->getRecordByID(rowId);
+    if(record == 0) return;
+    load_item loadIt(this, kern, record->variant, record->selection);
+    loadIt.setTitle(tr("Unload ") + record->variant + QString("/") + QString::number(record->selection));
+    connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
+    if(QDialog::Rejected == loadIt.exec()) return;
 
+    quint64 dateTime, boxCount, itemCount;
+    QString description;
+    if(loadIt.getValues(&dateTime, &boxCount, &itemCount, &description)) return;
+
+    if(kern->addActionToItem(record->id, QString("u"), dateTime, boxCount, itemCount, description)) return;
+
+    return;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+void MainWindowImpl::activityRoundsChanged()
+{
+
+    QString var, sel, mY;
+    QString nS, nD;
+    QStringList nVarL, nSelL, nMYL;
+    this->getCurrentActivityRoundSelection(&var, &sel, &mY);
+
+
+    if(var.isEmpty() || sel.isEmpty() || mY.isEmpty()) return;
+
+    //  varity changed
+    if(var != *this->currentActVarity)
+    {
+        //  varity modified
+        if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
+
+        //  set selection combobox
+        if(nSelL.indexOf(*this->currentActSelection) != -1) nS = *this->currentActSelection;
+        else nS = "all";
+
+        if(this->setComboBox(aSelection, nSelL, nS)) return;
+
+        //  set month year combo box
+        if(nMYL.indexOf(*this->currentActMonthYear) != -1) nD = *this->currentActMonthYear;
+        else nD = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
+
+        if(this->setComboBox(aMonthYear, nMYL, nD)) return;
+
+        kern->setActivitySelection(var, nS, nD);
+        return;
+    }
+
+
+
+    //  selection changed
+    if(sel != *this->currentActSelection)
+    {
+        //  varity modified
+        if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
+
+        //  set month year combo box
+        if(nMYL.indexOf(*this->currentActMonthYear) != -1) nD = *this->currentActMonthYear;
+        else nD = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
+
+        if(this->setComboBox(aMonthYear, nMYL, nD)) return;
+
+        kern->setActivitySelection(*this->currentActVarity, sel, nD);
+        return;
+    }
+
+
+
+    //  date changed
+    if(mY != *this->currentActMonthYear)
+    {
+        kern->setActivitySelection(*this->currentActVarity, *this->currentActSelection, mY);
+        return;
+    }
+
+    return;
+}
+
+
+
+
+
+
+
+
+quint8 MainWindowImpl::setComboBox(QComboBox *comboBox, QStringList items, QString currentItem)
+{
+    comboBox->blockSignals(true);
+
+    if(items.indexOf(currentItem) == -1)
+    {
+        emit log_message(QString(Q_FUNC_INFO), QString("Index %1 not founded in items list").arg(currentItem));
+        return 1;
+    }
+
+    comboBox->clear();
+    comboBox->addItems(items);
+
+    comboBox->setCurrentIndex(comboBox->findText(currentItem));
+
+    comboBox->blockSignals(false);
+
+    return 0;
+}
+
+
+
+
 
 
 

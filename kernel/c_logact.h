@@ -11,6 +11,8 @@
 
 #include "kernel/ma_log.h"
 
+#define CURRENT_FILE_NAME_PATTERN "yyyy_MM"
+
 struct files_struct
 {
     ma_log *descriptor;

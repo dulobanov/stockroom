@@ -433,7 +433,7 @@ QVector<summary_record*>* c_summary::get_records()
 
 
 
-quint8 c_summary::get_rounds(QString variant, QString selection, QString month, QStringList *var, QStringList *sel, QStringList *mth)
+quint8 c_summary::getRoundsFor(QString variant, QString selection, QString month, QStringList *var, QStringList *sel, QStringList *mth)
 {
     var->clear();
     var->append("all");

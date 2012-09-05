@@ -30,7 +30,7 @@
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_summary">
        <attribute name="title">
@@ -92,12 +92,12 @@
              <string>&amp;Variant</string>
             </property>
             <property name="buddy">
-             <cstring>ma_variant</cstring>
+             <cstring>aVariant</cstring>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="ma_variant">
+           <widget class="QComboBox" name="aVariant">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -112,12 +112,12 @@
              <string>S&amp;election</string>
             </property>
             <property name="buddy">
-             <cstring>ma_selection</cstring>
+             <cstring>aSelection</cstring>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="ma_selection">
+           <widget class="QComboBox" name="aSelection">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -138,12 +138,12 @@
              <string>M&amp;onth</string>
             </property>
             <property name="buddy">
-             <cstring>ma_month</cstring>
+             <cstring>aMonthYear</cstring>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="ma_month">
+           <widget class="QComboBox" name="aMonthYear">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -301,10 +301,59 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>aMonthYear</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>activityRoundsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>565</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>795</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aSelection</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>activityRoundsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>413</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>795</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>aVariant</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>activityRoundsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>187</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>60</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadItem()</slot>
   <slot>unloadItem()</slot>
   <slot>addItem()</slot>
+  <slot>activityRoundsChanged()</slot>
  </slots>
 </ui>

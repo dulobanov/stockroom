@@ -27,6 +27,8 @@ public:
     QStringList getSelectionsFor(QString varity = "");
     QStringList getVaritys();
     summary_record* getRecordByID(QString id = "");
+    quint8 setActivitySelection(QString variant, QString selection, QString month);
+    quint8 getRoundsFor(QString variant = "", QString selection = "", QString month = "", QStringList *var = 0, QStringList *sel = 0, QStringList *mth = 0);
 
 
 
@@ -46,7 +48,6 @@ private:
 
     //	FUNCTIONS
     void sendUpdates();
-    quint8 setActivitySelection(QString variant, QString selection, QString month);
 
 
 
