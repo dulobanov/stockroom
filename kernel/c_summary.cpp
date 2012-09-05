@@ -439,53 +439,40 @@ quint8 c_summary::getRoundsFor(QString variant, QString selection, QString month
 {
     var->clear();
     var->append(tr("All"));
-    if( variant == tr("All") )
-    {
-        for(quint64 i = 0; i < (quint64) records->size(); ++i) var->append( records->at(i)->variant );
-    }
-    else
-    {
-        for(quint64 i = 0; i < (quint64) records->size(); ++i)
-        {
-            if( records->at(i)->variant == variant ) var->append( records->at(i)->variant );
-        }
-    }
-
-    if( var->size() <= 1 )
-    {
-        emit log(  QString( Q_FUNC_INFO ), QString("Not fonded elements witn next parameter(Variant): Variant: %1; Selection: %2; Month: %3").arg(variant).arg(selection).arg(month) );
-        return 1;
-    }
-
-    bool ok = false;
-    quint64 sel_num = selection.toULongLong(&ok);
-    if(!ok && selection != tr("All"))
-    {
-        emit log(  QString( Q_FUNC_INFO ), QString("Can't convert selection to number, selection: #%1#").arg(selection) );
-        return 1;
-    }
-
     sel->clear();
     sel->append(tr("All"));
     mth->clear();
     mth->append(tr("All"));
 
+    //select varity
     for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
-        if( (selection == tr("All")) || (sel_num == records->at(i)->selection) )
-        {
-            sel->append( QString::number(records->at(i)->selection) );
-            *mth += records->at(i)->d->get_file_names();
-        }
+        if( (selection != tr("All")) && (QString::number(records->at(i)->selection) != selection) ) continue;
+        if( (month != tr("All")) && (records->at(i)->d->get_file_names().indexOf(month) == -1) ) continue;
+        var->append( records->at(i)->variant );
     }
 
-    mth->removeDuplicates();
-    sel->removeDuplicates();
-    if( sel->size() <= 1 )
+
+    //select selection
+    for(quint64 i = 0; i < (quint64) records->size(); ++i)
     {
-        emit log(  QString( Q_FUNC_INFO ), QString("Not fonded elements witn next parameter(Selection): Variant: %1; Selection: %2; Month: %3").arg(variant).arg(selection).arg(month) );
-        return 1;
+        if( (variant != tr("All")) && (variant != records->at(i)->variant) ) continue;
+        if( (month != tr("All")) && (records->at(i)->d->get_file_names().indexOf(month) == -1) ) continue;
+        sel->append( QString::number(records->at(i)->selection) );
     }
+
+
+    //select month&Year
+    for(quint64 i = 0; i < (quint64) records->size(); ++i)
+    {
+        if( (variant != tr("All")) && (variant != records->at(i)->variant) ) continue;
+        if( (selection != tr("All")) && (QString::number(records->at(i)->selection) != selection) ) continue;
+        *mth += records->at(i)->d->get_file_names();
+    }
+
+    var->removeDuplicates();
+    sel->removeDuplicates();
+    mth->removeDuplicates();
 
     return 0;
 }

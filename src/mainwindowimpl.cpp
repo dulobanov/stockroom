@@ -265,44 +265,28 @@ void MainWindowImpl::activityRoundsChanged()
 {
 
     QString var, sel, mY;
-    QString nV, nS, nD;
     QStringList nVarL, nSelL, nMYL;
     this->getCurrentActivityRoundSelection(&var, &sel, &mY);
 
 
     if(var.isEmpty() || sel.isEmpty() || mY.isEmpty()) return;
 
-    //  varity changed
-    if(var != *this->currentActVarity)
-    {
+
         //  varity modified
         if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
 
-        //if count of items in varity combo box not equal to count of items in varity list update it
-        nV = var;
+        if(this->setComboBox(aVariant, nVarL, var)) return;
+        if(this->setComboBox(aSelection, nSelL, sel)) return;
+        if(this->setComboBox(aMonthYear, nMYL, mY)) return;
 
-        if(this->setComboBox(aVariant, nVarL, nV)) return;
-
-        //  set selection combobox
-        if(nSelL.indexOf(*this->currentActSelection) != -1) nS = *this->currentActSelection;
-        else nS = tr("All");
-
-        if(this->setComboBox(aSelection, nSelL, nS)) return;
-
-        //  set month year combo box
-        if(nMYL.indexOf(*this->currentActMonthYear) != -1) nD = *this->currentActMonthYear;
-        else nD = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
-
-        if(this->setComboBox(aMonthYear, nMYL, nD)) return;
-
-        kern->setActivitySelection(var, nS, nD);
-        *this->currentActVarity = nV;
-        *this->currentActSelection = nS;
-        *this->currentActMonthYear = nD;
+        kern->setActivitySelection(var, sel, mY);
+        *this->currentActVarity = var;
+        *this->currentActSelection = sel;
+        *this->currentActMonthYear = mY;
         return;
-    }
 
 
+/*
 
     //  selection changed
     if(sel != *this->currentActSelection)
@@ -335,7 +319,7 @@ void MainWindowImpl::activityRoundsChanged()
         return;
     }
 
-    return;
+    return;*/
 }
 
 
