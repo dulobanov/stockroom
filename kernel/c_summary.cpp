@@ -469,6 +469,8 @@ quint8 c_summary::getRoundsFor(QString variant, QString selection, QString month
         if( (selection != tr("All")) && (QString::number(records->at(i)->selection) != selection) ) continue;
         *mth += records->at(i)->d->get_file_names();
     }
+    // add current month
+    mth->append( QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN) );
 
     var->removeDuplicates();
     sel->removeDuplicates();

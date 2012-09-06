@@ -9,6 +9,12 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
     sett = 0;
     kern = 0;
     log = 0;
+
+
+    this->currentActVarity = new QString("");
+    this->currentActSelection = new QString("");
+    this->currentActMonthYear = new QString("");
+
     init();
 }
 
@@ -85,7 +91,8 @@ int MainWindowImpl::init()
         exit(1);
     }
 
-    this->initComboBoxes();
+    //this->initComboBoxes();
+    this->activityRoundsChanged();
     show();
     return 0;
 }
@@ -268,22 +275,28 @@ void MainWindowImpl::activityRoundsChanged()
     QStringList nVarL, nSelL, nMYL;
     this->getCurrentActivityRoundSelection(&var, &sel, &mY);
 
+    if(var.isEmpty()) var = tr("All");
+    if(sel.isEmpty()) sel = tr("All");
+    if(mY.isEmpty()) mY = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
 
-    if(var.isEmpty() || sel.isEmpty() || mY.isEmpty()) return;
+
+    //if(var.isEmpty() || sel.isEmpty() || mY.isEmpty()) return;
 
 
         //  varity modified
-        if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
+    if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
 
-        if(this->setComboBox(aVariant, nVarL, var)) return;
-        if(this->setComboBox(aSelection, nSelL, sel)) return;
-        if(this->setComboBox(aMonthYear, nMYL, mY)) return;
+    if(nVarL.isEmpty() || nSelL.isEmpty() || nMYL.isEmpty()) return;
 
-        kern->setActivitySelection(var, sel, mY);
-        *this->currentActVarity = var;
-        *this->currentActSelection = sel;
-        *this->currentActMonthYear = mY;
-        return;
+    if(this->setComboBox(aVariant, nVarL, var)) return;
+    if(this->setComboBox(aSelection, nSelL, sel)) return;
+    if(this->setComboBox(aMonthYear, nMYL, mY)) return;
+
+    kern->setActivitySelection(var, sel, mY);
+    *this->currentActVarity = var;
+    *this->currentActSelection = sel;
+    *this->currentActMonthYear = mY;
+    return;
 
 
 /*
@@ -331,18 +344,23 @@ void MainWindowImpl::activityRoundsChanged()
 
 quint8 MainWindowImpl::setComboBox(QComboBox *comboBox, QStringList items, QString currentItem)
 {
+    QString item;
     comboBox->blockSignals(true);
 
     if(items.indexOf(currentItem) == -1)
     {
         emit log_message(QString(Q_FUNC_INFO), QString("Index %1 not founded in items list").arg(currentItem));
-        return 1;
+        item = items.at(0);
+    }
+    else
+    {
+        item = currentItem;
     }
 
     comboBox->clear();
     comboBox->addItems(items);
 
-    comboBox->setCurrentIndex(comboBox->findText(currentItem));
+    comboBox->setCurrentIndex(comboBox->findText(item));
 
     comboBox->blockSignals(false);
 
