@@ -12,7 +12,7 @@ Checker::Checker(QObject *parent) :
 
 quint8 Checker::checkForUsualString(QString inStr, QString *out)
 {
-    out->clear();
+    if(out != 0) out->clear();
     QString str;
     if(str.size() > 200)
     {
@@ -70,12 +70,15 @@ quint8 Checker::checkForDescription(QString inStr, QString *out)
 
 quint8 Checker::check(QString str, QString regEx, QString *out)
 {
-    out->clear();
+    if(out!= 0) out->clear();
     QRegExp exp(regEx);
     QString badSymbols = "";
     for(quint8 i = 0; i < str.size(); ++i)
     {
-        if(exp.exactMatch(str.at(i))) out->append(str.at(i));
+        if(exp.exactMatch(str.at(i)))
+        {
+            if(out != 0) out->append(str.at(i));
+        }
         else badSymbols.append(str.at(i));
     }
 

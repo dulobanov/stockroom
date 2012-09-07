@@ -135,10 +135,6 @@ void add_item::changes()
     quint64 selection, boxes, items;
     bool ok;
 
-    items = ui->item_amount->text().toULongLong(&ok);
-    if(!ok) items = 0;
-    if(items != 0) return;
-
     selection = ui->selection->text().toULongLong(&ok);
     if(!ok) return;
 
