@@ -10,10 +10,11 @@ class Checker : public QObject
 public:
     explicit Checker(QObject *parent = 0);
 
-    quint8 checkForUsualString(QString str);
-    quint8 checkForUsualString(QString str, QString *out);
+    quint8 checkForUsualString(QString str = "", QString *out = 0);
 
-    quint8 checkForDescription(QString str, QString *out);
+    quint8 checkForDescription(QString str = "", QString *out = 0);
+
+    quint8 check(QString str = "", QString regEx = "", QString *out = 0);
 
 
 

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>235</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,7 +22,7 @@
   <property name="minimumSize">
    <size>
     <width>450</width>
-    <height>235</height>
+    <height>300</height>
    </size>
   </property>
   <property name="font">
@@ -176,6 +176,12 @@
        </item>
        <item>
         <widget class="QLineEdit" name="item_amount">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
           <string>0</string>
          </property>
@@ -188,6 +194,9 @@
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="bottomMargin">
         <number>0</number>
        </property>
@@ -260,22 +269,6 @@
  <resources/>
  <connections>
   <connection>
-   <sender>varity</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>add_item</receiver>
-   <slot>changes()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>439</x>
-     <y>29</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>394</x>
-     <y>31</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>selection</sender>
    <signal>textChanged(QString)</signal>
    <receiver>add_item</receiver>
@@ -339,8 +332,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>varity</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>add_item</receiver>
+   <slot>checkOkButton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>424</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>409</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>item_amount</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>add_item</receiver>
+   <slot>checkOkButton()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>412</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>445</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>changes()</slot>
+  <slot>checkOkButton()</slot>
  </slots>
 </ui>

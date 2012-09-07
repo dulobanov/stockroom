@@ -2,6 +2,7 @@
 #define ADD_ITEM_H
 
 #include <QDialog>
+#include <QAbstractButton>
 #include <additional/checker.h>
 
 namespace Ui {
@@ -19,12 +20,16 @@ public:
 
 private:
     Ui::add_item *ui;
+    QAbstractButton *okButton;
+
+    //  functions
+    quint8 initGUI();
 
 
 
 public slots:
     void changes();
-    //void accept();
+    void checkOkButton();
 
 
 signals:

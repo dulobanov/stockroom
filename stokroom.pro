@@ -6,17 +6,14 @@ MOC_DIR = build
 UI_DIR = build
 FORMS = ui/mainwindow.ui ui/login.ui ui/registration.ui \
     dialogs/add_item/add_item.ui \
-    dialogs/load_item/load_item.ui \
-    dialogs/unload_item/unload_item.ui \
-    dialogs/remove_item/remove_item.ui
+    dialogs/remove_item/remove_item.ui \
+    dialogs/LoadUnloadItem/LoadUnloadItem.ui
 HEADERS = src/mainwindowimpl.h \
  src/kernel.h \
  src/settings.h \
  src/login.h \
  src/registration.h \
     dialogs/add_item/add_item.h \
-    dialogs/load_item/load_item.h \
-    dialogs/unload_item/unload_item.h \
     dialogs/remove_item/remove_item.h \
     kernel/c_summary.h \
     kernel/ma_log.h \
@@ -25,7 +22,8 @@ HEADERS = src/mainwindowimpl.h \
     log/log_impl.h \
     mainwin/tables/summarytable.h \
     additional/checker.h \
-    mainwin/tables/activitytable.h
+    mainwin/tables/activitytable.h \
+    dialogs/LoadUnloadItem/LoadUnloadItem.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -33,8 +31,6 @@ SOURCES = src/mainwindowimpl.cpp \
  src/login.cpp \
  src/registration.cpp \
     dialogs/add_item/add_item.cpp \
-    dialogs/load_item/load_item.cpp \
-    dialogs/unload_item/unload_item.cpp \
     dialogs/remove_item/remove_item.cpp \
     kernel/c_summary.cpp \
     kernel/ma_log.cpp \
@@ -43,5 +39,6 @@ SOURCES = src/mainwindowimpl.cpp \
     log/log_impl.cpp \
     mainwin/tables/summarytable.cpp \
     additional/checker.cpp \
-    mainwin/tables/activitytable.cpp
+    mainwin/tables/activitytable.cpp \
+    dialogs/LoadUnloadItem/LoadUnloadItem.cpp
 TEMPLATE = app

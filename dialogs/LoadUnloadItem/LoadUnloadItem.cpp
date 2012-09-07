@@ -1,7 +1,7 @@
-#include "load_item.h"
-#include "ui_load_item.h"
+#include "LoadUnloadItem.h"
+#include "ui_LoadUnloadItem.h"
 
-load_item::load_item(QWidget *parent, kernel *kern, QString varity, quint64 selection):
+LoadUnloadItem::LoadUnloadItem(QWidget *parent, kernel *kern, QString varity, quint64 selection):
     QDialog(parent),
     ui(new Ui::load_item)
 {
@@ -17,7 +17,7 @@ load_item::load_item(QWidget *parent, kernel *kern, QString varity, quint64 sele
 }
 
 
-load_item::~load_item()
+LoadUnloadItem::~LoadUnloadItem()
 {
     delete ui;
 }
@@ -28,7 +28,7 @@ load_item::~load_item()
 
 
 
-quint8 load_item::initGUI()
+quint8 LoadUnloadItem::initGUI()
 {
     //  look for ok button
     QList <QAbstractButton *> buttons = ui->buttonBox->buttons();
@@ -60,7 +60,7 @@ quint8 load_item::initGUI()
 
 
 
-quint8 load_item::getValues(quint64 *dateTime, quint64 *boxes, quint64 *items, QString *description)
+quint8 LoadUnloadItem::getValues(quint64 *dateTime, quint64 *boxes, quint64 *items, QString *description)
 {
     bool ok;
     *dateTime = ui->date_time->dateTime().currentMSecsSinceEpoch();
@@ -93,7 +93,7 @@ quint8 load_item::getValues(quint64 *dateTime, quint64 *boxes, quint64 *items, Q
 
 
 
-quint8 load_item::setTitle(QString title)
+quint8 LoadUnloadItem::setTitle(QString title)
 {
     this->setWindowTitle(title);
     return 0;
@@ -111,7 +111,7 @@ quint8 load_item::setTitle(QString title)
 
 //			slots
 
-void load_item::boxesChenged(QString boxCount)
+void LoadUnloadItem::boxesChenged(QString boxCount)
 {
     bool ok;
     this->okButton->setDisabled(1);
@@ -135,7 +135,7 @@ void load_item::boxesChenged(QString boxCount)
 
 
 
-void load_item::checkOkButton()
+void LoadUnloadItem::checkOkButton()
 {
     this->okButton->setDisabled(1);
 

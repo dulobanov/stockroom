@@ -12,13 +12,13 @@ namespace Ui {
 class load_item;
 }
 
-class load_item : public QDialog
+class LoadUnloadItem : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit load_item(QWidget *parent = 0, kernel *kern = 0, QString varity = "", quint64 selection = 0);
-    ~load_item();
+    explicit LoadUnloadItem(QWidget *parent = 0, kernel *kern = 0, QString varity = "", quint64 selection = 0);
+    ~LoadUnloadItem();
 
     quint8 getValues(quint64 *dateTime = 0, quint64 *boxes = 0, quint64 *items = 0, QString *description = 0);
     quint8 setTitle(QString title);

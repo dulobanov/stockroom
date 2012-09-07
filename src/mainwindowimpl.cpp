@@ -217,7 +217,7 @@ void MainWindowImpl::loadItem()
     if(sum_table->getActiveRowID(&rowId)) return;
     record = kern->getRecordByID(rowId);
     if(record == 0) return;
-    load_item loadIt(this, kern, record->variant, record->selection);
+    LoadUnloadItem loadIt(this, kern, record->variant, record->selection);
     loadIt.setTitle(tr("Load ") + record->variant + QString("/") + QString::number(record->selection));
     connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
     if(QDialog::Rejected == loadIt.exec()) return;
@@ -243,7 +243,7 @@ void MainWindowImpl::unloadItem()
     if(sum_table->getActiveRowID(&rowId)) return;
     record = kern->getRecordByID(rowId);
     if(record == 0) return;
-    load_item loadIt(this, kern, record->variant, record->selection);
+    LoadUnloadItem loadIt(this, kern, record->variant, record->selection);
     loadIt.setTitle(tr("Unload ") + record->variant + QString("/") + QString::number(record->selection));
     connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
     if(QDialog::Rejected == loadIt.exec()) return;
