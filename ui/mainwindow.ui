@@ -30,7 +30,7 @@
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_summary">
        <attribute name="title">
@@ -44,6 +44,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QPushButton" name="sum_load">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="text">
              <string>&amp;Load</string>
             </property>
@@ -51,6 +57,12 @@
           </item>
           <item>
            <widget class="QPushButton" name="sum_unload">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>25</height>
+             </size>
+            </property>
             <property name="text">
              <string>&amp;Unload</string>
             </property>
@@ -73,6 +85,93 @@
         </item>
         <item>
          <widget class="SummaryTable" name="sum_table"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ReportTab">
+       <attribute name="title">
+        <string>Report</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_41">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>&amp;Variant</string>
+            </property>
+            <property name="buddy">
+             <cstring>rVariant</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="rVariant">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>S&amp;election</string>
+            </property>
+            <property name="buddy">
+             <cstring>rSelection</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="rSelection">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>M&amp;onth</string>
+            </property>
+            <property name="buddy">
+             <cstring>rMonthYear</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="rMonthYear">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="ReportTable" name="tableWidget"/>
         </item>
        </layout>
       </widget>
@@ -182,7 +281,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -195,15 +294,15 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionLogOut"/>
+    <addaction name="action_Add_item"/>
+    <addaction name="action_Remove_item"/>
+    <addaction name="separator"/>
     <addaction name="action_Quit"/>
    </widget>
    <widget class="QMenu" name="menu_Items">
     <property name="title">
      <string>&amp;Items</string>
     </property>
-    <addaction name="action_Add_item"/>
-    <addaction name="action_Remove_item"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Items"/>
@@ -249,6 +348,11 @@
    <class>ActivityTable</class>
    <extends>QTableWidget</extends>
    <header>mainwin/tables/activitytable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ReportTable</class>
+   <extends>QTableWidget</extends>
+   <header>mainwin/tables/reporttable.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -349,11 +453,60 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rVariant</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reportRoundsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>88</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rSelection</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reportRoundsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>317</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>35</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rMonthYear</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reportRoundsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>556</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>797</x>
+     <y>46</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>loadItem()</slot>
   <slot>unloadItem()</slot>
   <slot>addItem()</slot>
   <slot>activityRoundsChanged()</slot>
+  <slot>reportRoundsChanged()</slot>
  </slots>
 </ui>

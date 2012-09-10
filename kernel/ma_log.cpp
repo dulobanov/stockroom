@@ -11,6 +11,7 @@ ma_log::ma_log(QObject *prnt, QString ffn) : QFile(prnt)
     ma_boxes_activity = new qint64(0);
     ma_items_activity = new qint64(0);
 
+    this->id = new QString("");
     this->varity = new QString("");
     this->selection = new QString("");
 }
@@ -66,6 +67,27 @@ quint8 ma_log::setVaritySelection(QString varity, QString selection)
 
 
 
+quint8 ma_log::setID(QString id)
+{
+    if(id.isEmpty())
+    {
+        emit log_message(QString(Q_FUNC_INFO), QString("ID is empty: #%1#").arg(id));
+        return 1;
+    }
+
+    *this->id = id;
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
 
 quint8 ma_log::init()
 {
@@ -84,6 +106,7 @@ quint8 ma_log::init()
     while( !in.atEnd() )
     {
         record = new action_record;
+        record->id = this->id;
         record->varity = this->varity;
         record->selection = this->selection;
         line = in.readLine().trimmed();
@@ -176,6 +199,7 @@ quint8 ma_log::addRecord( quint64 date, QString direction, quint64 boxes, quint6
     action_record *record = new action_record;
 
     //	fill
+    record->id = this->id;
     record->varity = this->varity;
     record->selection = this->selection;
     record->timestamp = timestamp;

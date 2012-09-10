@@ -23,7 +23,8 @@ HEADERS = src/mainwindowimpl.h \
     mainwin/tables/summarytable.h \
     additional/checker.h \
     mainwin/tables/activitytable.h \
-    dialogs/LoadUnloadItem/LoadUnloadItem.h
+    dialogs/LoadUnloadItem/LoadUnloadItem.h \
+    mainwin/tables/reporttable.h
 SOURCES = src/mainwindowimpl.cpp \
  src/main.cpp \
  src/kernel.cpp \
@@ -40,5 +41,6 @@ SOURCES = src/mainwindowimpl.cpp \
     mainwin/tables/summarytable.cpp \
     additional/checker.cpp \
     mainwin/tables/activitytable.cpp \
-    dialogs/LoadUnloadItem/LoadUnloadItem.cpp
+    dialogs/LoadUnloadItem/LoadUnloadItem.cpp \
+    mainwin/tables/reporttable.cpp
 TEMPLATE = app

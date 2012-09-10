@@ -264,6 +264,7 @@ quint8 c_summary::load()
 
         //	init record object
         new_log_activity = new c_logact(parent);
+        new_log_activity->setID(new_record->id);
         new_log_activity->setVaritySelection(new_record->variant, QString::number(new_record->selection));
         connect(new_log_activity, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
         if( new_log_activity->init( this->data_dir->path() + QDir::separator() + new_record->id, new_record->log_activities) )
@@ -328,6 +329,7 @@ quint8 c_summary::addItemRecord(QString varity, QString selection, quint64 box_c
 
     record->description = description;
     record->d = new c_logact(parent);
+    record->d->setID(record->id);
     record->d->setVaritySelection(varity, selection);
     connect(record->d, SIGNAL(log(QString,QString)), this, SIGNAL(log(QString,QString)));
     record->d->init( this->data_dir->path() + QDir::separator() + record->id, QMap<QString, QString>());

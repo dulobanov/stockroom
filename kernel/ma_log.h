@@ -22,6 +22,7 @@ struct action_record
     quint64 boxes;
     quint64 items;
     QString description;
+    QString *id;
     QString *varity;
     QString *selection;
 };
@@ -42,6 +43,7 @@ public:
     quint8 get_motion( qint64 *boxes = 0, qint64 *items = 0 );
     QVector<action_record> get_activity();
     quint8 setVaritySelection(QString varity = "", QString selection = "");
+    quint8 setID(QString id = "");
 
 
 
@@ -51,6 +53,7 @@ private:
     bool *modified;
     bool *data_loaded;
     QVector <quint64> *unwriten_records; //	inserted timestamp in miliseconds
+    QString *id;
     QString *varity;
     QString *selection;
 

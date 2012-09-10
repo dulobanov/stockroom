@@ -5,6 +5,8 @@ c_logact::c_logact(QObject *prnt) :
 {
     parent = prnt;
     files = new QVector<files_struct *>;
+
+    this->id = new QString("");
     this->varity = new QString("");
     this->selection = new QString("");
 }
@@ -59,6 +61,34 @@ quint8 c_logact::setVaritySelection(QString varity, QString selection)
 
 
 
+quint8 c_logact::setID(QString id)
+{
+    if(id.isEmpty())
+    {
+        emit log(QString(Q_FUNC_INFO), QString("ID is empty: #%1#").arg(id));
+        return 1;
+    }
+
+    *this->id = id;
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
 {
     if( dir == "" )
@@ -68,12 +98,12 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
     }
 
     //	path init
-    QString *fpath = new QString( dir );
+    work_folder = new QString( dir );
     //	check is path exists
-    QDir wrk_dir( *fpath );
+    QDir wrk_dir( *work_folder );
     if( !wrk_dir.exists() )
     {
-        if( !wrk_dir.mkpath( *fpath ) )
+        if( !wrk_dir.mkpath( *work_folder ) )
         {
         emit log( QString( Q_FUNC_INFO ), QString("work irectory don't exists, and it's imposible to create it") );
         return 2;
@@ -82,7 +112,7 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
 
     //	runtime filename initicialization
     runtime_file = 0;
-    QString runtime_ffn = *fpath + "/" + get_runtime_fn();
+    QString runtime_ffn = *work_folder + QDir::separator() + get_runtime_fn();
 
 
     QFileInfoList wrk_files = wrk_dir.entryInfoList( QDir::Files | QDir::Readable | QDir::Writable | QDir::NoSymLinks | QDir::NoDotAndDotDot );
@@ -108,10 +138,11 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         //	initialization of the structure
         //	file is our -> load it
         f_tmp = new files_struct;
-        f_tmp->varity = this->varity;
-        f_tmp->selection = this->selection;
+        //f_tmp->varity = this->varity;
+        //f_tmp->selection = this->selection;
         f_tmp->file_name = new QString(fn);
         f_tmp->descriptor = new ma_log(this, fn);
+        f_tmp->descriptor->setID(*this->id);
         f_tmp->descriptor->setVaritySelection(*this->varity, *this->selection);
         if( f_tmp->descriptor->get_hash( &hash ) )
         {
@@ -157,10 +188,12 @@ quint8 c_logact::init( QString dir, QMap<QString, QString> old_files )
         rf.close();
         //init
         f_tmp = new files_struct;
+        f_tmp->id = this->id;
         f_tmp->varity = this->varity;
         f_tmp->selection = this->selection;
         f_tmp->file_name = new QString(runtime_ffn);
         f_tmp->descriptor = new ma_log(this, runtime_ffn);
+        f_tmp->descriptor->setID(*this->id);
         f_tmp->descriptor->setVaritySelection(*this->varity, *this->selection);
         if( f_tmp->descriptor->get_hash( &hash ) )
         {
@@ -368,6 +401,51 @@ QVector<action_record> c_logact::get_activity(QString year_month)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+files_struct* c_logact::initializeMonthInstance(quint64 timestamp)
+{
+
+    if(!this->findStructureByDate(timestamp))
+    {
+        emit log( QString( Q_FUNC_INFO ), QString("So file alredy exists") );
+        return 0;
+    }
+
+    QString hash;
+    QString ffn = *work_folder + QDir::separator() + QString(QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN));
+
+    files_struct *f_tmp = new files_struct;
+    f_tmp->id = this->id;
+    f_tmp->varity = this->varity;
+    f_tmp->selection = this->selection;
+    f_tmp->file_name = new QString(ffn);
+    f_tmp->descriptor = new ma_log(this, ffn);
+    f_tmp->descriptor->setID(*this->id);
+    f_tmp->descriptor->setVaritySelection(*this->varity, *this->selection);
+    if( f_tmp->descriptor->get_hash( &hash ) )
+    {
+        emit log( QString( Q_FUNC_INFO ), QString("file loading error %1 (can't get hash of runtime file)").arg( ffn ) );
+        delete f_tmp;
+        return 0;
+    }
+    f_tmp->hash = &hash ;
+    f_tmp->changed = false;
+    f_tmp->month_year = new QString(QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN));
+
+    //	all loaded add to vector
+    files->append( f_tmp );
+    return f_tmp;
+}
 
 
 
