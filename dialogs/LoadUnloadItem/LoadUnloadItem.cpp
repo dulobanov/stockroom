@@ -11,6 +11,10 @@ LoadUnloadItem::LoadUnloadItem(QWidget *parent, kernel *kern, QString varity, qu
     ui->varity->setText(varity);
     ui->selection->setText(QString::number(selection));
     this->selection = new quint64(selection);
+
+    this->maxBoxCount = new quint64;
+    this->maxItemCount = new quint64;
+
     this->kern = kern;
     ui->box_count->setFocus();
 
@@ -63,7 +67,7 @@ quint8 LoadUnloadItem::initGUI()
 quint8 LoadUnloadItem::getValues(quint64 *dateTime, quint64 *boxes, quint64 *items, QString *description)
 {
     bool ok;
-    *dateTime = ui->date_time->dateTime().currentMSecsSinceEpoch();
+    *dateTime = ui->date_time->dateTime().toMSecsSinceEpoch();
 
     *boxes = ui->box_count->text().toULongLong(&ok);
     if(!ok)
@@ -101,6 +105,16 @@ quint8 LoadUnloadItem::setTitle(QString title)
 
 
 
+
+
+
+
+
+quint8 LoadUnloadItem::setMaxBoxItemCount(quint64 boxCount, quint64 itemCount)
+{
+    *this->maxBoxCount = boxCount;
+    *this->maxItemCount = itemCount;
+}
 
 
 
@@ -144,10 +158,12 @@ void LoadUnloadItem::checkOkButton()
 
     tmp = ui->box_count->text().toULongLong(&ok);
     if(!ok) return;
+    if(tmp > *this->maxBoxCount) ui->box_count->setText(QString::number(*this->maxBoxCount));
+
 
     tmp = ui->items_count->text().toULongLong(&ok);
     if(!ok) return;
-    if(tmp < 1) return;
+    if(tmp > *this->maxItemCount) ui->items_count->setText(QString::number(*this->maxItemCount));
 
     this->okButton->setDisabled(0);
 }

@@ -22,12 +22,13 @@ public:
 
     quint8 getValues(quint64 *dateTime = 0, quint64 *boxes = 0, quint64 *items = 0, QString *description = 0);
     quint8 setTitle(QString title);
+    quint8 setMaxBoxItemCount(quint64 boxCount = 0, quint64 itemCount = 0);
 
 private:
     //  VARS
     Ui::load_item *ui;
     kernel *kern;
-    quint64 *selection;
+    quint64 *selection, *maxBoxCount, *maxItemCount;
     QAbstractButton *okButton;
 
     //  FUNCTIONS

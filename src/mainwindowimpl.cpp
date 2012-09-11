@@ -234,8 +234,9 @@ void MainWindowImpl::loadItem()
     record = kern->getRecordByID(rowId);
     if(record == 0) return;
     LoadUnloadItem loadIt(this, kern, record->variant, record->selection);
-    loadIt.setTitle(tr("Load ") + record->variant + QString("/") + QString::number(record->selection));
     connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
+    loadIt.setTitle(tr("Load ") + record->variant + QString("/") + QString::number(record->selection));
+    loadIt.setMaxBoxItemCount(MAX_COUNT - record->box_count, MAX_COUNT - record->item_count);
     if(QDialog::Rejected == loadIt.exec()) return;
 
     quint64 dateTime, boxCount, itemCount;
@@ -260,8 +261,9 @@ void MainWindowImpl::unloadItem()
     record = kern->getRecordByID(rowId);
     if(record == 0) return;
     LoadUnloadItem loadIt(this, kern, record->variant, record->selection);
-    loadIt.setTitle(tr("Unload ") + record->variant + QString("/") + QString::number(record->selection));
     connect(&loadIt, SIGNAL(log(QString,QString)), log, SLOT(log(QString,QString)));
+    loadIt.setTitle(tr("Unload ") + record->variant + QString("/") + QString::number(record->selection));
+    loadIt.setMaxBoxItemCount(record->box_count, record->item_count);
     if(QDialog::Rejected == loadIt.exec()) return;
 
     quint64 dateTime, boxCount, itemCount;

@@ -298,9 +298,7 @@ files_struct* c_logact::findStructureByDate(quint64 dateTimestamp)
         if( (files->at(i))->month_year == date ) return files->at(i);
     }
 
-
-    emit log( QString( Q_FUNC_INFO ), QString("Structure not founded for timestamp: %1, date: %2").arg(dateTimestamp).arg(date) );
-    return 0;
+    return this->initializeMonthInstance(dateTimestamp);
 
 }
 
@@ -415,15 +413,19 @@ QVector<action_record> c_logact::get_activity(QString year_month)
 files_struct* c_logact::initializeMonthInstance(quint64 timestamp)
 {
 
-    if(!this->findStructureByDate(timestamp))
+    QString hash;
+    QString ffn = *work_folder + QDir::separator() + QString(QDateTime::fromMSecsSinceEpoch(timestamp).toString(CURRENT_FILE_NAME_PATTERN)) + QString(".stkm");
+
+    //create file
+    QFile file(ffn);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        emit log( QString( Q_FUNC_INFO ), QString("So file alredy exists") );
+        emit log( QString( Q_FUNC_INFO ), QString("can't create file: %1").arg( ffn ) );
         return 0;
     }
+    file.close();
 
-    QString hash;
-    QString ffn = *work_folder + QDir::separator() + QString(QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN));
-
+    //load
     files_struct *f_tmp = new files_struct;
     f_tmp->id = this->id;
     f_tmp->varity = this->varity;

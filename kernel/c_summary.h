@@ -20,6 +20,8 @@
 #define C_SUMMARY_DELIMETER_2 "!"
 #define C_SUMMARY_DELIMETER_3 "="
 
+#define MAX_COUNT 18446744073709551615
+
 struct summary_record
 {
     QString id;
@@ -57,6 +59,7 @@ public:
     QStringList getSelectionsFor(QString varity = "");
     QStringList getVaritys();
     summary_record* findItemRecord(QString id = "");
+
 
 
 

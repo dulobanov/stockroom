@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 #include <additional/checker.h>
+//#include <kernel.h>
 
 namespace Ui {
 class add_item;

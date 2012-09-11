@@ -132,7 +132,7 @@ quint8 add_item::getValues(QString *varity, QString *selection, quint64 *boxCoun
 void add_item::changes()
 {
     this->okButton->setDisabled(1);
-    quint64 selection, boxes, items;
+    quint64 selection, boxes;
     bool ok;
 
     selection = ui->selection->text().toULongLong(&ok);
