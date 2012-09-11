@@ -37,12 +37,14 @@ private:
 
     //  current activity selection
     QString *currentActVarity, *currentActSelection, *currentActMonthYear;
+    QString *currentRepVarity, *currentRepSelection, *currentRepMonthYear;
 
 
     //	FUNCTIONS
     int reinit_vars();
     quint8 activityCommoBoxesSignalBlock(bool block = false);
     quint8 getCurrentActivityRoundSelection(QString *varity = 0, QString *selection = 0, QString *monthYear = 0);
+    quint8 getCurrentReportRoundSelection(QString *varity = 0, QString *selection = 0, QString *monthYear = 0);
     quint8 setComboBox(QComboBox *comboBox = 0, QStringList items = QStringList(), QString currentItem = "");
     quint8 initComboBoxes();
 
@@ -74,6 +76,7 @@ public slots:
     void loadItem();
     void unloadItem();
     void activityRoundsChanged();
+    void reportRoundsChanged();
 
 
 

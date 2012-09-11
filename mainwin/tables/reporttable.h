@@ -48,18 +48,18 @@ private:
 
     //FUNCTIONS
     quint8 initTable();
-    quint8 addRow(reportStruct row = reportStruct());
+    quint8 addRow(quint64 rowID = 0, reportStruct row = reportStruct());
 
 
 
 
-    
+
 signals:
     void log(QString sender, QString message);
-    
+
 public slots:
     void updateReportTable(QVector<action_record> updates);
-    
+
 };
 
 #endif // REPORTTABLE_H

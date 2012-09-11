@@ -27,7 +27,8 @@ public:
     QStringList getSelectionsFor(QString varity = "");
     QStringList getVaritys();
     summary_record* getRecordByID(QString id = "");
-    quint8 setActivitySelection(QString variant, QString selection, QString month);
+    quint8 setActivitySelection(QString variant = "", QString selection = "", QString month = "");
+    quint8 setReportSelection(QString variant = "", QString selection = "", QString month = "");
     quint8 getRoundsFor(QString variant = "", QString selection = "", QString month = "", QStringList *var = 0, QStringList *sel = 0, QStringList *mth = 0);
 
 
@@ -42,6 +43,7 @@ private:
     c_summary *summary;
 
     QString *selVariant, *selSelection, *selMonth;
+    QString *repVariant, *repSelection, *repMonth;
 
 
 
@@ -58,6 +60,7 @@ signals:
     void log(QString sender, QString message);
     void updateSummaryTable(QVector<summary_record*>* updates);
     void updateActivityTable(QVector<action_record> updates);
+    void updateReportTable(QVector<action_record> updates);
 
 
 

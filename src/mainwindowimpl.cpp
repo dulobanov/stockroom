@@ -14,6 +14,9 @@ MainWindowImpl::MainWindowImpl( QWidget * parent, Qt::WFlags f)
     this->currentActVarity = new QString("");
     this->currentActSelection = new QString("");
     this->currentActMonthYear = new QString("");
+    this->currentRepVarity = new QString("");
+    this->currentRepSelection = new QString("");
+    this->currentRepMonthYear = new QString("");
 
     init();
 }
@@ -86,6 +89,7 @@ int MainWindowImpl::init()
     connect(kern, SIGNAL( log(QString, QString) ), log, SLOT( log(QString, QString) ) );
     connect(kern, SIGNAL(updateSummaryTable(QVector<summary_record*>*)), sum_table, SLOT(updateSummaryTable(QVector<summary_record*>*)));
     connect(kern, SIGNAL(updateActivityTable(QVector<action_record>)), activityTable, SLOT(updateActivityTable(QVector<action_record>)));
+    connect(kern, SIGNAL(updateReportTable(QVector<action_record>)), reportTable, SLOT(updateReportTable(QVector<action_record>)));
     if( kern->lock( u_path ) )
     {
         exit(1);
@@ -93,6 +97,7 @@ int MainWindowImpl::init()
 
     //this->initComboBoxes();
     this->activityRoundsChanged();
+    this->reportRoundsChanged();
     show();
     return 0;
 }
@@ -171,6 +176,16 @@ quint8 MainWindowImpl::getCurrentActivityRoundSelection(QString *varity, QString
 
 
 
+quint8 MainWindowImpl::getCurrentReportRoundSelection(QString *varity, QString *selection, QString *monthYear)
+{
+    *varity = rVariant->currentText();
+    *selection = rSelection->currentText();
+    *monthYear = rMonthYear->currentText();
+    return 0;
+}
+
+
+
 
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -203,6 +218,7 @@ void MainWindowImpl::addItem()
     kern->addItemRecord(varity, selection, box, item, description, save);
 
     this->activityRoundsChanged();
+    this->reportRoundsChanged();
 }
 
 
@@ -279,10 +295,6 @@ void MainWindowImpl::activityRoundsChanged()
     if(sel.isEmpty()) sel = tr("All");
     if(mY.isEmpty()) mY = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
 
-
-    //if(var.isEmpty() || sel.isEmpty() || mY.isEmpty()) return;
-
-
         //  varity modified
     if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
 
@@ -297,42 +309,40 @@ void MainWindowImpl::activityRoundsChanged()
     *this->currentActSelection = sel;
     *this->currentActMonthYear = mY;
     return;
+}
 
 
-/*
 
-    //  selection changed
-    if(sel != *this->currentActSelection)
-    {
+
+
+
+
+
+void MainWindowImpl::reportRoundsChanged()
+{
+
+    QString var, sel, mY;
+    QStringList nVarL, nSelL, nMYL;
+    this->getCurrentReportRoundSelection(&var, &sel, &mY);
+
+    if(var.isEmpty()) var = tr("All");
+    if(sel.isEmpty()) sel = tr("All");
+    if(mY.isEmpty()) mY = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
+
         //  varity modified
-        if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
+    if(kern->getRoundsFor(var, sel, mY, &nVarL, &nSelL, &nMYL)) return;
 
-        //varity
-        if(this->setComboBox(aVariant, nMYL, nD)) return;
+    if(nVarL.isEmpty() || nSelL.isEmpty() || nMYL.isEmpty()) return;
 
-        //  set month year combo box
-        if(nMYL.indexOf(*this->currentActMonthYear) != -1) nD = *this->currentActMonthYear;
-        else nD = QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN);
+    if(this->setComboBox(rVariant, nVarL, var)) return;
+    if(this->setComboBox(rSelection, nSelL, sel)) return;
+    if(this->setComboBox(rMonthYear, nMYL, mY)) return;
 
-        if(this->setComboBox(aMonthYear, nMYL, nD)) return;
-
-        kern->setActivitySelection(*this->currentActVarity, sel, nD);
-        *this->currentActSelection = sel;
-        *this->currentActMonthYear = nD;
-        return;
-    }
-
-
-
-    //  date changed
-    if(mY != *this->currentActMonthYear)
-    {
-        kern->setActivitySelection(*this->currentActVarity, *this->currentActSelection, mY);
-        *this->currentActMonthYear = mY;
-        return;
-    }
-
-    return;*/
+    kern->setReportSelection(var, sel, mY);
+    *this->currentRepVarity = var;
+    *this->currentRepSelection = sel;
+    *this->currentRepMonthYear = mY;
+    return;
 }
 
 

@@ -23,7 +23,7 @@ ReportTable::ReportTable(QWidget *parent) :
 quint8 ReportTable::initTable()
 {
     setColumnCount(6);
-    setHorizontalHeaderItem(1, new QTableWidgetItem(tr("ID")));
+    setHorizontalHeaderItem(0, new QTableWidgetItem(tr("ID")));
     setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Varity")));
     setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Selection")));
     setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Direction")));
@@ -62,7 +62,6 @@ void ReportTable::updateReportTable(QVector<action_record> updates)
 
     //prepeare data
     QMap<QString, reportStruct*> data;
-    //QVector<reportStruct> data;
 
     QString id;
     action_record record;
@@ -94,16 +93,17 @@ void ReportTable::updateReportTable(QVector<action_record> updates)
         }
     }
 
-
     //  set count of rows
     this->setRowCount(data.size());
 
     //  insert items
     QMapIterator<QString, reportStruct*> iterator(data);
+    quint64 row = 0;
     while(iterator.hasNext())
     {
         iterator.next();
-        this->addRow(*(iterator.value()));
+        this->addRow(row, *(iterator.value()));
+        ++row;
     }
 
     this->setSortingEnabled(true);
@@ -117,16 +117,14 @@ void ReportTable::updateReportTable(QVector<action_record> updates)
 
 
 
-quint8 ReportTable::addRow(reportStruct row)
+quint8 ReportTable::addRow(quint64 rowID, reportStruct row)
 {
-    quint64 rowID = rowCount();
-    insertRow(rowID);
     this->setItem(rowID, 0, new QTableWidgetItem(row.id));
     this->setItem(rowID, 1, new QTableWidgetItem(row.varity));
     this->setItem(rowID, 2, new QTableWidgetItem(row.selection));
     this->setItem(rowID, 3, new QTableWidgetItem(row.direction));
-    this->setItem(rowID, 3, new QTableWidgetItem(QString::number(row.boxCount)));
-    this->setItem(rowID, 3, new QTableWidgetItem(QString::number(row.itemCount)));
+    this->setItem(rowID, 4, new QTableWidgetItem(QString::number(row.boxCount)));
+    this->setItem(rowID, 5, new QTableWidgetItem(QString::number(row.itemCount)));
     return 0;
 }
 

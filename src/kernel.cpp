@@ -4,9 +4,12 @@ kernel::kernel(QWidget *prnt) : QObject()
 {
     parent = prnt;
     work_dir = new QString;
-    selVariant = new QString(tr("All"));
-    selSelection = new QString(tr("All"));
-    selMonth = new QString( QDateTime::currentDateTime().toString(CURRENT_FILE_NAME_PATTERN) );
+    selVariant = new QString("");
+    selSelection = new QString("");
+    selMonth = new QString("");
+    repVariant = new QString("");
+    repSelection = new QString("");
+    repMonth = new QString("");
 }
 
 
@@ -149,6 +152,21 @@ quint8 kernel::setActivitySelection(QString variant, QString selection, QString 
 
 
 
+quint8 kernel::setReportSelection(QString variant, QString selection, QString month)
+{
+    *repVariant = variant;
+    *repSelection = selection;
+    *repMonth = month;
+    this->sendUpdates();
+    return 0;
+}
+
+
+
+
+
+
+
 
 
 QStringList kernel::getSelectionsFor(QString varity)
@@ -177,6 +195,7 @@ void kernel::sendUpdates()
 {
     emit updateSummaryTable(summary->get_records());
     emit updateActivityTable(summary->get_activity(*selVariant, *selSelection, *selMonth));
+    emit updateReportTable(summary->get_activity(*repVariant, *repSelection, *repMonth));
 }
 
 
